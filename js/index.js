@@ -4,15 +4,17 @@ $('#camera_btn').animate({top:305}, 500 );
 
 $('#camera_btn').on('mouseover',function(){
 	$('#camera_in').css("opacity",1);
+	$('#camera_in img').animo('blur', {duration :0.7 , amount:5});
+
 	$('#camera_btn').attr("src" , "./images/elements/btn2.png");
-	$('#camera_in').animo('blur' ,{duration: 0.3, amount: 30});
 });
 
 $('#camera_btn').on('mouseout',function(){
 	$('#camera_in').css("opacity",1);
+	$('#camera_in img').animo('focus');
+
 	$('#camera_btn').animo({animation: "spinner", duration: 0.2 , iterate: 3});
 	$('#camera_btn').attr("src" , "./images/elements/btn1.png");
-	$('#camera_in').animo('focus');
 });
 
 $('#camera_in').on('mouseover',function(){
