@@ -4,7 +4,7 @@ $('#camera_btn').animate({top:305}, 500 );
 
 $('#camera_btn').on('mouseover',function(){
 	$('#camera_in').css("opacity",1);
-	$('#camera_in img').animo('blur', {duration :0.7 , amount:5});
+	$('#camera_in img').animo('blur', {duration:0.5 , amount:5});
 
 	$('#camera_btn').attr("src" , "./images/elements/btn2.png");
 });
