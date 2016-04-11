@@ -1,6 +1,6 @@
-$('#camera_out').animate({top:0}, 400 , bounce());
-$('#camera_in').animate({top:208}, 400 );
-$('#camera_btn').animate({top:305}, 400 );
+$('#camera_out').animate({top:0}, 500 , bounce());
+$('#camera_in').animate({top:208}, 500 );
+$('#camera_btn').animate({top:305}, 500 );
 
 $('#camera_btn').on('mouseover',function(){
 	$('#camera_in').css("opacity",1);
