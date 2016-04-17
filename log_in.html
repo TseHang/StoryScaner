@@ -8,7 +8,7 @@
     <style>
         .panel.panel-default {
             width: 50%;
-            margin: 10% auto;
+            margin: 3% auto 0 auto;
         }
     </style>
 </head>
@@ -34,6 +34,13 @@
                         </div>
                     </div>
                 </form>
+                <table class="table table-striped">
+                    <thead>
+                        <th>#</th>
+                        <th>學號</th>
+                        <th>姓名</th>
+                    </thead>
+                </table>
             </div>
             <div class="panel-footer clearfix">
                 <button class="btn btn-success pull-right" id="submit">送出</button>
@@ -42,9 +49,30 @@
 
 
     </div>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
     <script>
+        $(document).ready(function () {
+            $.ajax('http://luffy.ee.ncku.edu.tw/~riljian/http/name.json', {
+                dataType: 'json',
+                success: function (res) {
+                    var tbody = document.createElement('tbody'), cnt = 0;
+                    for (var id in res) {
+                        var tr = document.createElement('tr'),
+                            th = document.createElement('th'),
+                            td_id = document.createElement('td'),
+                            td_na = document.createElement('td');
+                        th.innerHTML = ++cnt;
+                        td_id.innerHTML = id;
+                        td_na.innerHTML = res[id];
+                        tr.appendChild(th);
+                        tr.appendChild(td_id);
+                        tr.appendChild(td_na);
+                        tbody.appendChild(tr);
+                    }
+                    $('table').append(tbody);
+                }
+            });
+        });
         $('form').submit(function (e) {
             e.preventDefault();
             $('button#submit').click();
