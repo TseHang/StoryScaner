@@ -7,6 +7,7 @@ var querystring = require('querystring'),
     id = querystring.parse(process.env.QUERY_STRING).id;
 
 console.log('Content-type: text/plain; character=utf-8\n');
+console.log('Access-Control-Allow-Origin: *\n');
 
 if (id in dic) {
     console.log(dic[id]);
