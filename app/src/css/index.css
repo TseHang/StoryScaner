@@ -23,13 +23,17 @@ body.loading {
 body.loading .modal{
 	display:block;
 }
-
-.modal > #logo_wrapper {
+.modal > img{
 	position: relative;
 	text-align: center;
-	width:50%;
-	top:35%;
 	transform: translateY(-50%);
+}
+
+.modal > img#logo {
+	top:43%;
+}
+.modal > img#storyscaner {
+	top:37%;
 }
 
 /* intro-wiper 基本設定 */
