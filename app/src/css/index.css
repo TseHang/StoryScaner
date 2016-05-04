@@ -17,23 +17,25 @@ body {
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
 body.loading {
-    overflow: hidden;   
+   overflow: hidden;   
 }
 
 body.loading .modal{
-	display:block;
-}
-.modal > img{
-	position: relative;
-	text-align: center;
-	transform: translateY(-50%);
+	display:inline-flex;
+	flex-wrap: wrap;
+  align-content:center;
+  justify-content:center;
 }
 
-.modal > img#logo {
-	top:43%;
+div > img{
+	width: auto;
+  height : auto;
+  max-height: 100%;
+  max-width: 100%;
 }
-.modal > img#storyscaner {
-	top:37%;
+
+.modal > img#logo{
+	transform: scale(0.7);
 }
 
 /* intro-wiper 基本設定 */
