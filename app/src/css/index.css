@@ -1,3 +1,19 @@
+/* flex-box 整理 */
+div.border-container, div#modal-flex , div.swiper-slide, div#border-flex,
+body.loading .modal{
+	display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+/******************************/
+
+div > img{
+	width: auto;
+  height : auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+
 body {
 	margin:0;
 }
@@ -11,8 +27,6 @@ body {
 	height:100vh;
 	width:100vw;
 	background: url("../img/background.jpg") no-repeat;
-	text-align: center;
-	margin: auto;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -20,25 +34,23 @@ body.loading {
    overflow: hidden;   
 }
 
-body.loading .modal{
-	display:inline-flex;
+.modal > div#modal-flex{
 	flex-wrap: wrap;
   align-content:center;
-  justify-content:center;
+
+  height:653px;
+  width:355px;
+  border:1px solid #999999;
 }
 
-div > img{
-	width: auto;
-  height : auto;
-  max-height: 100%;
-  max-width: 100%;
-}
-
-.modal > img#logo{
+.modal > div > img#logo{
 	transform: scale(0.7);
 }
 
-/* intro-wiper 基本設定 */
+/**********
+ intro-wiper 基本設定 
+*************/
+
 .intro-container {
   width: 100vw;
   height: 100vh;
@@ -46,9 +58,51 @@ div > img{
 }    
 .intro-wrapper{
 	display: flex;
+
+	width: 100vw;
+	height:100vh;
 }
 .swiper-slide {
-  text-align: center;
   font-size: 18px;
-  color:white;
+}
+
+.swiper-slide > div.border-container{
+	height:653px;
+  width:355px;
+	border:solid 1px black;
+}
+
+.border-container > div#border-flex{
+	flex-wrap: wrap;
+  align-items:center;
+
+  width:70%;
+  height:50%;
+  background-color: rgba(189 , 204 , 212 , 0.8);
+	border-radius: 33px;
+	text-align: center;
+}
+
+div#border-header{
+  align-self:flex-start;
+
+	width:100%;
+	height:20%;
+	border-top-left-radius: 33px;
+	border-top-right-radius: 33px;
+	background-color: white;
+}
+
+div#border-header > img{
+	position: relative;
+	bottom:25%;
+}
+
+img#hello-logo{
+	transform: scale(1.5);
+}
+
+img#hello{
+	left:11px;
+	transform: scale(0.8);
 }
