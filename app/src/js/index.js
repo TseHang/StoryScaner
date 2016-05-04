@@ -1,5 +1,5 @@
 
-$('#logo').delay(1500).animate({"opacity":0},400);
+$('#logo').delay(2000).animate({"opacity":0},400);
 $('#storyscaner').delay(1500).animate({"opacity":0},400 , function(){
   $('body').removeClass("loading");
 });
@@ -12,4 +12,12 @@ $(document).ready(function (){
     //loop: true,
     speed: 400,
   });
+  introSwiper.lockSwipeToPrev();
+  introSwiper.lockSwipeToNext();
+
+  $('div#border-flex a').click(function(){
+    introSwiper.unlockSwipeToNext();
+    introSwiper.slideNext();
+    introSwiper.lockSwipeToNext();
+  })
 });

@@ -93,6 +93,10 @@ div#border-header{
 	background-color: white;
 }
 
+div#border-flex > a{
+	cursor:pointer;
+}
+
 div#border-header > img{
 	position: relative;
 	bottom:25%;
