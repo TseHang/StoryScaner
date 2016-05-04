@@ -38,8 +38,8 @@ body.loading {
 	flex-wrap: wrap;
   align-content:center;
 
-  height:653px;
-  width:355px;
+  height:643px;
+  width:345px;
   border:1px solid #999999;
 }
 
@@ -63,12 +63,12 @@ body.loading {
 	height:100vh;
 }
 .swiper-slide {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .swiper-slide > div.border-container{
-	height:653px;
-  width:355px;
+	height:643px;
+  width:345px;
 	border:solid 1px black;
 }
 
@@ -109,4 +109,12 @@ img#hello-logo{
 img#hello{
 	left:11px;
 	transform: scale(0.8);
+}
+
+div#border-flex h2{
+	font-size: 1.3em;
+}
+
+div#border-flex p{
+	width:91%;
 }
