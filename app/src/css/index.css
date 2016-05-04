@@ -27,6 +27,7 @@ body {
 	height:100vh;
 	width:100vw;
 	background: url("../img/background.jpg") no-repeat;
+	background-color: black;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
