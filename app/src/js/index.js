@@ -15,6 +15,11 @@ $(document).ready(function (){
   introSwiper.lockSwipeToPrev();
   introSwiper.lockSwipeToNext();
 
+  $('.swiper-slide').dblclick(function(){
+    introSwiper.unlockSwipeToPrev();
+    introSwiper.unlockSwipeToNext();
+  })
+
   $('div#border-flex a').click(function(){
     introSwiper.unlockSwipeToNext();
     introSwiper.slideNext();
