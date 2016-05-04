@@ -1,11 +1,14 @@
-
-$('#logo').delay(2000).animate({"opacity":0},300 , function(){
-  $('body').removeClass("loading");
-});
-$('#storyscaner').delay(1800).animate({"opacity":0},400);
-
+$(window).load(function(){
+  console.log("都載入完囉");
+  $('#logo').delay(2000).animate({"opacity":0},300 , function(){
+    $('body').removeClass("loading");
+    console.log(12);
+  });
+  $('#storyscaner').delay(1800).animate({"opacity":0},400);
+})
 
 $(document).ready(function (){
+  console.log("Dom Tree 建好了");
   var introSwiper = new Swiper ('.intro-container', {
     preloadImages:true,
     wrapperClass : "intro-wrapper",

@@ -10,8 +10,6 @@ body.loading .modal{
 div > img{
 	width: auto;
   height : auto;
-  max-height: 100%;
-  max-width: 100%;
 }
 
 body {
@@ -38,15 +36,16 @@ body.loading {
 .modal > div#modal-flex{
 	flex-wrap: wrap;
   align-content:center;
-
-  height:643px;
-  width:345px;
-  border:1px solid #999999;
 }
 
 .modal > div > img#logo{
-	transform: scale(0.7);
+	width:115px;
 }
+
+.modal > div > img#storyscaner{
+	width:100%;
+}
+
 
 /**********
  intro-wiper 基本設定 
@@ -68,9 +67,8 @@ body.loading {
 }
 
 .swiper-slide > div.border-container{
-	height:643px;
-  width:345px;
-	border:solid 1px black;
+	height:100vh;
+  width:100vw;
 }
 
 .border-container > div#border-flex{
@@ -100,16 +98,12 @@ div#border-flex > a{
 
 div#border-header > img{
 	position: relative;
-	bottom:25%;
+	bottom:1.5em;
+	width:92px; 
 }
 
-img#hello-logo{
-	transform: scale(1.5);
-}
-
-img#hello{
-	left:11px;
-	transform: scale(0.8);
+#border-header > img#hello{
+	bottom:2.7em;
 }
 
 div#border-flex h2{
