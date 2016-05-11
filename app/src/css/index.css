@@ -19,7 +19,7 @@ div > img{
 }
 
 body {
-	margin:0;
+	background-color:#E9E3D7;
 }
 
 #modal{
@@ -77,7 +77,6 @@ div.intro-box > p{
  }
 
 .intro2-content{
-	cursor: pointer;
 	margin-top: 0.6em;
 	background-color:#D2D3D5;
 	padding:1em 0px;
@@ -87,13 +86,15 @@ div.intro-box > p{
 }
 
 p.intro2-title{
+	cursor: pointer;
 	color:white;
 	padding:6px 0px;
-	font-size: 1.2em;
+	font-size: 1.3em;
 }
 
 p.intro2-detail{
 	width:90%;
+	padding:10px;
 
 	height:0px;
 	margin:auto;
@@ -102,6 +103,8 @@ p.intro2-detail{
 }
 
 div.intro2-content-show > p.intro2-detail{
+	border-radius:15px;
+	border:1px solid rgba(109,109,110,0.5);
 	display:block;
 	height:auto;
 }
@@ -118,7 +121,7 @@ div.intro2-button{
 	height:30px;
 	line-height: 30px;
 	border-radius:18px;
-	margin:1em auto auto auto ;
+	margin:0.8em auto auto auto ;
 	display: none;
 }
 
