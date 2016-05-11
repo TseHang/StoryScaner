@@ -128,3 +128,9 @@ div.intro2-button{
 div.intro2-content-show > div.intro2-button{
 	display:block;
 }
+
+/************************************/
+#video , #snapShot{
+	width: 100vw;
+	height:70vh;
+}

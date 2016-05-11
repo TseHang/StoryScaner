@@ -59,6 +59,77 @@ $(document).ready(function (){
 		console.log("111");
 		introSwiper.slideNext();
 
+		//開啟視訊串流------------------------------------------
+    
+    //看瀏覽器支不支援
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia|| navigator.msGetUserMedia;
+
+    var video = $('#camera');
+    
+    //若成功則執行
+    function successCallback(stream)
+    {
+        window.stream = stream; // stream available to console
+        
+        //Chrome，Opera用
+        if (window.URL)
+            video.src = window.URL.createObjectURL(stream);
+        //Firefox用
+        else
+            video.src = stream;
+    }  
+    //若失敗則執行
+    function errorCallback(error)
+    {
+        console.log("無法取得視訊串流 : ", error);
+    }
+    
+    var exArray = []; //用來存裝置串流來源  
+    MediaStreamTrack.getSources(
+        function (sourceInfos)
+        {  
+            for(var i = 0; i != sourceInfos.length; ++i)
+            {  
+                var sourceInfo = sourceInfos[i];  
+                if (sourceInfo.kind === 'video') //會遍歷audio,video，所以要判斷 
+                    exArray.push(sourceInfo.id);  
+            }
+            //取得視訊串流
+            navigator.getUserMedia(
+                {
+                 'video':
+                 {  
+                    //0為前置，1為後置
+                    'optional': [ {'sourceId': exArray[1]} ]  
+                 }
+                },
+                successCallback, errorCallback);
+//            alert(exArray[0]+"\n"+exArray[1]);
+            
+        });  
+    
+    
+    
+    
+    
+    /*拍照-------------------------------------
+    
+    function snapshot(canvasID)
+    {   
+        var canvas = document.querySelector('#'+canvasID);
+        var ctx = canvas.getContext('2d');
+        
+        if (stream)
+        {
+            ctx.drawImage(video, -100, -100);
+            console.log(ctx);
+            //存成image用 - Chrome：“image/webp”，其他：“image/png”
+            //document.querySelector('img').src = canvas.toDataURL('image/webp');
+        }
+    }
+
+    video.addEventListener('click', function(){ snapshot('test') }, false);
+*/
 	})
 });
 
@@ -68,74 +139,3 @@ function goToByScroll(id){
     scrollTop: $("#"+id).offset().top},400);
 }
 
-
-////// Web RTC 技術 /////////
-/*
-function hasGetUserMedia() {
-  return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
-}
-
-if (hasGetUserMedia()) {
-  // Good to go!
-} else {
-  alert('getUserMedia() is not supported in your browser');
-}
-
-var errorCallback = function(e) {
-  console.log('Reeeejected!', e);
-};
-
-navigator.getUserMedia  = navigator.getUserMedia ||
-                          navigator.webkitGetUserMedia ||
-                          navigator.mozGetUserMedia ||
-                          navigator.msGetUserMedia;
-
-// Not showing vendor prefixes.
-navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
-  var video = document.querySelector('video');
-  video.src = window.URL.createObjectURL(localMediaStream);
-
-  // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
-  // See crbug.com/110938.
-  video.onloadedmetadata = function(e) {
-    // Ready to go. Do some stuff.
-  };
-}, errorCallback);
-*/
-
-// Put event listeners into place
-window.addEventListener("DOMContentLoaded", function() {
-	// Grab elements, create settings, etc.
-	var canvas = document.getElementById("canvas"),
-		context = canvas.getContext("2d"),
-		video = document.getElementById("video"),
-		videoObj = { "video": true },
-		errBack = function(error) {
-			console.log("Video capture error: ", error.code); 
-		};
-
-	// Put video listeners into place
-	if(navigator.getUserMedia) { // Standard
-		navigator.getUserMedia(videoObj, function(stream) {
-			video.src = stream;
-			video.play();
-		}, errBack);
-	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-		navigator.webkitGetUserMedia(videoObj, function(stream){
-			video.src = window.webkitURL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-		navigator.mozGetUserMedia(videoObj, function(stream){
-			video.src = window.URL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-}, false);
-
-// Trigger photo take
-document.getElementById("snap").addEventListener("click", function() {
-	context.drawImage(video, 0, 0, 640, 480);
-});
