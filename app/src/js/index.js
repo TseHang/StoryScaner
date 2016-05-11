@@ -21,8 +21,8 @@ $(document).ready(function (){
 
   $('a#okbtn').click(function(){
   	introSwiper.unlockSwipeToNext();
-    introSwiper.unlockSwipeToPrev();
     introSwiper.slideNext();
+    introSwiper.unlockSwipeToPrev();
 
     //Bug -- 應該要先滑動，再移除（時間點衝到了！）
     introSwiper.removeSlide(0); 
