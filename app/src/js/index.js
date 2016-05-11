@@ -21,7 +21,6 @@ $(document).ready(function (){
 
   $('a#okbtn').click(function(){
   	introSwiper.unlockSwipeToNext();
-    introSwiper.slideNext();
     introSwiper.unlockSwipeToPrev();
 
     //Bug -- 應該要先滑動，再移除（時間點衝到了！）
@@ -112,7 +111,7 @@ $(document).ready(function (){
     
     
     
-    /*拍照-------------------------------------
+    //拍照-------------------------------------
     
     function snapshot(canvasID)
     {   
@@ -129,7 +128,7 @@ $(document).ready(function (){
     }
 
     video.addEventListener('click', function(){ snapshot('test') }, false);
-*/
+
 	})
 });
 

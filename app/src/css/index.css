@@ -53,14 +53,14 @@ div.intro-box{
 div.intro-box > h2{
 	font-size: 24px;
 	font-weight: 900;
-	padding-top: 60px;
+	padding-top: 55px;
 }
 
 div.intro-box > p{
 	font-size: 18px;
 	font-weight: 300;
 	width:80vw;
-	margin: 40px auto auto auto;
+	margin: 35px auto auto auto;
 	opacity: 0.7;
 }
 
