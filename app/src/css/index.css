@@ -81,8 +81,8 @@ div.intro-box > p{
 	background-color:#D2D3D5;
 	padding:1em 0px;
 
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
 }
 
 p.intro2-title{
@@ -92,26 +92,46 @@ p.intro2-title{
 	font-size: 1.3em;
 }
 
+.intro2-content-body{
+	height:0;
+	opacity:0;
+}
+
+.intro2-detail , .intro2-button{
+	display: none;
+}
+
+div.intro2-content-show > .intro2-content-body{
+	display: block;
+
+	height:150px;
+	opacity: 1;
+	transition: all 0.3s ease-in;
+	/*animation: fadeIn 0.6s forwards;*/
+}
+
+div.intro2-content-show > div > .intro2-detail , div.intro2-content-show > div > .intro2-button{
+	display: block;
+}
+/*
+@keyframes fadeIn{
+	100%{
+		height:150px;
+		opacity: 1;
+	}
+}
+*/
+
 p.intro2-detail{
 	width:90%;
-	padding:10px;
+	margin:1em auto auto auto;
 
-	height:0px;
-	margin:auto;
-	display: none;
-	opacity: 0;
+	/*border:1px solid rgba(109,109,110,0.5);*/
 }
 
-div.intro2-content-show > p.intro2-detail{
-	border-radius:15px;
-	border:1px solid rgba(109,109,110,0.5);
-	display:block;
-	height:auto;
-}
-
-div.intro2-content:nth-child(1) > p.intro2-title , div.intro2-content:nth-child(1) > div{ background-color: #41637C; }
-div.intro2-content:nth-child(2) > p.intro2-title , div.intro2-content:nth-child(2) > div{ background-color: #459793; }
-div.intro2-content:nth-child(3) > p.intro2-title , div.intro2-content:nth-child(3) > div{ background-color: #5DB9B6; }
+div.intro2-content:nth-child(1) > p.intro2-title , div.intro2-content:nth-child(1) > div > .intro2-button{ background-color: #41637C; }
+div.intro2-content:nth-child(2) > p.intro2-title , div.intro2-content:nth-child(2) > div > .intro2-button{ background-color: #459793; }
+div.intro2-content:nth-child(3) > p.intro2-title , div.intro2-content:nth-child(3) > div > .intro2-button{ background-color: #5DB9B6; }
 
 div.intro2-button{
 	cursor: pointer;
@@ -122,15 +142,10 @@ div.intro2-button{
 	line-height: 30px;
 	border-radius:18px;
 	margin:0.8em auto auto auto ;
-	display: none;
-}
-
-div.intro2-content-show > div.intro2-button{
-	display:block;
 }
 
 /************************************/
-#video , #snapShot{
+#camera , #snapShot{
 	width: 100vw;
 	height:70vh;
 }

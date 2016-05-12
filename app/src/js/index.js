@@ -34,20 +34,13 @@ $(document).ready(function (){
 
   	if (intro2ContentToggle == 0){
   		$(this).addClass('intro2-content-show');
-	  	$(this).children('p.intro2-detail').animate({
-	  		'margin-top':'1em',
-	  		'opacity':'1'
-	  	},400)
-
+  		console.log($(this).children("intro2-content-body"));
+	  	
 	  	intro2ContentToggle =1 ;
 	  	console.log('展開囉');
   	}
   	else if (intro2ContentToggle == 1 ){
   		$(this).removeClass('intro2-content-show');
-	  	$(this).children('p.intro2-detail').css({
-	  		'margin-top':'auto',
-	  		'opacity':'0'
-	  	});
 
 	  	intro2ContentToggle =0 ;
 	  	console.log('收縮囉');
@@ -63,7 +56,7 @@ $(document).ready(function (){
     //看瀏覽器支不支援
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia|| navigator.msGetUserMedia;
 
-    var video = $('#camera');
+    var video = document.querySelector('#camera');
     
     //若成功則執行
     function successCallback(stream)
@@ -127,14 +120,17 @@ $(document).ready(function (){
         }
     }
 
-    video.addEventListener('click', function(){ snapshot('test') }, false);
+    video.addEventListener('click', function(){ snapshot('snapShot') }, false);
 
 	})
+
 });
 
 function goToByScroll(id){
-  // Scroll
+	// Scroll
   $('html,body').animate({
-    scrollTop: $("#"+id).offset().top},400);
+  	scrollTop: $("#"+id).offset().top
+  },400)
 }
+
 
