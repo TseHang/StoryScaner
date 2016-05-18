@@ -1,76 +1,70 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <!-- jquery -->
-    <script src="./src/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-
-    <!-- swiper -->
-    <link rel="stylesheet" href="./src/css/swiper-3.3.1.min.css">
-
-    <!-- animo.js
-    <script src="../animo/animo.js" type="text/javascript"></script>
-    <link href="../animo/animate-animo.css" rel="stylesheet" type="text/css">
-    -->
-
-    <link type="text/css" rel="stylesheet" href="./src/css/index.css">
-
-    <title> StoryScaner </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- jquery -->
+  <script src="./src/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+  <!-- swiper -->
+  <link rel="stylesheet" href="./src/css/swiper-3.3.1.min.css">
+  <link type="text/css" rel="stylesheet" href="./src/css/index.css">
+  <title> StoryScaner </title>
 </head>
-<body >
-<div id="modal">
-    <img src = "src/img2/logo.png">
-</div>
-<div class="intro-container">
+
+<body>
+  <div id="modal">
+    <img src="src/img2/logo.png">
+  </div>
+  <div class="intro-container">
     <div class="swiper-wrapper">
-        <div class="swiper-slide">
-            <div class = "intro-box">
-                <h2>歡迎來到西市場</h2>
-                <p>您將會體驗另一層文化與西市場間的故事，所有的驚喜與刺激都在你的鏡頭裡，等你來發掘！</p>
-            </div>
-            <a id = "okbtn"><img src = "src/img2/okbtn.png"></a>
+      <div class="swiper-slide">
+        <div class="intro-box">
+          <h2>歡迎來到西市場</h2>
+          <p>您將會體驗另一層文化與西市場間的故事，所有的驚喜與刺激都在你的鏡頭裡，等你來發掘！</p>
         </div>
-        <div class="swiper-slide">
-            <div id = "intro2-head-bar">
-                <h2>選一條路線吧!</h2>
-            </div>
-            <div id = "intro2-body">
-                <div class = "intro2-content" id = "content1">
-                    <p class = "intro2-title">日本時代の記憶</p>
-                    <div class="intro2-content-body">
-                        <p class = "intro2-detail">凡走過必留下痕跡。日本人治臺50年，在臺興辦建設，為這美麗的福爾摩沙帶來不同的面貌。在這50年的歲月之中，臺灣從此和日本有了一道深層的情懷，那種情懷，是時代的雋永。臺灣．臺南．西市場，讓我們去尋找那段被遺忘的時光。</p>
-                        <div class = "intro2-button"> 開始 </div>
-                    </div>
-                </div>
+        <a id="okbtn"><img src="src/img2/okbtn.png"></a>
+      </div>
+      <div class="swiper-slide">
+        <div id="intro2-head-bar">
+          <h2></h2>
+        </div>
+        <div id="intro2-body">
 
-                <div class = "intro2-content" id = "content2">
-                    <p class = "intro2-title">阿公阿嬤的青春歲月</p>
-                    <div class = "intro2-content-body" >
-                        <p class = "intro2-detail">咱的阿公阿嬤，也曾經年輕過！可能是帥氣黑狗兄，或者是妖嬌美麗的氣質小姐。在他們的少男、少女時代，某一棵榕樹、某一家餐廳…說不定是他們年少時談情說愛的可愛記憶。讓我們循著時光的脈絡，回去那段風華，細細品嘗那令人醉心的青春歲月。</p>
-                        <div class = "intro2-button"> 開始 </div>
-                    </div>
-                </div>
-
-                <div class = "intro2-content" id = "content3">
-                    <p class = "intro2-title">蛻變．重生－大菜市未來的展望</p>
-                    <div class = "intro2-content-body" >
-                        <p class = "intro2-detail">人來人往，潮起潮落，歷史有一天將埋沒於時間巨流之中。但是，我們真的甘於縱容時光飛逝，將這些老記憶掃進歷史灰燼中嗎？西市場，曾經是流行、潮流的代名詞，然而，至今已成沒沒無聞的一座老建築。年輕的我們，擔起使命，一起將西市場這塊老招牌重新擦亮吧！</p>
-                        <div class = "intro2-button"> 開始</div>
-                    </div>
-                </div>
+          <div class="intro2-content" id="content1">
+            <p class="intro2-title">日本時代の記憶</p>
+            <div class="intro2-content-body">
+              <p class="intro2-detail">凡走過必留下痕跡。日本人治臺50年，在臺興辦建設，為這美麗的福爾摩沙帶來不同的面貌。在這50年的歲月之中，臺灣從此和日本有了一道深層的情懷，那種情懷，是時代的雋永。臺灣．臺南．西市場，讓我們去尋找那段被遺忘的時光。</p>
+              <div class="intro2-button" onclick="location.href = 'camera.html';"> 開始 </div>
             </div>
+            <div id = "intro2-content-image-1"></div>
+          </div>
+
+          <div class="intro2-content" id="content2">
+            <p class="intro2-title">阿公阿嬤的青春歲月</p>
+            <div class="intro2-content-body">
+              <p class="intro2-detail">咱的阿公阿嬤，也曾經年輕過！可能是帥氣黑狗兄，或者是妖嬌美麗的氣質小姐。在他們的少男、少女時代，某一棵榕樹、某一家餐廳…說不定是他們年少時談情說愛的可愛記憶。讓我們循著時光的脈絡，回去那段風華，細細品嘗那令人醉心的青春歲月。</p>
+              <div class="intro2-button" onclick="location.href = 'camera.html';"> 開始 </div>
+            </div>
+            <div id = "intro2-content-image-2"></div>
+          </div>
+
+          <div class="intro2-content" id="content3">
+            <p class="intro2-title">蛻變．重生－大菜市未來的展望</p>
+            <div class="intro2-content-body">
+              <p class="intro2-detail">人來人往，潮起潮落，歷史有一天將埋沒於時間巨流之中。但是，我們真的甘於縱容時光飛逝，將這些老記憶掃進歷史灰燼中嗎？西市場，曾經是流行、潮流的代名詞，然而，至今已成沒沒無聞的一座老建築。年輕的我們，擔起使命，一起將西市場這塊老招牌重新擦亮吧！</p>
+              <div class="intro2-button" onclick="location.href = 'camera.html';">開始</div>
+            </div>
+            <div id = "intro2-content-image-3"></div>
+
+          </div>
         </div>
-        <div class="swiper-slide">
-            <video id="camera" autoplay></video>
-            <button id = "snap">Snap Photo</button>
-        </div>
+      </div>
     </div>
-</div>
+  </div>
 </body>
-
 <!-- swiper -->
 <script src="./src/js/swiper-3.3.1.jquery.min.js"></script>
-<script type="text/javascript" src = "./src/js/index.js"></script>
+<script type="text/javascript" src="./src/js/index.js"></script>
+
 </html>
