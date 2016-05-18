@@ -53,8 +53,19 @@ MediaStreamTrack.getSources(
 
 //snap Click
 document.querySelector('#snap').addEventListener('click', function() {
+  $('#snapShot').css("display" , "block");
   snapshot();
 }, false);
+
+$('#pic-btn-submit').click(function(){
+  alert('U have already submit picture!');
+  $('#snapShot').css("display" , "none");
+});
+$('#pic-btn-delete').click(function(){
+  alert('Dlete!!!');
+  $('#snapShot').css("display" , "none");
+});
+
 
 //拍照-------------------------------------
 function snapshot() {

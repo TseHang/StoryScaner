@@ -12,8 +12,27 @@ a{ cursor: pointer; }
 
 	background-color: black;
 }
+
 #video{
 	height:80%;
+}
+
+#snapShot{
+	position: absolute;
+	top:0px;
+	display: none;
+}
+
+.snapShot-check{
+	background-color: black;
+	height:20vh;
+	text-align: center;
+	display: flex;
+	align-items: center;
+}
+
+.snapShot-check img{
+	width:40%;
 }
 
 #snap{
