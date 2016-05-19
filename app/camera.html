@@ -13,18 +13,28 @@
 	<div id = "camera">
   	<video id="video" width= "100%" height = "80%" autoplay></video>
   	<div id = "snap"></div>
+    <div class = "left-nav" >
+      <a id = "more-photo" href="#picture-container"> 更多... </a>
+    </div>
   </div>
   <div id = "snapShot">
-  	<canvas id="picture"></canvas>
+    <canvas id="picture"></canvas>
     <div class = "snapShot-check">
       <a id = "pic-btn-delete"><img src = "src/img2/delete.png"></a>
       <a id = "pic-btn-submit"><img src = "src/img2/check.png"></a>
     </div>
   </div>
+  <div class = "picture-container" id = "picture-container">
+    <div class = "picture-container-header"></div>
+  </div>
 </body>
 
 <!-- jquery -->
 <script src="./src/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+
+<!-- somewhere before the rest of your JavaScript code -->
+<script type="text/javascript" src="src/js/touch-0.2.14.min.js"></script>
+
 
 <script type="text/javascript" src="./src/js/camera.js"></script>
 
