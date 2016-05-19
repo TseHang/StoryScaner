@@ -66,6 +66,7 @@ function snapshot() {
 touch.on('#snap' , 'tap' , function(ev){
   $('#snapShot').css("display" , "block");
   snapshot();
+  console.log("11");
 });
 
 
