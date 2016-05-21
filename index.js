@@ -24,6 +24,10 @@ app.use(session({
 
 app.post("/signup", function (req, res) {
     var user = req.body;
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    });
     db.ref("users/" + user.username)
         .once("value", function (user_snapshot) {
             if (user_snapshot.exists()) {
@@ -45,6 +49,10 @@ app.post("/signup", function (req, res) {
 
 app.post("/signin", function (req, res) {
     var user = req.body;
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    });
     db.ref("users/" + user.username)
         .once("value", function (user_snapshot) {
             if (user_snapshot.exists()) {
@@ -78,6 +86,10 @@ app.post("/signin", function (req, res) {
 });
 
 app.post("/upload", function (req, res) {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    });
     if (req.session.user) {
         var image = col_images.push();
         image.set({
@@ -105,6 +117,10 @@ app.post("/upload", function (req, res) {
 
 app.post("/story", function (req, res) {
     var stories = {};
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    });
     req.body.images.forEach(function (name) {
         stories[name] = "This is the story about me.";
     });
