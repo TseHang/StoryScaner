@@ -66,7 +66,6 @@ function snapshot() {
 touch.on('#snap' , 'tap' , function(ev){
   $('#snapShot').css("display" , "block");
   snapshot();
-  console.log("11");
 });
 
 
@@ -88,14 +87,14 @@ touch.on('#pic-btn-delete' , 'tap' , function(ev){
 
 //---------- 相機照片 left-nav -----
 leftNavWidth = deviceWidth*0.4;
-touch.on('#camera', 'touchstart', function(ev){
+touch.on('#video', 'touchstart', function(ev){
   ev.preventDefault();
 });
 
-touch.on('#camera', 'swiperight', function(ev){
+touch.on('#video', 'swiperight', function(ev){
   $('.left-nav').css("left" , "0px") ;
 });
-touch.on('#camera', 'swipeleft', function(ev){
+touch.on('#video', 'swipeleft', function(ev){
   $('.left-nav').css("left" , "-40%") ;
 });
 
@@ -103,6 +102,6 @@ touch.on('#more-photo', 'tap', function(ev){
   //把藍色縮回去
   $('.left-nav').css("left" , "-40%") ;
   //pictue-container 跑出來
-  $('#picture-container').css("left" , "0px") ;
+  $('.picture-container').css("left","0px") ;
 });
 

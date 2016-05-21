@@ -1,0 +1,49 @@
+html , body {
+    height:100%;
+}
+
+/**
+清除內外邊距
+**/
+
+body, h1, h2, h3, h4, h5, h6, hr, p,
+blockquote,            /* structural elements 結構元素 */
+dl, dt, dd, ul, ol, li,  /* list elements 清單元素 */
+pre,                          /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表單元素 */
+th, td,                       /* table elements 表格元素 */
+img {                       /* img elements 圖片元素 */
+    border:medium none;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+/** 設置預設字體 **/
+body,button, input, select, textarea {
+    font: 12px/1.5 '微軟正黑體' ,tahoma, Srial, helvetica,
+    sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+
+em{font-style:normal;}
+
+/* 重置清單元素 */
+ul, ol { list-style: none; }
+
+/* 重置超連結元素 */
+a { text-decoration: none; color:#333;}
+a:hover { text-decoration: underline; color:#F40; }
+
+/* 重置圖片元素 */
+img{ border:0px;}
+
+/* 重置表格元素 */
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}

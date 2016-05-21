@@ -18,8 +18,6 @@ $(document).ready(function (){
     direction: 'horizontal',
     //loop: true,
   }) ;
-  introSwiper.lockSwipeToPrev();
-  introSwiper.lockSwipeToNext();
 
   $('a#okbtn').click(function(){
   	introSwiper.unlockSwipeToNext();
@@ -49,7 +47,7 @@ $(document).ready(function (){
     else{
       $('#'+tempID).removeClass('intro2-content-show');
       $(this).addClass('intro2-content-show');
-      intro2ContentToggle = 1;
+      intro2ContentToggle = 1 ;
     }
 
     tempID = this.id ;
