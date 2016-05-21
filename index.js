@@ -3,6 +3,7 @@ var path = require("path");
 var express = require("express");
 var body_parser = require("body-parser");
 var firebase = require("firebase");
+var session = require("express-session");
 
 var app = new express();
 
@@ -14,7 +15,12 @@ var db = firebase.database(),
     col_images = db.ref("images");
 
 app.use("/static", express.static(path.join(__dirname, "public")));
-app.use(['/signup', '/signin', '/story'], body_parser.json());
+app.use(["/signup", "/signin", "/story"], body_parser.json());
+app.use(session({
+    secret: "adminstrator",
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.post("/signup", function (req, res) {
     var user = req.body;
@@ -42,8 +48,8 @@ app.post("/signin", function (req, res) {
     db.ref("users/" + user.username)
         .once("value", function (user_snapshot) {
             if (user_snapshot.exists()) {
-                var pwd = user_snapshot.val().password;
-                if (pwd === user.password) {
+                if (user_snapshot.val().password === user.password) {
+                    req.session.user = user.username;
                     var images = [];
                     col_images.orderByChild("user")
                         .equalTo(user.username)
@@ -72,21 +78,29 @@ app.post("/signin", function (req, res) {
 });
 
 app.post("/upload", function (req, res) {
-    var image = col_images.push();
-    image.set({
-        user: "admin",
-        lat: 25.234,
-        lon: 121.234
-    });
-    var save_path = "/upload_images/" + image.key + ".jpg",
-        o_file_stream = fs.createWriteStream(path.join(__dirname, "public" + save_path));
-    req.pipe(o_file_stream);
-    res.end(JSON.stringify({
-        status: "SUCCESS",
-        content: {
-            path: "/static" + save_path
-        }
-    }));
+    if (req.session.user) {
+        var image = col_images.push();
+        image.set({
+            user: req.session.user,
+            lat: 25.234,
+            lon: 121.234
+        });
+        var save_path = "/upload_images/" + image.key + ".jpg",
+            o_file_stream = fs.createWriteStream(path.join(__dirname, "public" + save_path));
+        req.pipe(o_file_stream).on('finish', function () {
+            res.end(JSON.stringify({
+                status: "SUCCESS",
+                content: {
+                    path: "/static" + save_path
+                }
+            }));
+        });
+    } else {
+        res.end(JSON.stringify({
+            status: "FAIL",
+            content: "Not sign in yet"
+        }));
+    }
 });
 
 app.post("/story", function (req, res) {

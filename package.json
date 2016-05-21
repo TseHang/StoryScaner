@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nohup node index.js 16043 &"
+    "test": "rm nohup.out && nohup node index.js 16043 &"
   },
   "repository": {
     "type": "git",
