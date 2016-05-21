@@ -63,6 +63,11 @@
                 }),
                 success: function (obj) {
                     window.console.log(obj);
+                    if (obj.status === "FAIL") {
+                        window.alert(obj.content);
+                    } else {
+                        $("#sign button, #sign input").prop("disabled", true);
+                    }
                 },
                 dataType: "json"
             });
@@ -78,6 +83,9 @@
                 }),
                 success: function (obj) {
                     window.console.log(obj);
+                    if (obj.status === "FAIL") {
+                        window.alert(obj.content);
+                    }
                 },
                 dataType: "json"
             });
@@ -93,6 +101,11 @@
                     data: (new Uint8Array(eve.target.result)),
                     success: function (obj) {
                         window.console.log(obj);
+                        if (obj.status === "SUCCESS") {
+                            $("img").attr("src", obj.content.path);
+                        } else {
+                            window.alert(obj.content);
+                        }
                     },
                     dataType: "json",
                     processData: false

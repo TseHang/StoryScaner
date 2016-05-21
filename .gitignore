@@ -1,3 +1,4 @@
 /node_modules
 /public/upload_images
 /auth.json
+/nohup.out
