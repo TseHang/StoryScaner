@@ -89,8 +89,8 @@
                 $.ajax({
                     method: "POST",
                     url: "/upload",
-                    contentType: "text/plain",
-                    data: eve.target.result,
+                    contentType: "application/octet-stream",
+                    data: (new Uint8Array(eve.target.result)),
                     success: function (obj) {
                         window.console.log(obj);
                     },
@@ -99,7 +99,7 @@
                 });
             };
             
-            reader.readAsText($("#upload").get(0).files[0]);
+            reader.readAsArrayBuffer($("#upload").get(0).files[0]);
         });
     </script>
 </body>
