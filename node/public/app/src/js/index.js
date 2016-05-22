@@ -1,7 +1,7 @@
-$(window).load(function(){
+$(window).load(function() {
   console.log("都載入完囉");
-  $('#modal img').delay(2000).animate({"opacity":0}, 500 , function(){
-    $('#modal').css("display","none");
+  $('#modal img').delay(2000).animate({ "opacity": 0 }, 500, function() {
+    $('#modal').css("display", "none");
     console.log("loading結束了");
   });
 })
