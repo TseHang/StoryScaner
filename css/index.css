@@ -1,0 +1,93 @@
+html {
+	font-family: Helvetica, "Helvetica Neue", Arial, "Heiti SC", "Microsoft JhengHei", "微軟正黑體", "Microsoft Yahei", "微軟雅黑", sans-serif; 
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+
+	padding-top: 0;
+	height:100%;
+
+}
+body{
+  padding:0;
+  margin:0;
+  height:100%;
+  background-color: #2F6D5C;
+}
+
+#background{
+	height:100%;
+}
+
+#about_us {
+	height:90%;
+	text-align: right;
+	padding-top: 6em;
+	opacity: 0;
+}
+
+#about_us img{
+	position: relative;
+	left:3em;
+}
+
+#camera {
+	height:90%;
+}
+
+#camera_out{
+	opacity: 1;
+	position: relative;
+	top:-605px;
+	z-index: 1;
+}
+
+#camera_in {
+	position: absolute;
+	top:-397px;
+	left: 81px;
+
+	-moz-transform:rotate(11.5deg);
+	-webkit-transform:rotate(11.5deg);
+	-o-transform:rotate(11.5deg);
+	-ms-transform:rotate(11.5deg);
+	transform:rotate(11.5deg);
+	z-index: 2;
+	opacity: 0;
+}
+
+#camera_btn {
+	position: absolute;
+	top:-300px;
+	left:235px;
+
+	z-index: 3;
+
+}
+
+#footer{
+	background-color: rgba(180 , 195 , 201 , 0.7) ;
+	height: 10%;
+	width: 100vw;
+	position: absolute;
+	bottom: 0px;
+}
+
+#camera_btn:hover {
+	animation: btn_scale 0.6s ease forwards; 
+}
+
+@keyframes btn_scale{
+	13%{
+		transform: rotate(120deg);
+	}
+	25%{
+		transform: rotate(240deg);
+	}
+	40%{
+		transform: rotate(359deg);
+	}
+	100%{
+		transform: scale(1.4);
+	}
+}
+

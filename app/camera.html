@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link type="text/css" rel="stylesheet" href="./src/css/camera.css">
+  <title> StoryScaner </title>
+</head>
+
+<body>
+	<div id = "camera">
+  	<video id="video" width= "100%" height = "80%" autoplay></video>
+  	<div id = "snap"></div>
+  </div>
+  <div id = "snapShot">
+  	<canvas id="picture"></canvas>
+    <div class = "snapShot-check">
+      <a id = "pic-btn-delete"><img src = "src/img2/delete.png"></a>
+      <a id = "pic-btn-submit"><img src = "src/img2/check.png"></a>
+    </div>
+  </div>
+</body>
+
+<!-- jquery -->
+<script src="./src/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="./src/js/camera.js"></script>
+
+</html>
