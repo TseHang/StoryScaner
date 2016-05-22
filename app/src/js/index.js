@@ -84,7 +84,7 @@ function goToByScroll(id){
 	// Scroll
   $('html,body').animate({
   	scrollTop: $("#"+id).offset().top
-  },400)
+  },400);
 }
 
 
