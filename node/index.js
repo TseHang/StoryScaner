@@ -91,7 +91,7 @@ app.post("/gallery", function (req, res) {
             .equalTo(req.session.user)
             .once("value", function (images_snapshot) {
                 images_snapshot.forEach(function (image_snapshot) {
-                    images.push("/upload_images/" + image_snapshot.key + ".jpg");
+                    images.push("/upload_images/" + image_snapshot.key + ".png");
                 })
                 res.end(JSON.stringify({
                     status: "SUCCESS",
