@@ -1,12 +1,39 @@
 $(window).load(function(){
   console.log("都載入完囉");
+
   $('#modal img').delay(2000).animate({"opacity":0}, 500 , function(){
     $('#modal').css("display","none");
     console.log("loading結束了");
   });
+
+  data = {
+    username: "test",
+    password: "1357"
+  };
+
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: 'luffy.ee.ncku.edu.tw:16043/signup',
+    data: JSON.stringify({
+      username: "test",
+      password: "1357"
+    }),
+    success: function(response) {
+     console.log(response)
+     if (response.status == 'FAIL')
+      alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(11121);
+      console.log(jqXHR);
+    },
+    dataType: 'json'
+  });
 })
 
 var intro2ContentToggle = 0;
+var tempID;
 
 $(document).ready(function (){
 
@@ -16,8 +43,6 @@ $(document).ready(function (){
     direction: 'horizontal',
     //loop: true,
   }) ;
-  introSwiper.lockSwipeToPrev();
-  introSwiper.lockSwipeToNext();
 
   $('a#okbtn').click(function(){
   	introSwiper.unlockSwipeToNext();
@@ -30,21 +55,27 @@ $(document).ready(function (){
   $('.intro2-content').click(function(e){
   	//移動
   	e.preventDefault(); 
-  	goToByScroll(this.id);  
+  	goToByScroll(this.id);
 
-  	if (intro2ContentToggle == 0){
-  		$(this).addClass('intro2-content-show');
-  		console.log($(this).children("intro2-content-body"));
-	  	
-	  	intro2ContentToggle =1 ;
-	  	console.log('展開囉');
-  	}
-  	else if (intro2ContentToggle == 1 ){
-  		$(this).removeClass('intro2-content-show');
+    //tempID == this.id ==> 同一個  代表縮起來
+    //tempID != this.id ==> 不同個  先縮再放
+    if (tempID == this.id){
+      if (intro2ContentToggle == 0){
+        $(this).addClass('intro2-content-show');
+        intro2ContentToggle = 1;
+      }
+      else {
+        $(this).removeClass('intro2-content-show');
+        intro2ContentToggle = 0 ;
+      }
+    }
+    else{
+      $('#'+tempID).removeClass('intro2-content-show');
+      $(this).addClass('intro2-content-show');
+      intro2ContentToggle = 1 ;
+    }
 
-	  	intro2ContentToggle =0 ;
-	  	console.log('收縮囉');
-  	}
+    tempID = this.id ;
   })
 
 });
@@ -53,7 +84,7 @@ function goToByScroll(id){
 	// Scroll
   $('html,body').animate({
   	scrollTop: $("#"+id).offset().top
-  },400)
+  },400);
 }
 
 

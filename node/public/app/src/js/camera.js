@@ -51,30 +51,57 @@ MediaStreamTrack.getSources(
   }
 );
 
-//snap Click
-document.querySelector('#snap').addEventListener('click', function() {
-  $('#snapShot').css("display" , "block");
-  snapshot();
-}, false);
-
-$('#pic-btn-submit').click(function(){
-  alert('U have already submit picture!');
-  $('#snapShot').css("display" , "none");
-});
-$('#pic-btn-delete').click(function(){
-  alert('Dlete!!!');
-  $('#snapShot').css("display" , "none");
-});
-
-
 //拍照-------------------------------------
 function snapshot() {
   ctx = canvas.getContext('2d');
 
   if (stream) {
     ctx.drawImage(video,0 ,0 , canvas.width , canvas.height);
-    console.log(ctx);
     //存成image用 - Chrome：“image/webp”，其他：“image/png”
     //document.querySelector('img').src = canvas.toDataURL('image/webp');
   }
 }
+
+//Snap Click
+touch.on('#snap' , 'tap' , function(ev){
+  $('#snapShot').css("display" , "block");
+  snapshot();
+});
+
+
+//--------相機拍完照後的回傳 頁面------------
+touch.on('#pic-btn-submit' , 'tap' , function(ev){
+  
+  //Submit photo
+
+  alert('U have already submit picture!');
+  $('#snapShot').css("display" , "none");
+});
+touch.on('#pic-btn-delete' , 'tap' , function(ev){
+  
+  //Come back Camera state
+
+  alert('Dlete!!!');
+  $('#snapShot').css("display" , "none");
+});
+
+//---------- 相機照片 left-nav -----
+leftNavWidth = deviceWidth*0.4;
+touch.on('#video', 'touchstart', function(ev){
+  ev.preventDefault();
+});
+
+touch.on('#video', 'swiperight', function(ev){
+  $('.left-nav').css("left" , "0px") ;
+});
+touch.on('#video', 'swipeleft', function(ev){
+  $('.left-nav').css("left" , "-40%") ;
+});
+
+touch.on('#more-photo', 'tap', function(ev){
+  //把藍色縮回去
+  $('.left-nav').css("left" , "-40%") ;
+  //pictue-container 跑出來
+  $('.picture-container').css("left","0px") ;
+});
+

@@ -1,0 +1,111 @@
+@import './reset';
+
+$camera-background-color:black;
+$camera-snap-width:80px;
+
+$left-nav-width:40%;
+$left-nav-color:#41637c;
+
+$head-width:60px;
+$head-bar-color:#c0d5c4;
+
+$camera-z-index:10;
+
+%view100{
+	height:100%;
+	width:100%;
+}
+
+%positionTop{
+	position:absolute;
+	top:0px;
+}
+
+%head-bar-style{
+	width:100%;
+ 	height:$head-width;
+}
+
+body{
+	overflow:hidden;
+}
+.camera{
+	@extend %view100;
+	position: relative;
+	text-align: center;
+	z-index: $camera-z-index;
+	background-color:$camera-background-color;
+
+	transition: all ease 0.2s;
+}
+
+#video{
+	height:80%;
+}
+
+#snap{
+	border-radius:50%;
+	width:$camera-snap-width;
+	height:$camera-snap-width;
+	margin: 1em auto auto auto;
+	background-color: white;
+	z-index: $camera-z-index;
+}
+
+.left-nav{
+	@extend %positionTop;
+
+	background-color: $left-nav-color;
+	height:100%;
+	left:-$left-nav-width;
+	width:$left-nav-width;
+	text-align: center;
+	z-index: $camera-z-index+2;
+
+	transition: all ease 0.2s;
+
+	> a{
+		font-size: 1.3em;
+		color:white;
+	}
+}
+
+/* picture-container */
+.picture-container{
+	@extend %view100;
+	@extend %positionTop;
+
+	background-color: white;
+	left:100%;
+	z-index: $camera-z-index;
+
+	transition: all ease 0.2s;
+}
+
+.picture-container-header{
+	@extend %head-bar-style;
+
+ 	background-color: $head-bar-color;
+}
+
+
+/* 拍照後的check */
+#snapShot{
+	@extend %view100;
+	@extend %positionTop;
+
+	display: none;
+	z-index: $camera-z-index+2;
+}
+
+.snapShot-check{
+	background-color: $camera-background-color;
+	height:20%;
+	text-align: center;
+	display: flex;
+	align-items: center;
+
+	img{
+		width:40%;
+	}
+}

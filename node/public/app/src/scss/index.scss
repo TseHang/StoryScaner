@@ -1,0 +1,206 @@
+@import './reset';
+
+$background-color:#E9E3D7;
+$base-z-index:10;
+
+img{
+	width: auto;
+  height : auto;
+}
+
+body {
+	background-color:$background-color;
+}
+
+%inline-flex{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+%view100{
+	height:100%;
+	width:100%;
+}
+/*************** 主頁面 *****************/
+
+#modal {
+	@extend %inline-flex;
+	@extend %view100;
+
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: $base-z-index+2;
+	background-color: $background-color;
+
+	> img{
+		width:150px;
+	}
+}
+
+/*************** swier 屬性 *****************/
+.intro-container {
+	@extend %view100;
+  text-align: center;
+}  
+
+/************** intro1 *********************/
+
+$intro1-content-height: 50px;
+
+.intro-box{
+	@extend %inline-flex;
+	@extend %view100;
+	flex-direction:column ;
+}
+
+.intro1-content {
+	display:flex;
+		
+	width:73%;
+	height: $intro1-content-height;
+	margin-top:20px;
+
+
+	div:nth-child(1) {
+		width:$intro1-content-height+5;
+	}
+}
+
+.intro1-text {
+	margin:auto;
+	> p{
+		line-height: $intro1-content-height/2;
+		font-weight: bold;
+	}
+
+	p:nth-child(1){
+		font-size: 16px;
+	}
+	p:nth-child(2){
+		font-size: 14px;
+	}
+}
+
+@for $i from 1 to 5 {
+	.intro1-content:nth-child(#{$i}) > .intro1-img{
+		@if $i == 1 {
+			background: url('../../img2/2-1.png') no-repeat center;
+		}
+		@else if $i == 2 {
+			background: url('../../img2/2-2.png') no-repeat center;
+		}
+		@else if $i == 3 {
+			background: url('../../img2/2-3.png') no-repeat center;
+		}
+		@else {
+			background: url('../../img2/2-4.png') no-repeat center;
+		}
+		background-size: contain;
+	}
+}
+
+/************** intro2 *********************/
+$header-bar-color: #c0d5c4;
+$header-bar-height: 60px;
+$header-text-color:#4A544B;
+
+$contentWidth: 100%;
+$contentTextColor:rgba(255,255,255,0.83);
+$disappear:0px;
+$intro2-content-body-height:90px;
+$intro2-button-borderRadius:18px;
+$intro2-button-height:35px;
+
+$intro2-content1-color:#41637C;
+$intro2-content2-color:#459793;
+$intro2-content3-color:#5DB9B6;
+
+
+
+#intro2-head-bar{
+	width: $contentWidth;
+	background-color: $header-bar-color;
+	height: $header-bar-height;
+	line-height: $header-bar-height;
+	color:$header-text-color;
+	font-size:2em;
+}
+
+.intro2-content{
+	padding: 1em 0px;
+	color: $contentTextColor;
+}
+
+.intro2-title{
+	cursor: pointer;
+	padding:6px 0px;
+	font-size: 1.6em;
+}
+
+.intro2-content-body{
+	height:$disappear;
+	opacity:$disappear;
+
+	> .intro2-detail , > .intro2-button{
+		display: none;
+	}
+}
+
+.intro2-content-show{
+
+	> .intro2-content-body{
+		height:$intro2-content-body-height;
+		opacity: 1;
+		transition: all 0.2s ease-in;
+	}
+
+	.intro2-detail {
+		display: block;
+		width:90%;
+		margin:1em auto auto auto;
+	}
+
+	.intro2-button{
+		display: block;
+		cursor: pointer;
+
+		width:100px;
+		height:$intro2-button-height;
+		line-height: $intro2-button-height;
+		border:white 1px solid;
+		border-radius:$intro2-button-borderRadius;
+		margin:0.8em auto auto auto ;
+	}
+}
+
+@for $i from 1 to 4 {
+	.intro2-content:nth-child(#{$i}) {
+		@if $i == 1{
+			background-color: $intro2-content1-color;
+		}
+		@else if $i == 2{
+			background-color: $intro2-content2-color;
+		}
+		@else {
+			background-color: $intro2-content3-color;
+		}
+	}
+}
+
+@for $i from 1 to 4 {
+	#intro2-content-image-#{$i} {
+		@if $i == 1{
+			background: transparent url('../../img2/1.png') no-repeat center;
+		}
+		@else if $i == 2{
+			background: transparent url('../../img2/2.png') no-repeat 120px 0%;
+		}
+		@else {
+			background: transparent url('../../img2/3.png') no-repeat center;
+		}
+
+		height: 100px;
+	}
+}
