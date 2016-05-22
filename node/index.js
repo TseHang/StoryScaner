@@ -1,9 +1,14 @@
 var fs = require("fs");
 var path = require("path");
 var express = require("express");
+var https = require("https");
 var body_parser = require("body-parser");
 var firebase = require("firebase");
 var session = require("express-session");
+var ssl = {
+    key: fs.readFileSync("key.pem"),
+    cert: fs.readFileSync("certificate.pem")
+};
 
 var app = new express();
 
@@ -129,6 +134,8 @@ app.post("/story", function (req, res) {
     }));
 });
 
-app.listen(process.argv[2], function () {
+var https_server = https.createServer(ssl, app);
+
+https_server.listen(process.argv[2], function () {
     console.log("Listen on port " + process.argv[2]);
 });
