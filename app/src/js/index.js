@@ -5,6 +5,31 @@ $(window).load(function(){
     $('#modal').css("display","none");
     console.log("loading結束了");
   });
+
+  data = {
+    username: "test",
+    password: "1357"
+  };
+
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: 'luffy.ee.ncku.edu.tw:16043/signup',
+    data: JSON.stringify({
+      username: "test",
+      password: "1357"
+    }),
+    success: function(response) {
+     console.log(response)
+     if (response.status == 'FAIL')
+      alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(11121);
+      console.log(jqXHR);
+    },
+    dataType: 'json'
+  });
 })
 
 var intro2ContentToggle = 0;
