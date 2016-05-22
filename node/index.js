@@ -14,7 +14,8 @@ firebase.initializeApp({
 var db = firebase.database(),
     col_images = db.ref("images");
 
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
+app.use("/", express.static(path.join(__dirname, "public")));
 app.use(["/signup", "/signin", "/story"], body_parser.json());
 app.use(session({
     secret: "adminstrator",
@@ -61,7 +62,7 @@ app.post("/signin", function (req, res) {
                         .equalTo(user.username)
                         .once("value", function (images_snapshot) {
                             images_snapshot.forEach(function (image_snapshot) {
-                                images.push("/static/upload_images/" + image_snapshot.key + ".jpg");
+                                images.push("/upload_images/" + image_snapshot.key + ".jpg");
                             })
                             res.end(JSON.stringify({
                                 status: "SUCCESS",
@@ -100,7 +101,7 @@ app.post("/upload", function (req, res) {
             res.end(JSON.stringify({
                 status: "SUCCESS",
                 content: {
-                    path: "/static" + save_path
+                    path: save_path
                 }
             }));
         });
