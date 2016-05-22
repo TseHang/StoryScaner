@@ -1,8 +1,13 @@
-$(window).load(function(){
+$(window).load(function() {
   console.log("都載入完囉");
+<<<<<<< HEAD
+  $('#modal img').delay(2000).animate({ "opacity": 0 }, 500, function() {
+    $('#modal').css("display", "none");
+=======
 
   $('#modal img').delay(2000).animate({"opacity":0}, 500 , function(){
     $('#modal').css("display","none");
+>>>>>>> 317c2ab6113253664f1f0fa4e4605cbb99bdc702
     console.log("loading結束了");
   });
 
