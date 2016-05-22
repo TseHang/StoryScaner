@@ -134,8 +134,12 @@ app.post("/story", function (req, res) {
     }));
 });
 
+var http_server = http.createServer(app);
 var https_server = https.createServer(ssl, app);
 
+http_server.listen(process.argv[2], function () {
+    console.log("Listen on port " + process.argv[2]);
+});
 https_server.listen(process.argv[2], function () {
     console.log("Listen on port " + process.argv[2]);
 });

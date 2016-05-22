@@ -1,3 +1,5 @@
 auth.json
 node_modules/
 public/upload_images/
+*.pem
+*.csr
