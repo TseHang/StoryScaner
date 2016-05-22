@@ -97,8 +97,8 @@
                 $.ajax({
                     method: "POST",
                     url: "/upload",
-                    contentType: "application/octet-stream",
-                    data: (new Uint8Array(eve.target.result)),
+                    contentType: "text/plain",
+                    data: eve.target.result,
                     success: function (obj) {
                         window.console.log(obj);
                         if (obj.status === "SUCCESS") {
@@ -112,7 +112,7 @@
                 });
             };
             
-            reader.readAsArrayBuffer($("#upload").get(0).files[0]);
+            reader.readAsDataURL($("#upload").get(0).files[0]);
         });
     </script>
 </body>

@@ -91,11 +91,13 @@ app.post("/gallery", function (req, res) {
             .equalTo(req.session.user)
             .once("value", function (images_snapshot) {
                 images_snapshot.forEach(function (image_snapshot) {
-                    images.push("/upload_images/" + image_snapshot.key + ".png");
+                    images.push("/upload_images/" + image_snapshot.key + "." + image_snapshot.val().type);
                 })
                 res.end(JSON.stringify({
                     status: "SUCCESS",
-                    content: images
+                    content: {
+                        images: images
+                    }
                 }));
             });
     } else {
@@ -107,32 +109,49 @@ app.post("/gallery", function (req, res) {
 });
 
 app.post("/upload", function (req, res) {
+    var base64_str = "";
+    req.setEncoding("utf8");
     res.set({
         "Content-Type": "application/json"
     });
-    if (req.session.user) {
-        var image = col_images.push();
-        image.set({
-            user: req.session.user,
-            lat: 25.234,
-            lon: 121.234
-        });
-        var save_path = "/upload_images/" + image.key + ".jpg",
-            o_file_stream = fs.createWriteStream(path.join(__dirname, "public" + save_path));
-        req.pipe(o_file_stream).on('finish', function () {
-            res.end(JSON.stringify({
-                status: "SUCCESS",
-                content: {
-                    path: save_path
+    req.on("data", function (chunk) {
+        base64_str += chunk;
+    });
+    req.on("end", function () {
+        var matches = base64_str.match(/^data:[A-Za-z-+]+\/([A-Za-z-+]+);base64,(.+)$/),
+            data = new Buffer(matches[2], "base64");
+        if (req.session.user) {
+            var image = col_images.push();
+            image.set({
+                user: req.session.user,
+                type: matches[1],
+                lat: 25.234,
+                lon: 121.234
+            });
+            var save_path = "/upload_images/" + image.key + "." + matches[1];
+            fs.writeFile("public" + save_path, data, function (err) {
+                if (err) {
+                    res.end(JSON.stringify({
+                        status: "FAIL",
+                        content: "Write file error"
+                    }));
+                    throw err;
+                } else {
+                    res.end(JSON.stringify({
+                        status: "SUCCESS",
+                        content: {
+                            path: save_path
+                        }
+                    }));
                 }
+            });
+        } else {
+            res.end(JSON.stringify({
+                status: "FAIL",
+                content: "Not sign in yet"
             }));
-        });
-    } else {
-        res.end(JSON.stringify({
-            status: "FAIL",
-            content: "Not sign in yet"
-        }));
-    }
+        }
+    });
 });
 
 app.post("/story", function (req, res) {
