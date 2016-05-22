@@ -62,18 +62,10 @@ app.post("/signin", function (req, res) {
             if (user_snapshot.exists()) {
                 if (user_snapshot.val().password === user.password) {
                     req.session.user = user.username;
-                    var images = [];
-                    col_images.orderByChild("user")
-                        .equalTo(user.username)
-                        .once("value", function (images_snapshot) {
-                            images_snapshot.forEach(function (image_snapshot) {
-                                images.push("/upload_images/" + image_snapshot.key + ".jpg");
-                            })
-                            res.end(JSON.stringify({
-                                status: "SUCCESS",
-                                content: images
-                            }));
-                        });
+                    res.end(JSON.stringify({
+                        status: "SUCCESS",
+                        content: null
+                    }));
                 } else {
                     res.end(JSON.stringify({
                         status: "FAIL",
@@ -87,6 +79,31 @@ app.post("/signin", function (req, res) {
                 }));
             }
         });
+});
+
+app.post("/gallery", function (req, res) {
+    res.set({
+        "Content-Type": "application/json"
+    });
+    if (req.session.user) {
+        var images = [];
+        col_images.orderByChild("user")
+            .equalTo(req.session.user)
+            .once("value", function (images_snapshot) {
+                images_snapshot.forEach(function (image_snapshot) {
+                    images.push("/upload_images/" + image_snapshot.key + ".jpg");
+                })
+                res.end(JSON.stringify({
+                    status: "SUCCESS",
+                    content: images
+                }));
+            });
+    } else {
+        res.end(JSON.stringify({
+            status: "FAIL",
+            content: "Not sign in yet"
+        }));
+    }
 });
 
 app.post("/upload", function (req, res) {
@@ -134,12 +151,8 @@ app.post("/story", function (req, res) {
     }));
 });
 
-var http_server = http.createServer(app);
 var https_server = https.createServer(ssl, app);
 
-http_server.listen(process.argv[2], function () {
-    console.log("Listen on port " + process.argv[2]);
-});
 https_server.listen(process.argv[2], function () {
     console.log("Listen on port " + process.argv[2]);
 });
