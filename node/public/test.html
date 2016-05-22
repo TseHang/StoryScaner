@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+        .thumbnail {
+            padding: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <form class="form" id="sign">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="password">
+                        </div>
+                        <button type="button" class="btn btn-default btn-block btn-success">Sign In</button>
+                        <button type="button" class="btn btn-default btn-block btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <img src="https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder3.png" alt="" class="img-responsive center-block">
+                    <form class="form" id="file-upload" action="/upload" method="POST">
+                        <div class="form-group">
+                            <label for="upload">Upload</label>
+                            <input type="file" id="upload">
+                        </div>
+                        <button type="submit" class="btn btn-default btn-block btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script>
+        $("form").submit(function (eve) {
+            eve.preventDefault();
+        });
+        $("#sign .btn-success").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/signin",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    username: $("#username").val(),
+                    password: $("#password").val()
+                }),
+                success: function (obj) {
+                    window.console.log(obj);
+                    if (obj.status === "FAIL") {
+                        window.alert(obj.content);
+                    } else {
+                        $("#sign button, #sign input").prop("disabled", true);
+                    }
+                },
+                dataType: "json"
+            });
+        });
+        $("#sign .btn-primary").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/signup",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    username: $("#username").val(),
+                    password: $("#password").val()
+                }),
+                success: function (obj) {
+                    window.console.log(obj);
+                    if (obj.status === "FAIL") {
+                        window.alert(obj.content);
+                    }
+                },
+                dataType: "json"
+            });
+        });
+        $("#file-upload .btn-primary").click(function () {
+            var reader = new FileReader();
+            
+            reader.onload = function (eve) {
+                $.ajax({
+                    method: "POST",
+                    url: "/upload",
+                    contentType: "application/octet-stream",
+                    data: (new Uint8Array(eve.target.result)),
+                    success: function (obj) {
+                        window.console.log(obj);
+                        if (obj.status === "SUCCESS") {
+                            $("img").attr("src", obj.content.path);
+                        } else {
+                            window.alert(obj.content);
+                        }
+                    },
+                    dataType: "json",
+                    processData: false
+                });
+            };
+            
+            reader.readAsArrayBuffer($("#upload").get(0).files[0]);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "story-scaner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "rm nohup.out && nohup node index.js 16043 &"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TseHang/StoryScaner.git"
+  },
+  "author": "uidd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TseHang/StoryScaner/issues"
+  },
+  "homepage": "https://github.com/TseHang/StoryScaner#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "firebase": "^3.0.1"
+  }
+}
