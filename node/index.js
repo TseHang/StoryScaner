@@ -12,6 +12,8 @@ var ssl = {
 
 var app = new express();
 
+var content = "日治時期日本成立各種農業產品運銷組織，臺南州青果同業組合於西市場設置香蕉倉庫，以利運銷。原空間於1930年之前原作為臺灣漁業株式會社之「魚賣場」，後因1935年前後該會社搬遷至運河旁，建築形貌與用途因之改變，其後成為「臺南州青果同業組合」之香蕉倉庫。本倉庫有冷藏、加溫等設施。香蕉，曾是臺灣重要的外銷農產品，因具歷史價值現已指定為古蹟。";
+
 firebase.initializeApp({
     databaseURL: "https://story-scaner.firebaseio.com/",
     serviceAccount: "auth.json"
@@ -144,7 +146,8 @@ app.post("/upload", function (req, res) {
                     res.end(JSON.stringify({
                         status: "SUCCESS",
                         content: {
-                            path: save_path
+                            path: save_path,
+                            story: content
                         }
                     }));
                 }
@@ -164,7 +167,7 @@ app.post("/story", function (req, res) {
         "Content-Type": "application/json"
     });
     req.body.images.forEach(function (name) {
-        stories[name] = "This is the story about me.";
+        stories[name] = content;
     });
     res.end(JSON.stringify({
         status: "SUCCESS",
