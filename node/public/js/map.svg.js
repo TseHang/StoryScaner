@@ -44,7 +44,6 @@ function MapSVG() {
                         contentType: "application/json",
                         data: JSON.stringify(parsed_pos),
                         success: function (obj) {
-                            window.alert(obj.content.transform);
                             snap.select("svg").animate({
                                 transform: obj.content.transform
                             }, 4000);

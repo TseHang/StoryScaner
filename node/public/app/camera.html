@@ -69,4 +69,12 @@
 
 <script type="text/javascript" src="./src/js/camera.js"></script>
 
+<!-- load map -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
+<script type="text/javascript" src="/js/map.svg.js"></script>
+<script>
+    var map = new MapSVG();
+    map.loadMap(".map-body");
+</script>
+
 </html>
