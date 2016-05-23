@@ -55,12 +55,12 @@ table {
 :focus {
   outline: 0; }
 
-.camera, .picture-container, #map, #snapShot {
+.camera, .picture-container, #map, #story, #snapShot {
   height: 100%;
   width: 100%;
   background-color: #E9E3D7; }
 
-.left-nav, .picture-container, #map, #snapShot {
+.left-nav, .picture-container, #map, #story, #snapShot {
   position: absolute;
   top: 0px; }
 
@@ -110,6 +110,7 @@ body {
   width: 40%;
   text-align: center;
   z-index: 12;
+  font-size: 1.2em;
   overflow-y: scroll;
   transition: all ease 0.2s; }
   .left-nav > div {
@@ -122,12 +123,12 @@ body {
   color: white; }
 
 /* picture-container */
-.picture-container, #map {
+.picture-container, #map, #story {
   left: 100%;
   z-index: 10;
   transition: all ease 0.2s; }
 
-.picture-container-header, .map-header {
+.picture-container-header, .map-header, .story-header {
   width: 100%;
   background-color: #c0d5c4;
   height: 60px;
@@ -135,7 +136,7 @@ body {
   color: #4A544B;
   font-size: 2em;
   text-align: center; }
-  .picture-container-header > .head-back, .map-header > .head-back {
+  .picture-container-header > li, .map-header > li, .story-header > li {
     list-style-image: url("../../img2/backbtn.png");
     position: absolute;
     left: 10px;
@@ -163,6 +164,37 @@ body {
   height: -moz-calc(100% - 60px);
   height: calc(100% - 60px);
   width: 100%; }
+
+/* story-container */
+.story-body {
+  height: -webkit-calc(100% - 195px);
+  height: -moz-calc(100% - 195px);
+  height: calc(100% - 195px);
+  width: -webkit-calc(100% - 2em);
+  width: -moz-calc(100% - 2em);
+  width: calc(100% - 2em);
+  padding: 2em 1em 1em 1em; }
+
+.story-footer {
+  height: 135px;
+  width: 100%; }
+
+.story-content {
+  background-color: white;
+  height: 100%;
+  font-size: 1.2em; }
+
+.story-content-img {
+  height: 58%;
+  text-align: center;
+  border-bottom: black 1px solid;
+  background-color: black; }
+  .story-content-img > img {
+    height: 100%; }
+
+.story-content-text {
+  height: 42%;
+  overflow-y: scroll; }
 
 /* 拍照後的check */
 #snapShot {
