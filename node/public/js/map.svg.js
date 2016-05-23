@@ -17,11 +17,6 @@ function MapSVG() {
         });
         $(selector).children().remove();
         $(selector).append($img);
-        $img = $(selector + " img");
-        $img.css({
-            "top": parsed_pos.divy / 2,
-            "left": parsed_pos.divx / 2
-        });
         snap = Snap(selector);
         snap.attr({
             overflow: "hidden"
@@ -44,9 +39,17 @@ function MapSVG() {
                         contentType: "application/json",
                         data: JSON.stringify(parsed_pos),
                         success: function (obj) {
-                            snap.select("svg").animate({
+                            $img = $(selector + " img");
+                            $img.css({
+                                "top": parsed_pos.divy / 2,
+                                "left": (parsed_pos.divx - $img.width()) / 2,
+                                "display": "none"
+                            });
+                            snap.select("g").animate({
                                 transform: obj.content.transform
-                            }, 4000);
+                            }, 4000, null, function () {
+                                $img.fadeIn();
+                            });
                         },
                         dataType: "json"
                     });
