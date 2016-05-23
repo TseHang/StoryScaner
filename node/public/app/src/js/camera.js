@@ -39,6 +39,7 @@ function leftnavLoadImages(images){
 function appendImg (src){
   $('.left-nav').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
   $('.picture-container-body').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.story-footer').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
 
 //開啟視訊串流------------------------------------------
@@ -224,6 +225,8 @@ $('.left-nav').on('click', '.story-img' , function() {
 
   var images = [];
   images.push(this.src.split("/")[4].split(".")[0]);
+
+  //存下path 
   path = this.src;
 
   $.ajax({
