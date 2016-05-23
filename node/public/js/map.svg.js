@@ -36,7 +36,8 @@ function MapSVG() {
                 function (err) {
                 },
                 {
-                    enableHighAccuracy: true
+                    enableHighAccuracy: true,
+                    timeout: 2000
                 }
             );
         });
@@ -61,8 +62,7 @@ function applyPosition(pos) {
             $img = $(selector + " img");
             $img.css({
                 "top": parsed_pos.divy / 2,
-                "left": (parsed_pos.divx - $img.width()) / 2,
-                "display": "none"
+                "left": (parsed_pos.divx - $img.width()) / 2
             });
             Snap(selector).select("g").animate({
                 transform: obj.content.transform
