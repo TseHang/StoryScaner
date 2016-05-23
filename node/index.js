@@ -18,7 +18,7 @@ firebase.initializeApp({
 });
 var db = firebase.database(),
     col_images = db.ref("images");
-var svgx = 9072, svgy = 16101;
+var svgx = 9078, svgy = 16107, wantx = 1440, wanty = 2176;
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
@@ -173,6 +173,7 @@ app.post("/story", function (req, res) {
 
 app.post("/position", function (req, res) {
     var position = req.body;
+    var desx = 4500, desy = 8000;
     res.set({
         "Content-Type": "application/json"
     });
@@ -183,12 +184,18 @@ app.post("/position", function (req, res) {
         status: "SUCCESS",
         content: {
             transform: (function () {
-                var transform = "";
+                var transform = "",
+                    scale, translatex, translatey;
                 if (position.divx * svgy / svgx > position.divy) { // limit by x
+                    scale = Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty));
+                    translatex = (0.5 - desx * scale / svgx) * position.divx;
+                    translatey = 0.5 * position.divy - desy * position.divx * scale / svgx;
                 } else {
+                    scale = Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx));
+                    translatex = 0.5 * position.divx - desx * position.divy * scale / svgy;
+                    translatey = (0.5 - desy * scale / svgy) * position.divy;
                 }
-                transform += "m4,0,0,4,0,0"; // scale
-                transform += "m1,0,0,1,-100,-200"; // translate
+                transform += "m" + scale + ",0,0," + scale + "," + translatex + "," + translatey;
                 return transform;
             })()
         }

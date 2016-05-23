@@ -5,6 +5,7 @@ function MapSVG() {
     var map_url = "../images/MAP.svg",
         snap;
     this.loadMap = function (selector) {
+        $(selector).children().remove();
         snap = Snap(selector);
         snap.attr({
             overflow: "hidden"
@@ -13,7 +14,7 @@ function MapSVG() {
             f.select("svg").attr({
                 height: "100%",
                 width: "100%",
-                preserveAspectRatio: "xMidYMid slice"
+                preserveAspectRatio: "xMinYMin slice"
             });
             snap.append(f);
             navigator.geolocation.getCurrentPosition(
