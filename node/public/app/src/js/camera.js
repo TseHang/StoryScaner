@@ -169,15 +169,36 @@ touch.on('#video', 'swipeleft', function(ev){
 touch.on('#more-photo', 'tap', function(ev){
   //把藍色縮回去
   $('.left-nav').css("left" , "-40%") ;
+
   //pictue-container 跑出來
+  $('.camera').css("left","-100%") ;
   $('.picture-container').css("left","0px") ;
 });
 
 //
 //-------picture-container-back
 //
-touch.on('.head-back' , 'tap' , function(ev){
+touch.on('#picture-container-back' , 'tap' , function(ev){
   //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
   $('.picture-container').css("left","100%") ;
 });
 
+// 
+// ---------mapbtn
+// 
+touch.on('.sub-map' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","-100%") ;
+  $('#map').css("left","0px") ;
+  console.log("11");
+});
+
+//
+//-------picture-container-back
+//
+touch.on('#map-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('#map').css("left","100%") ;
+});

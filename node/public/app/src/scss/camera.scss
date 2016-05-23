@@ -2,7 +2,7 @@
 @import './headBar';
 
 $camera-background-color:#E9E3D7;
-$camera-snap-width:80px;
+$camera-snap-width:65px;
 
 $left-nav-width:40%;
 $left-nav-color:#41637c;
@@ -30,6 +30,7 @@ $font-color:white;
 %view100{
 	height:100%;
 	width:100%;
+	background-color:$camera-background-color;
 }
 
 %positionTop{
@@ -74,6 +75,18 @@ body{
 	z-index: $camera-z-index;
 }
 
+.sub-map{
+	width:$camera-snap-width+5;
+	height:$camera-snap-width+5;
+
+	position:relative;
+	bottom:$camera-snap-width+(5+5/2);
+	left:70%;
+
+	background:rgba(0,0,0,0.6) url('../../img2/mapbtn.png') no-repeat;
+	background-size:101%;
+}
+
 .left-nav{
 	@extend %positionTop;
 
@@ -110,20 +123,18 @@ body{
 	@extend %view100;
 	@extend %positionTop;
 
-	background-color: white;
 	left:100%;
 	z-index: $camera-z-index;
-	background-color:$camera-background-color;
 
 	transition: all ease 0.2s;
 }
 
 .picture-container-header{
 	@include headeBar ;
-}
 
-.head-back{
-	@include headBar-back;
+	> .head-back{
+		@include headBar-back;
+	}
 }
 
 .picture-container-body{
@@ -146,6 +157,14 @@ body{
 	img{
 		@extend %picture-container-imagesize;
 	}
+}
+
+/* map-container */
+#map{
+	@extend .picture-container;
+}
+.map-header{
+	@extend .picture-container-header;
 }
 
 
