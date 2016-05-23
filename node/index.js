@@ -63,6 +63,9 @@ app.post("/signin", function (req, res) {
             if (user_snapshot.exists()) {
                 if (user_snapshot.val().password === user.password) {
                     req.session.user = user.username;
+                    req.session.lat = 0;
+                    req.session.lon = 0;
+                    req.session.heading = 0;
                     res.end(JSON.stringify({
                         status: "SUCCESS",
                         content: null
@@ -173,7 +176,7 @@ app.post("/story", function (req, res) {
 
 app.post("/position", function (req, res) {
     var position = req.body;
-    var desx = 4500, desy = 8000;
+    var desx = 4965, desy = 8343;
     res.set({
         "Content-Type": "application/json"
     });
@@ -187,13 +190,13 @@ app.post("/position", function (req, res) {
                 var transform = "",
                     scale, translatex, translatey;
                 if (position.divx * svgy / svgx > position.divy) { // limit by x
-                    scale = Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty));
-                    translatex = (0.5 - desx * scale / svgx) * position.divx;
-                    translatey = 0.5 * position.divy - desy * position.divx * scale / svgx;
+                    scale = (Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty))).toFixed(2);
+                    translatex = ((0.5 - desx * scale / svgx) * position.divx).toFixed(2);
+                    translatey = (0.5 * position.divy - desy * position.divx * scale / svgx).toFixed(2);
                 } else {
-                    scale = Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx));
-                    translatex = 0.5 * position.divx - desx * position.divy * scale / svgy;
-                    translatey = (0.5 - desy * scale / svgy) * position.divy;
+                    scale = (Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx))).toFixed(2);
+                    translatex = (0.5 * position.divx - desx * position.divy * scale / svgy).toFixed(2);
+                    translatey = ((0.5 - desy * scale / svgy) * position.divy).toFixed(2);
                 }
                 transform += "m" + scale + ",0,0," + scale + "," + translatex + "," + translatey;
                 return transform;

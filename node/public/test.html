@@ -115,7 +115,7 @@
                     success: function (obj) {
                         window.console.log(obj);
                         if (obj.status === "SUCCESS") {
-                            $("img").attr("src", obj.content.path);
+                            $(".thumbnail:eq(2) img").attr("src", obj.content.path);
                         } else {
                             window.alert(obj.content);
                         }
