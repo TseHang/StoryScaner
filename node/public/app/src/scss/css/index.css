@@ -60,7 +60,8 @@ img {
   height: auto; }
 
 body {
-  background-color: #E9E3D7; }
+  background-color: #E9E3D7;
+  overflow: hidden; }
 
 #modal, .intro-box {
   display: flex;
@@ -175,7 +176,8 @@ body {
   height: 60px;
   line-height: 60px;
   color: #4A544B;
-  font-size: 2em; }
+  font-size: 2em;
+  text-align: center; }
 
 .intro2-content {
   padding: 1em 0px;

@@ -1,4 +1,5 @@
 @import './reset';
+@import './headBar';
 
 $camera-background-color:#E9E3D7;
 $camera-snap-width:80px;
@@ -12,10 +13,18 @@ $head-bar-color:#c0d5c4;
 
 $camera-z-index:10;
 
+$font-color:white;
+
 @mixin height($a , $b){
   height: -webkit-calc(#{$a} - #{$b});
   height:    -moz-calc(#{$a} - #{$b});
   height:         calc(#{$a} - #{$b});
+}
+
+@mixin width($a , $b){
+  width: -webkit-calc(#{$a} - #{$b});
+  width:    -moz-calc(#{$a} - #{$b});
+  width:         calc(#{$a} - #{$b});
 }
 
 %view100{
@@ -28,25 +37,25 @@ $camera-z-index:10;
 	top:0px;
 }
 
-%head-bar-style{
-	width:100%;
- 	height:$head-height;
+%left-nav-imgsize {
+	width:$left-nav-div-width;
+	height:$left-nav-div-width;
 }
 
-%body-style{
-	width:100%;
- 	@include height(100% , $head-height);
+%picture-container-imagesize {
+	width:$left-nav-div-width+10px;
+	height:$left-nav-div-width+10px;
 }
 
 body{
 	overflow:hidden;
+	background-color:$camera-background-color;
 }
 .camera{
 	@extend %view100;
 	position: relative;
 	text-align: center;
 	z-index: $camera-z-index;
-	background-color:$camera-background-color;
 
 	transition: all ease 0.2s;
 }
@@ -79,22 +88,21 @@ body{
 	transition: all ease 0.2s;
 
 	> div {
+		@extend %left-nav-imgsize;
 		margin:18px auto;
 		border:2px white solid;
-		width:$left-nav-div-width;
-		height:$left-nav-div-width;
 	}
 
 	img{
-		width:$left-nav-div-width;
-		height:$left-nav-div-width;
+		@extend %left-nav-imgsize;
 	}
 }
 
 #more-photo{
-	font-size: 1.7em;
-	color:white;
+	font-size: 1.5em;
 	height:60px;
+	color:$font-color;
+
 }
 
 /* picture-container */
@@ -105,20 +113,39 @@ body{
 	background-color: white;
 	left:100%;
 	z-index: $camera-z-index;
+	background-color:$camera-background-color;
 
 	transition: all ease 0.2s;
 }
 
 .picture-container-header{
-	@extend %head-bar-style;
+	@include headeBar ;
+}
 
- 	background-color: $head-bar-color;
+.head-back{
+	@include headBar-back;
 }
 
 .picture-container-body{
-	@extend %body-style;
+	@include height(100% , $head-height+10 );
+	@include width(100% , 20px );
 
-	background-color:$camera-background-color;
+	display:inline-flex;
+	justify-content:space-between ;
+	align-content:flex-start;
+	flex-wrap:wrap;
+	padding:10px 10px;
+
+	overflow-y:scroll;
+
+	> div {
+		@extend %picture-container-imagesize;
+		margin:5px 5px;
+	}
+
+	img{
+		@extend %picture-container-imagesize;
+	}
 }
 
 

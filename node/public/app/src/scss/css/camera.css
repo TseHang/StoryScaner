@@ -63,24 +63,22 @@ table {
   position: absolute;
   top: 0px; }
 
-.picture-container-header {
-  width: 100%;
-  height: 60px; }
+.left-nav > div, .left-nav img {
+  width: 75px;
+  height: 75px; }
 
-.picture-container-body {
-  width: 100%;
-  height: -webkit-calc(100% - 60px);
-  height: -moz-calc(100% - 60px);
-  height: calc(100% - 60px); }
+.picture-container-body > div, .picture-container-body img {
+  width: 85px;
+  height: 85px; }
 
 body {
-  overflow: hidden; }
+  overflow: hidden;
+  background-color: #E9E3D7; }
 
 .camera {
   position: relative;
   text-align: center;
   z-index: 10;
-  background-color: #E9E3D7;
   transition: all ease 0.2s; }
 
 #video {
@@ -106,30 +104,51 @@ body {
   transition: all ease 0.2s; }
   .left-nav > div {
     margin: 18px auto;
-    border: 2px white solid;
-    width: 75px;
-    height: 75px; }
-  .left-nav img {
-    width: 75px;
-    height: 75px; }
+    border: 2px white solid; }
 
 #more-photo {
-  font-size: 1.7em;
-  color: white;
-  height: 60px; }
+  font-size: 1.5em;
+  height: 60px;
+  color: white; }
 
 /* picture-container */
 .picture-container {
   background-color: white;
   left: 100%;
   z-index: 10;
+  background-color: #E9E3D7;
   transition: all ease 0.2s; }
 
 .picture-container-header {
-  background-color: #c0d5c4; }
+  width: 100%;
+  background-color: #c0d5c4;
+  height: 60px;
+  line-height: 60px;
+  color: #4A544B;
+  font-size: 2em;
+  text-align: center; }
+
+.head-back {
+  list-style-image: url("../../img2/backbtn.png");
+  position: absolute;
+  left: 10px;
+  top: 5px; }
 
 .picture-container-body {
-  background-color: #E9E3D7; }
+  height: -webkit-calc(100% - 70px);
+  height: -moz-calc(100% - 70px);
+  height: calc(100% - 70px);
+  width: -webkit-calc(100% - 20px);
+  width: -moz-calc(100% - 20px);
+  width: calc(100% - 20px);
+  display: inline-flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  padding: 10px 10px;
+  overflow-y: scroll; }
+  .picture-container-body > div {
+    margin: 5px 5px; }
 
 /* 拍照後的check */
 #snapShot {

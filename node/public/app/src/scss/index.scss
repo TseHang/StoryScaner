@@ -1,4 +1,5 @@
 @import './reset';
+@import './headBar';
 
 $background-color:#E9E3D7;
 $base-z-index:10;
@@ -29,6 +30,7 @@ img{
 
 body {
 	background-color:$background-color;
+	overflow:hidden;
 }
 
 %inline-flex{
@@ -197,12 +199,7 @@ $intro1-content-height: 50px;
 /************** intro2 *********************/
 
 #intro2-head-bar{
-	width: $contentWidth;
-	background-color: $header-bar-color;
-	height: $header-bar-height;
-	line-height: $header-bar-height;
-	color:$header-text-color;
-	font-size:2em;
+	@include headeBar ;
 }
 
 .intro2-content{

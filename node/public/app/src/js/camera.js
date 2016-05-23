@@ -13,6 +13,7 @@ $(window).load(function() {
     data: null,
     success: function(response) {
       console.log(response.content.images);
+
       var images = response.content.images;
       leftnavLoadImages(images);
      
@@ -29,10 +30,15 @@ $(window).load(function() {
 //---------  顯示 left-nav 圖片 ------------
 function leftnavLoadImages(images){
   for (i = 0 ; i < images.length ; i++){
-    $('.left-nav').prepend("<div><img src = \""+ images[i] +"\" alt = \"無法顯示\" ></div>" );
+
+    appendImg(images[i]);
     console.log(i+"  已經完成囉");
   };
-  // $('.left-nav').append('<a id = "more-photo" > 更多... </a>');
+}
+
+function appendImg (src){
+  $('.left-nav').prepend("<div><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.picture-container-body').prepend("<div><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
 
 //開啟視訊串流------------------------------------------
@@ -106,18 +112,22 @@ touch.on('#snap' , 'tap' , function(ev){
 
 //--------相機拍完照後的回傳 頁面------------
 touch.on('#pic-btn-submit' , 'tap' , function(ev){
-  console.log(canvas.toDataURL('image/png'));
-  
-  //Submit photo
+  //Upload photo
   $.ajax({
     method: 'POST',
     contentType: 'application/octet-stream',
     url: '/upload',
     data: canvas.toDataURL(),
     success: function(response) {
+      if (response.status == 'SUCCESS'){
+        alert('U have already submit picture!');
+
+        appendImg(response.content.path);
+        console.log(response.content.path);
+      }
      
-     if (response.status == 'FAIL')
-      alert(response.content);
+      if (response.status == 'FAIL')
+        alert(response.content);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.log(jqXHR);
@@ -127,7 +137,6 @@ touch.on('#pic-btn-submit' , 'tap' , function(ev){
     processData: false
   });
 
-  alert('U have already submit picture!');
   $('#snapShot').css("display" , "none");
 });
 
@@ -139,7 +148,9 @@ touch.on('#pic-btn-delete' , 'tap' , function(ev){
   $('#snapShot').css("display" , "none");
 });
 
+//
 //---------- 相機照片 left-nav -----
+//
 leftNavWidth = deviceWidth*0.4;
 touch.on('#video', 'touchstart', function(ev){
   ev.preventDefault();
@@ -152,11 +163,21 @@ touch.on('#video', 'swipeleft', function(ev){
   $('.left-nav').css("left" , "-40%") ;
 });
 
+//
+//------- 更多--> 進入 picture0cpntainer-back
+//
 touch.on('#more-photo', 'tap', function(ev){
   //把藍色縮回去
   $('.left-nav').css("left" , "-40%") ;
   //pictue-container 跑出來
   $('.picture-container').css("left","0px") ;
-  console.log("綠色出來");
+});
+
+//
+//-------picture-container-back
+//
+touch.on('.head-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.picture-container').css("left","100%") ;
 });
 
