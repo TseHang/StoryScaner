@@ -18,6 +18,7 @@ firebase.initializeApp({
 });
 var db = firebase.database(),
     col_images = db.ref("images");
+var svgx = 9072, svgy = 16101;
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
@@ -181,7 +182,15 @@ app.post("/position", function (req, res) {
     res.end(JSON.stringify({
         status: "SUCCESS",
         content: {
-            transform: "m1,0,0,1,100,100"
+            transform: (function () {
+                var transform = "";
+                if (position.divx * svgy / svgx > position.divy) { // limit by x
+                } else {
+                }
+                transform += "m4,0,0,4,0,0"; // scale
+                transform += "m1,0,0,1,-100,-200"; // translate
+                return transform;
+            })()
         }
     }));
 });

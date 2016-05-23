@@ -21,7 +21,9 @@ function MapSVG() {
                     var parsed_pos = {
                         lat: pos.coords.latitude,
                         lon: pos.coords.longitude,
-                        heading: isNaN(pos.coords.heading) ? 0 : pos.coords.heading
+                        heading: isNaN(pos.coords.heading) ? 0 : pos.coords.heading,
+                        divx: $(selector).width(),
+                        divy: $(selector).height()
                     };
                     $.ajax({
                         method: "POST",
