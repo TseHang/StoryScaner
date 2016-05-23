@@ -1,7 +1,7 @@
 
 //取得裝置高度
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
-var images = [];
+var imagesAll = [];
 // load 登入
 $(window).load(function() {
   console.log("都載入完囉");
@@ -14,8 +14,8 @@ $(window).load(function() {
     success: function(response) {
       console.log(response.content.images);
 
-      var images = response.content.images;
-      leftnavLoadImages(images);
+      imagesAll = response.content.images;
+      leftnavLoadImages(imagesAll);
      
       if (response.status == 'FAIL')
         alert(response.content);
@@ -37,8 +37,8 @@ function leftnavLoadImages(images){
 }
 
 function appendImg (src){
-  $('.left-nav').prepend("<div><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
-  $('.picture-container-body').prepend("<div><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.left-nav').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.picture-container-body').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
 
 //開啟視訊串流------------------------------------------
@@ -120,14 +120,17 @@ touch.on('#pic-btn-submit' , 'tap' , function(ev){
     data: canvas.toDataURL(),
     success: function(response) {
       if (response.status == 'SUCCESS'){
-        alert('U have already submit picture!');
-
         appendImg(response.content.path);
-        console.log(response.content.path);
+        alert('照片成功儲存!');
+
+        console.log(response.content);
       }
-     
-      if (response.status == 'FAIL')
-        alert(response.content);
+      else if (response.status == 'FAIL'){
+        alert('上傳過程出錯！\nerror: '+response.content);
+      }
+      else{
+        alert('出現這個代表你真的完蛋惹');
+      }
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.log(jqXHR);
@@ -144,7 +147,7 @@ touch.on('#pic-btn-delete' , 'tap' , function(ev){
   
   //Come back Camera state
 
-  alert('Dlete!!!');
+  console.log('Dlete!!!');
   $('#snapShot').css("display" , "none");
 });
 
@@ -164,7 +167,7 @@ touch.on('#video', 'swipeleft', function(ev){
 });
 
 //
-//------- 更多--> 進入 picture0cpntainer-back
+//------- 更多--> 進入 picture-cpntainer
 //
 touch.on('#more-photo', 'tap', function(ev){
   //把藍色縮回去
@@ -185,20 +188,81 @@ touch.on('#picture-container-back' , 'tap' , function(ev){
 });
 
 // 
-// ---------mapbtn
+// ---------mapbtn -------------------
 // 
 touch.on('.sub-map' , 'tap' , function(ev){
   //pictue-container 跑出來
   $('.camera').css("left","-100%") ;
   $('#map').css("left","0px") ;
-  console.log("11");
 });
 
 //
-//-------picture-container-back
+//------- map--back
 //
 touch.on('#map-back' , 'tap' , function(ev){
   //pictue-container 跑出來
   $('.camera').css("left","0px") ;
   $('#map').css("left","100%") ;
+});
+
+// 
+// ---------storty -------------------
+// 需要用 子元素監聽 才監聽得到～
+// 
+// touch.on('.story-img' , 'tap' , '.left-nav' ,function(ev){
+//   //pictue-container 跑出來
+//   $('.camera').css("left","-100%") ;
+//   $('#story').css("left","0px") ;
+
+//   console.log(111);
+// });
+
+$('.left-nav').on('click', '.story-img' , function() {
+    //pictue-container 跑出來
+  $('.camera').css("left","-100%") ;
+  $('#story').css("left","0px") ;
+
+  var images = [];
+  images.push(this.src.split("/")[4].split(".")[0]);
+  path = this.src;
+
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/story',
+    data: JSON.stringify({
+      images:images
+    }),
+    success: function(response) {
+      if (response.status == 'SUCCESS'){
+        $('.story-content-text').html("&nbsp;&nbsp;&nbsp;"+response.content.stories[images[0]]);
+        $('.story-content-img img').attr("src" ,this.src );
+        console.log($('.story-content-img img').attr("src",path));
+        console.log(path);
+      }
+      else if (response.status == 'FAIL'){
+        alert(response.content);
+      }
+      else{
+        alert('出現這個代表你真的完蛋惹');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+    },
+    dataType: 'json',
+  });
+
+  console.log("出來照片囉");
+});
+
+
+//
+//------- story--back
+//
+touch.on('#story-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('#story').css("left","100%") ;
 });
