@@ -10,12 +10,21 @@
             padding: 20px;
             margin-top: 50px;
         }
+        #map {
+            height: 480px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <div id="map">
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="thumbnail">
                     <form class="form" id="sign">
@@ -48,7 +57,11 @@
     </div>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
+    <script src="/js/map.svg.js"></script>
     <script>
+        var map = new MapSVG();
+        map.loadMap("#map");
         $("form").submit(function (eve) {
             eve.preventDefault();
         });
@@ -114,30 +127,6 @@
             
             reader.readAsDataURL($("#upload").get(0).files[0]);
         });
-        navigator.geolocation.getCurrentPosition(
-            function (pos) {
-                var parsed_pos = {
-                    lat: pos.coords.latitude,
-                    lon: pos.coords.longitude,
-                    heading: isNaN(pos.coords.heading) ? 0 : pos.coords.heading
-                };
-                $.ajax({
-                    method: "POST",
-                    url: "/position",
-                    contentType: "application/json",
-                    data: JSON.stringify(parsed_pos),
-                    success: function (obj) {
-                        window.console.log(obj);
-                    },
-                    dataType: "json"
-                });
-            },
-            function (err) {
-            },
-            {
-                enableHighAccuracy: true
-            }
-        );
     </script>
 </body>
 

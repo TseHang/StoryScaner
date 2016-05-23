@@ -180,7 +180,9 @@ app.post("/position", function (req, res) {
     req.session.heading = position.heading;
     res.end(JSON.stringify({
         status: "SUCCESS",
-        content: null
+        content: {
+            transform: "m1,0,0,1,100,100"
+        }
     }));
 });
 
