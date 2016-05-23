@@ -1,0 +1,21 @@
+$header-bar-color: #c0d5c4;
+$header-bar-height: 60px;
+$header-font-color:#4A544B;
+$header-font-size:2em;
+
+@mixin headeBar{
+	width: 100%;
+	background-color: $header-bar-color;
+	height: $header-bar-height;
+	line-height: $header-bar-height;
+	color:$header-font-color;
+	font-size:$header-font-size;
+	text-align:center;
+}
+
+@mixin headBar-back{
+	list-style-image: url('../../img2/backbtn.png');
+	position:absolute;
+	left:10px;
+	top:5px;
+}

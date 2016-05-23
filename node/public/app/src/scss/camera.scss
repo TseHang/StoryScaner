@@ -1,19 +1,36 @@
 @import './reset';
+@import './headBar';
 
-$camera-background-color:black;
-$camera-snap-width:80px;
+$camera-background-color:#E9E3D7;
+$camera-snap-width:65px;
 
 $left-nav-width:40%;
 $left-nav-color:#41637c;
+$left-nav-div-width:75px;
 
-$head-width:60px;
+$head-height:60px;
 $head-bar-color:#c0d5c4;
 
 $camera-z-index:10;
 
+$font-color:white;
+
+@mixin height($a , $b){
+  height: -webkit-calc(#{$a} - #{$b});
+  height:    -moz-calc(#{$a} - #{$b});
+  height:         calc(#{$a} - #{$b});
+}
+
+@mixin width($a , $b){
+  width: -webkit-calc(#{$a} - #{$b});
+  width:    -moz-calc(#{$a} - #{$b});
+  width:         calc(#{$a} - #{$b});
+}
+
 %view100{
 	height:100%;
 	width:100%;
+	background-color:$camera-background-color;
 }
 
 %positionTop{
@@ -21,20 +38,25 @@ $camera-z-index:10;
 	top:0px;
 }
 
-%head-bar-style{
-	width:100%;
- 	height:$head-width;
+%left-nav-imgsize {
+	width:$left-nav-div-width;
+	height:$left-nav-div-width;
+}
+
+%picture-container-imagesize {
+	width:$left-nav-div-width+10px;
+	height:$left-nav-div-width+10px;
 }
 
 body{
 	overflow:hidden;
+	background-color:$camera-background-color;
 }
 .camera{
 	@extend %view100;
 	position: relative;
 	text-align: center;
 	z-index: $camera-z-index;
-	background-color:$camera-background-color;
 
 	transition: all ease 0.2s;
 }
@@ -45,11 +67,24 @@ body{
 
 #snap{
 	border-radius:50%;
+	border: 5px solid $left-nav-color;
 	width:$camera-snap-width;
 	height:$camera-snap-width;
 	margin: 1em auto auto auto;
 	background-color: white;
 	z-index: $camera-z-index;
+}
+
+.sub-map{
+	width:$camera-snap-width+5;
+	height:$camera-snap-width+5;
+
+	position:relative;
+	bottom:$camera-snap-width+(5+5/2);
+	left:70%;
+
+	background:rgba(0,0,0,0.6) url('../../img2/mapbtn.png') no-repeat;
+	background-size:101%;
 }
 
 .left-nav{
@@ -61,13 +96,26 @@ body{
 	width:$left-nav-width;
 	text-align: center;
 	z-index: $camera-z-index+2;
+	overflow-y:scroll;
 
 	transition: all ease 0.2s;
 
-	> a{
-		font-size: 1.3em;
-		color:white;
+	> div {
+		@extend %left-nav-imgsize;
+		margin:18px auto;
+		border:2px white solid;
 	}
+
+	img{
+		@extend %left-nav-imgsize;
+	}
+}
+
+#more-photo{
+	font-size: 1.5em;
+	height:60px;
+	color:$font-color;
+
 }
 
 /* picture-container */
@@ -75,7 +123,6 @@ body{
 	@extend %view100;
 	@extend %positionTop;
 
-	background-color: white;
 	left:100%;
 	z-index: $camera-z-index;
 
@@ -83,9 +130,41 @@ body{
 }
 
 .picture-container-header{
-	@extend %head-bar-style;
+	@include headeBar ;
 
- 	background-color: $head-bar-color;
+	> .head-back{
+		@include headBar-back;
+	}
+}
+
+.picture-container-body{
+	@include height(100% , $head-height+10 );
+	@include width(100% , 20px );
+
+	display:inline-flex;
+	justify-content:space-between ;
+	align-content:flex-start;
+	flex-wrap:wrap;
+	padding:10px 10px;
+
+	overflow-y:scroll;
+
+	> div {
+		@extend %picture-container-imagesize;
+		margin:5px 5px;
+	}
+
+	img{
+		@extend %picture-container-imagesize;
+	}
+}
+
+/* map-container */
+#map{
+	@extend .picture-container;
+}
+.map-header{
+	@extend .picture-container-header;
 }
 
 

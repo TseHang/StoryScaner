@@ -1,4 +1,45 @@
+
+//取得裝置高度
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
+var images = [];
+// load 登入
+$(window).load(function() {
+  console.log("都載入完囉");
+
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/gallery',
+    data: null,
+    success: function(response) {
+      console.log(response.content.images);
+
+      var images = response.content.images;
+      leftnavLoadImages(images);
+     
+      if (response.status == 'FAIL')
+        alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR);
+    },
+    dataType: 'json'
+  });
+})
+
+//---------  顯示 left-nav 圖片 ------------
+function leftnavLoadImages(images){
+  for (i = 0 ; i < images.length ; i++){
+
+    appendImg(images[i]);
+    console.log(i+"  已經完成囉");
+  };
+}
+
+function appendImg (src){
+  $('.left-nav').prepend("<div><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.picture-container-body').prepend("<div><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+}
 
 //開啟視訊串流------------------------------------------
 //看瀏覽器支不支援
@@ -71,12 +112,34 @@ touch.on('#snap' , 'tap' , function(ev){
 
 //--------相機拍完照後的回傳 頁面------------
 touch.on('#pic-btn-submit' , 'tap' , function(ev){
-  
-  //Submit photo
+  //Upload photo
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/octet-stream',
+    url: '/upload',
+    data: canvas.toDataURL(),
+    success: function(response) {
+      if (response.status == 'SUCCESS'){
+        alert('U have already submit picture!');
 
-  alert('U have already submit picture!');
+        appendImg(response.content.path);
+        console.log(response.content.path);
+      }
+     
+      if (response.status == 'FAIL')
+        alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+    },
+    dataType: 'json',
+    processData: false
+  });
+
   $('#snapShot').css("display" , "none");
 });
+
 touch.on('#pic-btn-delete' , 'tap' , function(ev){
   
   //Come back Camera state
@@ -85,7 +148,9 @@ touch.on('#pic-btn-delete' , 'tap' , function(ev){
   $('#snapShot').css("display" , "none");
 });
 
+//
 //---------- 相機照片 left-nav -----
+//
 leftNavWidth = deviceWidth*0.4;
 touch.on('#video', 'touchstart', function(ev){
   ev.preventDefault();
@@ -98,10 +163,42 @@ touch.on('#video', 'swipeleft', function(ev){
   $('.left-nav').css("left" , "-40%") ;
 });
 
+//
+//------- 更多--> 進入 picture0cpntainer-back
+//
 touch.on('#more-photo', 'tap', function(ev){
   //把藍色縮回去
   $('.left-nav').css("left" , "-40%") ;
+
   //pictue-container 跑出來
+  $('.camera').css("left","-100%") ;
   $('.picture-container').css("left","0px") ;
 });
 
+//
+//-------picture-container-back
+//
+touch.on('#picture-container-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('.picture-container').css("left","100%") ;
+});
+
+// 
+// ---------mapbtn
+// 
+touch.on('.sub-map' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","-100%") ;
+  $('#map').css("left","0px") ;
+  console.log("11");
+});
+
+//
+//-------picture-container-back
+//
+touch.on('#map-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('#map').css("left","100%") ;
+});

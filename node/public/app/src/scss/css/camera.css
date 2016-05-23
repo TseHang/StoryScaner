@@ -55,26 +55,31 @@ table {
 :focus {
   outline: 0; }
 
-.camera, .picture-container, #snapShot {
+.camera, .picture-container, #map, #snapShot {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  background-color: #E9E3D7; }
 
-.left-nav, .picture-container, #snapShot {
+.left-nav, .picture-container, #map, #snapShot {
   position: absolute;
   top: 0px; }
 
-.picture-container-header {
-  width: 100%;
-  height: 60px; }
+.left-nav > div, .left-nav img {
+  width: 75px;
+  height: 75px; }
+
+.picture-container-body > div, .picture-container-body img {
+  width: 85px;
+  height: 85px; }
 
 body {
-  overflow: hidden; }
+  overflow: hidden;
+  background-color: #E9E3D7; }
 
 .camera {
   position: relative;
   text-align: center;
   z-index: 10;
-  background-color: black;
   transition: all ease 0.2s; }
 
 #video {
@@ -82,11 +87,21 @@ body {
 
 #snap {
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  border: 5px solid #41637c;
+  width: 65px;
+  height: 65px;
   margin: 1em auto auto auto;
   background-color: white;
   z-index: 10; }
+
+.sub-map {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  bottom: 72.5px;
+  left: 70%;
+  background: rgba(0, 0, 0, 0.6) url("../../img2/mapbtn.png") no-repeat;
+  background-size: 101%; }
 
 .left-nav {
   background-color: #41637c;
@@ -95,28 +110,61 @@ body {
   width: 40%;
   text-align: center;
   z-index: 12;
+  overflow-y: scroll;
   transition: all ease 0.2s; }
-  .left-nav > a {
-    font-size: 1.3em;
-    color: white; }
+  .left-nav > div {
+    margin: 18px auto;
+    border: 2px white solid; }
+
+#more-photo {
+  font-size: 1.5em;
+  height: 60px;
+  color: white; }
 
 /* picture-container */
-.picture-container {
-  background-color: white;
+.picture-container, #map {
   left: 100%;
   z-index: 10;
   transition: all ease 0.2s; }
 
-.picture-container-header {
-  background-color: #c0d5c4; }
+.picture-container-header, .map-header {
+  width: 100%;
+  background-color: #c0d5c4;
+  height: 60px;
+  line-height: 60px;
+  color: #4A544B;
+  font-size: 2em;
+  text-align: center; }
+  .picture-container-header > .head-back, .map-header > .head-back {
+    list-style-image: url("../../img2/backbtn.png");
+    position: absolute;
+    left: 10px;
+    top: 5px; }
 
+.picture-container-body {
+  height: -webkit-calc(100% - 70px);
+  height: -moz-calc(100% - 70px);
+  height: calc(100% - 70px);
+  width: -webkit-calc(100% - 20px);
+  width: -moz-calc(100% - 20px);
+  width: calc(100% - 20px);
+  display: inline-flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  padding: 10px 10px;
+  overflow-y: scroll; }
+  .picture-container-body > div {
+    margin: 5px 5px; }
+
+/* map-container */
 /* 拍照後的check */
 #snapShot {
   display: none;
   z-index: 12; }
 
 .snapShot-check {
-  background-color: black;
+  background-color: #E9E3D7;
   height: 20%;
   text-align: center;
   display: flex;
