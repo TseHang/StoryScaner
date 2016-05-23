@@ -1,4 +1,39 @@
+
+//取得裝置高度
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
+var images = [];
+// load 登入
+$(window).load(function() {
+  console.log("都載入完囉");
+
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/gallery',
+    data: null,
+    success: function(response) {
+      console.log(response.content.images);
+      var images = response.content.images;
+      leftnavLoadImages(images);
+     
+      if (response.status == 'FAIL')
+        alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR);
+    },
+    dataType: 'json'
+  });
+})
+
+//---------  顯示 left-nav 圖片 ------------
+function leftnavLoadImages(images){
+  for (i = 0 ; i < images.length ; i++){
+    $('.left-nav').prepend("<div><img src = \""+ images[i] +"\" alt = \"無法顯示\" ></div>" );
+    console.log(i+"  已經完成囉");
+  };
+  // $('.left-nav').append('<a id = "more-photo" > 更多... </a>');
+}
 
 //開啟視訊串流------------------------------------------
 //看瀏覽器支不支援
@@ -71,12 +106,31 @@ touch.on('#snap' , 'tap' , function(ev){
 
 //--------相機拍完照後的回傳 頁面------------
 touch.on('#pic-btn-submit' , 'tap' , function(ev){
+  console.log(canvas.toDataURL('image/png'));
   
   //Submit photo
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/octet-stream',
+    url: '/upload',
+    data: canvas.toDataURL(),
+    success: function(response) {
+     
+     if (response.status == 'FAIL')
+      alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+    },
+    dataType: 'json',
+    processData: false
+  });
 
   alert('U have already submit picture!');
   $('#snapShot').css("display" , "none");
 });
+
 touch.on('#pic-btn-delete' , 'tap' , function(ev){
   
   //Come back Camera state
@@ -103,5 +157,6 @@ touch.on('#more-photo', 'tap', function(ev){
   $('.left-nav').css("left" , "-40%") ;
   //pictue-container 跑出來
   $('.picture-container').css("left","0px") ;
+  console.log("綠色出來");
 });
 

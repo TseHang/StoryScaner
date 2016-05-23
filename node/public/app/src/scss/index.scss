@@ -3,6 +3,25 @@
 $background-color:#E9E3D7;
 $base-z-index:10;
 
+$font-color:#595757;
+$font-size:16px;
+
+//intro2 - color
+$header-bar-color: #c0d5c4;
+$header-bar-height: 60px;
+$header-text-color:#4A544B;
+
+$contentWidth: 100%;
+$contentTextColor:rgba(255,255,255,0.83);
+$disappear:0px;
+$intro2-content-body-height:90px;
+$intro2-button-borderRadius:18px;
+$intro2-button-height:35px;
+
+$intro2-content1-color:#41637C;
+$intro2-content2-color:#459793;
+$intro2-content3-color:#5DB9B6;
+
 img{
 	width: auto;
   height : auto;
@@ -16,6 +35,7 @@ body {
 	display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction:column ;
 }
 
 %view100{
@@ -23,6 +43,12 @@ body {
 	width:100%;
 }
 /*************** 主頁面 *****************/
+
+%font{
+	text-align: center;
+	font-size: $font-size;
+	color:$font-color;
+}
 
 #modal {
 	@extend %inline-flex;
@@ -37,6 +63,74 @@ body {
 	> img{
 		width:150px;
 	}
+
+	form {
+		@extend %font;
+	}
+}
+
+.input-group {
+  margin-bottom: 10px;
+
+  > input {
+  	@extend %font;
+
+  	margin:auto;
+	  padding: 6px 8px;
+	  border:none;
+
+	  &:focus{
+			outline:none;
+			~ .bar{
+			 	&:before , &:after{
+					width:50%;
+					background-color: $intro2-content1-color;
+				}
+			}
+		}
+	}
+}
+
+%bar-content{
+  content: '';
+  height: 2px;
+  width:0px;
+  bottom: 0px;
+  position: absolute;
+
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width:100%;
+  &:before{
+  	@extend %bar-content;
+  	left:50%;
+  }
+
+  &:after{
+  	@extend %bar-content;
+  	right:50%;
+  }
+}
+
+.button{
+	@extend %font;
+
+	width:100px;
+	height:$intro2-button-height;
+	line-height: $intro2-button-height;
+	background-color:$header-bar-color;
+	border-radius:25px;
+}
+
+#sign-status{
+	margin-top:10px;
+	color:$intro2-content1-color;
 }
 
 /*************** swier 屬性 *****************/
@@ -52,7 +146,6 @@ $intro1-content-height: 50px;
 .intro-box{
 	@extend %inline-flex;
 	@extend %view100;
-	flex-direction:column ;
 }
 
 .intro1-content {
@@ -102,22 +195,6 @@ $intro1-content-height: 50px;
 }
 
 /************** intro2 *********************/
-$header-bar-color: #c0d5c4;
-$header-bar-height: 60px;
-$header-text-color:#4A544B;
-
-$contentWidth: 100%;
-$contentTextColor:rgba(255,255,255,0.83);
-$disappear:0px;
-$intro2-content-body-height:90px;
-$intro2-button-borderRadius:18px;
-$intro2-button-height:35px;
-
-$intro2-content1-color:#41637C;
-$intro2-content2-color:#459793;
-$intro2-content3-color:#5DB9B6;
-
-
 
 #intro2-head-bar{
 	width: $contentWidth;

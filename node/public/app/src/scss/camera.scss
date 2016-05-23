@@ -1,15 +1,22 @@
 @import './reset';
 
-$camera-background-color:black;
+$camera-background-color:#E9E3D7;
 $camera-snap-width:80px;
 
 $left-nav-width:40%;
 $left-nav-color:#41637c;
+$left-nav-div-width:75px;
 
-$head-width:60px;
+$head-height:60px;
 $head-bar-color:#c0d5c4;
 
 $camera-z-index:10;
+
+@mixin height($a , $b){
+  height: -webkit-calc(#{$a} - #{$b});
+  height:    -moz-calc(#{$a} - #{$b});
+  height:         calc(#{$a} - #{$b});
+}
 
 %view100{
 	height:100%;
@@ -23,7 +30,12 @@ $camera-z-index:10;
 
 %head-bar-style{
 	width:100%;
- 	height:$head-width;
+ 	height:$head-height;
+}
+
+%body-style{
+	width:100%;
+ 	@include height(100% , $head-height);
 }
 
 body{
@@ -45,6 +57,7 @@ body{
 
 #snap{
 	border-radius:50%;
+	border: 5px solid $left-nav-color;
 	width:$camera-snap-width;
 	height:$camera-snap-width;
 	margin: 1em auto auto auto;
@@ -61,13 +74,27 @@ body{
 	width:$left-nav-width;
 	text-align: center;
 	z-index: $camera-z-index+2;
+	overflow-y:scroll;
 
 	transition: all ease 0.2s;
 
-	> a{
-		font-size: 1.3em;
-		color:white;
+	> div {
+		margin:18px auto;
+		border:2px white solid;
+		width:$left-nav-div-width;
+		height:$left-nav-div-width;
 	}
+
+	img{
+		width:$left-nav-div-width;
+		height:$left-nav-div-width;
+	}
+}
+
+#more-photo{
+	font-size: 1.7em;
+	color:white;
+	height:60px;
 }
 
 /* picture-container */
@@ -86,6 +113,12 @@ body{
 	@extend %head-bar-style;
 
  	background-color: $head-bar-color;
+}
+
+.picture-container-body{
+	@extend %body-style;
+
+	background-color:$camera-background-color;
 }
 
 
