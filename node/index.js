@@ -179,7 +179,7 @@ app.post("/story", function (req, res) {
 
 app.post("/position", function (req, res) {
     var position = req.body;
-    var desx = 4965, desy = 8343;
+    var desx = 4900, desy = 8400;
     res.set({
         "Content-Type": "application/json"
     });
@@ -193,13 +193,13 @@ app.post("/position", function (req, res) {
                 var transform = "",
                     scale, translatex, translatey;
                 if (position.divx * svgy / svgx > position.divy) { // limit by x
-                    scale = (Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty))).toFixed(2);
-                    translatex = ((0.5 - desx * scale / svgx) * position.divx).toFixed(2);
-                    translatey = (0.5 * position.divy - desy * position.divx * scale / svgx).toFixed(2);
+                    scale = Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty));
+                    translatex = 0.5 * svgx - desx * scale;
+                    translatey = 0.5 * svgx * position.divy / position.divx - desy * scale;
                 } else {
-                    scale = (Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx))).toFixed(2);
-                    translatex = (0.5 * position.divx - desx * position.divy * scale / svgy).toFixed(2);
-                    translatey = ((0.5 - desy * scale / svgy) * position.divy).toFixed(2);
+                    scale = Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx));
+                    translatex = 0.5 * svgy * position.divx / position.divy - desx * scale;
+                    translatey = 0.5 * svgy - desy * scale;
                 }
                 transform += "m" + scale + ",0,0," + scale + "," + translatex + "," + translatey;
                 return transform;
