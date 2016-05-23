@@ -166,6 +166,10 @@ body{
 .map-header{
 	@extend .picture-container-header;
 }
+.map-body{
+	@include height(100% , $head-height);
+	width:100%;
+}
 
 
 /* 拍照後的check */
