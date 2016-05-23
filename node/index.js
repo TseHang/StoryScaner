@@ -21,7 +21,7 @@ var db = firebase.database(),
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(["/signup", "/signin", "/story"], body_parser.json());
+app.use(["/signup", "/signin", "/story", "/position"], body_parser.json());
 app.use(session({
     secret: "adminstrator",
     resave: false,
@@ -125,8 +125,8 @@ app.post("/upload", function (req, res) {
             image.set({
                 user: req.session.user,
                 type: matches[1],
-                lat: 25.234,
-                lon: 121.234
+                lat: req.session.lat,
+                lon: req.session.lon 
             });
             var save_path = "/upload_images/" + image.key + "." + matches[1];
             fs.writeFile("public" + save_path, data, function (err) {
@@ -167,6 +167,20 @@ app.post("/story", function (req, res) {
         content: {
             stories: stories
         }
+    }));
+});
+
+app.post("/position", function (req, res) {
+    var position = req.body;
+    res.set({
+        "Content-Type": "application/json"
+    });
+    req.session.lat = position.lat;
+    req.session.lon = position.lon;
+    req.session.heading = position.heading;
+    res.end(JSON.stringify({
+        status: "SUCCESS",
+        content: null
     }));
 });
 

@@ -114,6 +114,30 @@
             
             reader.readAsDataURL($("#upload").get(0).files[0]);
         });
+        navigator.geolocation.getCurrentPosition(
+            function (pos) {
+                var parsed_pos = {
+                    lat: pos.coords.latitude,
+                    lon: pos.coords.longitude,
+                    heading: isNaN(pos.coords.heading) ? 0 : pos.coords.heading
+                };
+                $.ajax({
+                    method: "POST",
+                    url: "/position",
+                    contentType: "application/json",
+                    data: JSON.stringify(parsed_pos),
+                    success: function (obj) {
+                        window.console.log(obj);
+                    },
+                    dataType: "json"
+                });
+            },
+            function (err) {
+            },
+            {
+                enableHighAccuracy: true
+            }
+        );
     </script>
 </body>
 
