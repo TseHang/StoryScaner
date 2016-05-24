@@ -2,6 +2,7 @@
 //取得裝置高度
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
 var imagesAll = [];
+var picNum =0 ;
 // load 登入
 $(window).load(function() {
   console.log("都載入完囉");
@@ -31,15 +32,17 @@ $(window).load(function() {
 function leftnavLoadImages(images){
   for (i = 0 ; i < images.length ; i++){
 
-    appendImg(images[i]);
+    appendImg(images[i] , i);
     console.log(i+"  已經完成囉");
   };
 }
 
-function appendImg (src){
-  $('.left-nav').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
-  $('.picture-container-body').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
-  $('.story-footer').prepend("<div><img class = \"story-img\" src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+function appendImg (src , pic_id){
+  picNum++;
+  //class = story-img pic1.2.3.4.....
+  $('.left-nav').prepend("<div class = \"story-img pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.picture-container-body').prepend("<div class = \"story-img pic"+pic_id+"\" ><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.story-footer').prepend("<div class = \"story-img pic"+pic_id+"\" id = \"pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
 
 //開啟視訊串流------------------------------------------
@@ -183,7 +186,7 @@ touch.on('#more-photo', 'tap', function(ev){
 //-------picture-container-back
 //
 touch.on('#picture-container-back' , 'tap' , function(ev){
-  //pictue-container 跑出來
+  //pictue-container 回去
   $('.camera').css("left","0px") ;
   $('.picture-container').css("left","100%") ;
 });
@@ -218,16 +221,61 @@ touch.on('#map-back' , 'tap' , function(ev){
 //   console.log(111);
 // });
 
+var pic_class_id ;
+var images = [];
+
 $('.left-nav').on('click', '.story-img' , function() {
-    //pictue-container 跑出來
+  //story 跑出來
   $('.camera').css("left","-100%") ;
   $('#story').css("left","0px") ;
 
-  var images = [];
-  images.push(this.src.split("/")[4].split(".")[0]);
+  getStory(this);
+});
+
+
+$('.picture-container-body').on('click', '.story-img' , function() {
+
+  //story 跑出來
+  $('#story').css("left","0px") ;
+
+  getStory(this);
+
+});
+
+$('.story-footer').on('click', '.story-img' , function() {
+
+  //先把剛剛選個那個 pic_id 紅色邊匡消掉～～
+  $('.'+pic_class_id).removeClass("story-show");
+  getStory(this);
+});
+
+//
+//------- story--back
+//
+touch.on('#story-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('#story').css("left","100%") ;
+
+  $('.'+pic_class_id).removeClass("story-show");
+});
+
+
+function getStory(this_div){
+
+  //選取 this_div.classList[1] --> pic_id
+  pic_class_id = this_div.classList[1];
+  $('.'+pic_class_id).addClass("story-show");
+
+  //清空images
+  images = [];
+  images.push(this_div.children[0].src.split("/")[4].split(".")[0]);
 
   //存下path 
-  path = this.src;
+  path = this_div.children[0].src;
+
+  //移動到圖片位置
+  goFindPic('.story-footer' , pic_class_id , picNum);
 
   $.ajax({
     method: 'POST',
@@ -239,9 +287,9 @@ $('.left-nav').on('click', '.story-img' , function() {
     success: function(response) {
       if (response.status == 'SUCCESS'){
         $('.story-content-text').html("&nbsp;&nbsp;&nbsp;"+response.content.stories[images[0]]);
-        $('.story-content-img img').attr("src" ,this.src );
-        console.log($('.story-content-img img').attr("src",path));
-        console.log(path);
+        $('.story-content-img img').attr("src" ,path);
+        
+        console.log("跑出： "+path+" 故事");
       }
       else if (response.status == 'FAIL'){
         alert(response.content);
@@ -256,16 +304,15 @@ $('.left-nav').on('click', '.story-img' , function() {
     },
     dataType: 'json',
   });
+}
 
-  console.log("出來照片囉");
-});
+function goFindPic(goContainer , moveId , picNum){
 
+  pic_id = moveId.split("pic")[1];
 
-//
-//------- story--back
-//
-touch.on('#story-back' , 'tap' , function(ev){
-  //pictue-container 跑出來
-  $('.camera').css("left","0px") ;
-  $('#story').css("left","100%") ;
-});
+  // Scroll
+  $(goContainer).animate({
+    scrollLeft: 90*(picNum - 1 - pic_id),
+  },400);
+}
+

@@ -40,7 +40,7 @@ a {
 
 a:hover {
   text-decoration: underline;
-  color: #F40; }
+  color: white; }
 
 /* 重置圖片元素 */
 img {
@@ -125,7 +125,7 @@ body {
 /* picture-container */
 .picture-container, #map, #story {
   left: 100%;
-  z-index: 10;
+  z-index: 11;
   transition: all ease 0.2s; }
 
 .picture-container-header, .map-header, .story-header {
@@ -201,7 +201,11 @@ body {
   display: inline-flex; }
   .story-footer > div {
     margin: 5px 5px;
-    background-color: #c0d5c4; }
+    background-color: #c0d5c4;
+    transition: border 0.1s linear; }
+
+.story-show {
+  border: red 3px solid !important; }
 
 /* 拍照後的check */
 #snapShot {

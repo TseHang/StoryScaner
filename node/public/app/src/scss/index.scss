@@ -216,6 +216,7 @@ $intro1-content-height: 50px;
 .intro2-content-body{
 	height:$disappear;
 	opacity:$disappear;
+	font-size: 13px;
 
 	> .intro2-detail , > .intro2-button{
 		display: none;
@@ -226,6 +227,7 @@ $intro1-content-height: 50px;
 
 	> .intro2-content-body{
 		height:$intro2-content-body-height;
+		font-size: 13px;
 		opacity: 1;
 		transition: all 0.2s ease-in;
 	}

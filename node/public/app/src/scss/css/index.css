@@ -190,12 +190,14 @@ body {
 
 .intro2-content-body {
   height: 0px;
-  opacity: 0px; }
+  opacity: 0px;
+  font-size: 13px; }
   .intro2-content-body > .intro2-detail, .intro2-content-body > .intro2-button {
     display: none; }
 
 .intro2-content-show > .intro2-content-body {
   height: 90px;
+  font-size: 13px;
   opacity: 1;
   transition: all 0.2s ease-in; }
 .intro2-content-show .intro2-detail {
