@@ -178,7 +178,7 @@ app.post("/story", function (req, res) {
 
 app.post("/position", function (req, res) {
     var position = req.body;
-    var desx = 4900, desy = 8400, cenx, ceny;
+    var desx = 4950, desy = 8330, cenx, ceny;
     res.set({
         "Content-Type": "application/json"
     });
@@ -204,9 +204,7 @@ app.post("/position", function (req, res) {
                     translatey = 0.5 * svgy - desy * scale;
                 }
                 transform += "m1,0,0,1," + (cenx - desx) + "," + (ceny - desy);
-                /*
-                transform += "r" + (position.heading > 0 ? position : 180) + "," + desx + "," + desy;
-                */
+                transform += "r" + (position.heading > 0 ? position.heading : Math.round(Math.random() * 360)) + "," + desx + "," + desy;
                 transform += "m1,0,0,1," + ((-desx) * (scale - 1)) + "," + ((-desy) * (scale - 1));
                 transform += "m" + scale + ",0,0," + scale + ",0,0";
                 return transform;

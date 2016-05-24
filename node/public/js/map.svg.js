@@ -13,7 +13,7 @@ function MapSVG() {
         var $img = $("<img src='/images/footstep.gif'></img>");
         selector = s;
         $img.css({
-            "height": "13%",
+            "height": "10%",
             "z-index": 2,
             "position": "absolute",
             "display": "none"
@@ -71,7 +71,7 @@ function applyPosition(pos) {
         success: function (obj) {
             $img = $(selector + " img");
             $img.css({
-                "top": parsed_pos.divy / 2,
+                "top": (parsed_pos.divy + $img.height()) / 2,
                 "left": (parsed_pos.divx - $img.width()) / 2
             });
             Snap(selector).select("g").animate({
