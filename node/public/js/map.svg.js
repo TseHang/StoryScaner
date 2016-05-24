@@ -31,6 +31,16 @@ function MapSVG() {
                 overflow: "hidden"
             });
             snap.append(f);
+            TweenMax.staggerTo(".point", 2, {
+                attr: {
+                    r: 150
+                },
+                opacity: 0,
+                repeat: -1
+            }, 1);
+            $("circle").on("click", function () {
+                window.alert("Don't click me!");
+            });
             navigator.geolocation.watchPosition(
                 applyPosition,
                 function (err) {
@@ -51,7 +61,7 @@ function applyPosition(pos) {
         divy: $(selector).height(),
         lat: pos.coords.latitude,
         lon: pos.coords.longitude,
-        heading: isNaN(pos.coords.heading) ? 0 : pos.coords.heading
+        heading: (isNaN(pos.coords.heading) || !pos.coords.heading) ? 0 : pos.coords.heading
     };
     $.ajax({
         method: "POST",

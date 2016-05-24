@@ -67,7 +67,6 @@ app.post("/signin", function (req, res) {
                     req.session.user = user.username;
                     req.session.lat = 0;
                     req.session.lon = 0;
-                    req.session.heading = 0;
                     res.end(JSON.stringify({
                         status: "SUCCESS",
                         content: null
@@ -179,13 +178,12 @@ app.post("/story", function (req, res) {
 
 app.post("/position", function (req, res) {
     var position = req.body;
-    var desx = 4900, desy = 8400;
+    var desx = 4900, desy = 8400, cenx, ceny;
     res.set({
         "Content-Type": "application/json"
     });
     req.session.lat = position.lat;
     req.session.lon = position.lon;
-    req.session.heading = position.heading;
     res.end(JSON.stringify({
         status: "SUCCESS",
         content: {
@@ -194,14 +192,23 @@ app.post("/position", function (req, res) {
                     scale, translatex, translatey;
                 if (position.divx * svgy / svgx > position.divy) { // limit by x
                     scale = Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty));
-                    translatex = 0.5 * svgx - desx * scale;
-                    translatey = 0.5 * svgx * position.divy / position.divx - desy * scale;
+                    cenx = 0.5 * svgx;
+                    ceny = 0.5 * svgx * position.divy / position.divx;
+                    translatex = cenx - desx * scale;
+                    translatey = ceny - desy * scale;
                 } else {
                     scale = Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx));
+                    cenx = 0.5 * svgy * position.divx / position.divy;
+                    ceny = 0.5 * svgy;
                     translatex = 0.5 * svgy * position.divx / position.divy - desx * scale;
                     translatey = 0.5 * svgy - desy * scale;
                 }
-                transform += "m" + scale + ",0,0," + scale + "," + translatex + "," + translatey;
+                transform += "m1,0,0,1," + (cenx - desx) + "," + (ceny - desy);
+                /*
+                transform += "r" + (position.heading > 0 ? position : 180) + "," + desx + "," + desy;
+                */
+                transform += "m1,0,0,1," + ((-desx) * (scale - 1)) + "," + ((-desy) * (scale - 1));
+                transform += "m" + scale + ",0,0," + scale + ",0,0";
                 return transform;
             })()
         }
