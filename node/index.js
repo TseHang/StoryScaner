@@ -7,7 +7,7 @@ var session = require("express-session");
 var mongo = require("mongodb").MongoClient;
 
 var DB_URL = "mongodb://localhost:27017/groupC";
-var STORY_CONTENT = "werowerjoifjsdf";
+var STORY_CONTENT = "日治時期日本成立各種農業產品運銷組織，臺南州青果同業組合於西市場設置香蕉倉庫，以利運銷。原空間於1930年之前原作為臺灣漁業株式會社之「魚賣場」，後因1935年前後該會社搬遷至運河旁，建築形貌與用途因之改變，其後成為「臺南州青果同業組合」之香蕉倉庫。本倉庫有冷藏、加溫等設施。香蕉，曾是臺灣重要的外銷農產品，因具歷史價值現已指定為古蹟。";
 var SVG_W = 9078, SVG_H = 16107, WANT_W = 1440, WANT_H = 2176;
 var SSL = {
     key: fs.readFileSync("key.pem"),
@@ -58,6 +58,13 @@ function signup(req, res) {
     res.set({
         "Content-Type": "application/json"
     });
+
+    if (user.username === "" || user.password === "") {
+        res.end(JSON.stringify({
+            status: "FAIL",
+            content: "Please do not leave blank"
+        }));
+    }
 
     dbGroupC.collection("users")
         .insertOne(user, { w: 1 }, function (err, result) {
