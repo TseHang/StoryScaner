@@ -39,7 +39,7 @@ $('#signin').click(function(){
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      alert(jqXHR);
+      alert(jqXHR + "\n" + errorThrown);
     },
     dataType: 'json'
   });
@@ -73,7 +73,7 @@ $('#signup').click(function(){
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      alert(jqXHR);
+      alert(jqXHR + "\n" + errorThrown);
     },
     dataType: 'json'
   });

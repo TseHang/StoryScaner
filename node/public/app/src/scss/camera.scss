@@ -117,7 +117,6 @@ body{
 	font-size: 1.5em;
 	height:60px;
 	color:$font-color;
-
 }
 
 // 
@@ -128,7 +127,7 @@ body{
 	@extend %positionTop;
 
 	left:100%;
-	z-index: $camera-z-index;
+	z-index: $camera-z-index+1;
 
 	transition: all ease 0.2s;
 }
@@ -226,11 +225,17 @@ body{
 		@extend %picture-container-imagesize;
 		margin:5px 5px;
 		background-color:$head-bar-color;
+
+		transition: border 0.1s linear;
 	}
 
 	img{
 		@extend %picture-container-imagesize;
 	}
+}
+
+.story-show{
+	border:red 3px solid !important;
 }
 
 // 
