@@ -68,7 +68,7 @@ table {
   width: 75px;
   height: 75px; }
 
-.picture-container-body > div, .picture-container-body img {
+.picture-container-body > div, .picture-container-body img, .story-footer > div, .story-footer img {
   width: 85px;
   height: 85px; }
 
@@ -195,6 +195,13 @@ body {
 .story-content-text {
   height: 42%;
   overflow-y: scroll; }
+
+.story-footer {
+  overflow-x: scroll;
+  display: inline-flex; }
+  .story-footer > div {
+    margin: 5px 5px;
+    background-color: #c0d5c4; }
 
 /* 拍照後的check */
 #snapShot {

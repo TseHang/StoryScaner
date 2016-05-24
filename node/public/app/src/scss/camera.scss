@@ -218,6 +218,21 @@ body{
 	overflow-y:scroll;
 }
 
+.story-footer{
+	overflow-x:scroll;
+	display:inline-flex;
+
+	> div {
+		@extend %picture-container-imagesize;
+		margin:5px 5px;
+		background-color:$head-bar-color;
+	}
+
+	img{
+		@extend %picture-container-imagesize;
+	}
+}
+
 // 
 // 
 /* 拍照後的check */
