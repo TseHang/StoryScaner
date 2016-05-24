@@ -26,6 +26,12 @@ $(window).load(function() {
     },
     dataType: 'json'
   });
+
+  //#intro-map
+  touch.on('#intro-map' , 'tap' , function(ev){
+    $('#intro-map').css("display" , "none");
+  });
+
 })
 
 //---------  顯示 left-nav 圖片 ------------

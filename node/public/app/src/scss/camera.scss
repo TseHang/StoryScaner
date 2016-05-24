@@ -53,6 +53,18 @@ body{
 	overflow:hidden;
 	background-color:$camera-background-color;
 }
+
+#intro-map{
+	@extend %view100;
+	z-index:$camera-z-index+1000;
+
+	background:url('../../img2/map1.png') no-repeat center;
+	background-size:100% auto;
+	opacity:0.95;
+
+	position:absolute;
+}
+
 .camera{
 	@extend %view100;
 	position: relative;

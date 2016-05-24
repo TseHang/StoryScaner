@@ -55,7 +55,7 @@ table {
 :focus {
   outline: 0; }
 
-.camera, .picture-container, #map, #story, #snapShot {
+#intro-map, .camera, .picture-container, #map, #story, #snapShot {
   height: 100%;
   width: 100%;
   background-color: #E9E3D7; }
@@ -75,6 +75,13 @@ table {
 body {
   overflow: hidden;
   background-color: #E9E3D7; }
+
+#intro-map {
+  z-index: 1010;
+  background: url("../../img2/map1.png") no-repeat center;
+  background-size: 100% auto;
+  opacity: 0.95;
+  position: absolute; }
 
 .camera {
   position: relative;
