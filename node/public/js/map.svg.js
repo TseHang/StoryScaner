@@ -50,6 +50,13 @@ function MapSVG() {
                     timeout: 2000
                 }
             );
+            applyPosition({
+                coords: {
+                    latitude: 0,
+                    longitutde: 0,
+                    heading: 0
+                }
+            });
         });
     };
 }
