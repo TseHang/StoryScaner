@@ -20,6 +20,6 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "firebase": "^3.0.1"
+    "mongodb": "^2.1.19"
   }
 }

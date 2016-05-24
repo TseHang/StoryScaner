@@ -5522,5 +5522,27 @@
 			c29.7,5.5,58.5-13.2,87.8-1.4c12.6,5.1,22.5-0.2,34.4-4.2c42.3-14.3,64.9,3.1,65.6,48C6640.1,6920,6639.7,6942.7,6639.7,6965.5z"
 			/>
 	</g>
+    <g stroke-width="20" stroke="#476378" fill="none">
+        <circle cx="4700" cy="7950" r="30" fill="#476378">
+        </circle>
+        <circle cx="4700" cy="7950" r="0" class="point">
+        </circle>
+        <circle cx="4700" cy="7950" r="0" class="point">
+        </circle>
+    </g>
+    <g stroke-width="20" stroke="#8FE69A" fill="none">
+        <circle cx="6320" cy="8750" r="30" fill="#8FE69A">
+        </circle>
+        <circle cx="6320" cy="8750" r="0" class="point">
+        </circle>
+        <circle cx="6320" cy="8750" r="0" class="point">
+        </circle>
+        <circle cx="4500" cy="9100" r="30" fill="#8FE69A">
+        </circle>
+        <circle cx="4500" cy="9100" r="0" class="point">
+        </circle>
+        <circle cx="4500" cy="9100" r="0" class="point">
+        </circle>
+    </g>
 </g>
 </svg>

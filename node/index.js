@@ -2,124 +2,132 @@ var fs = require("fs");
 var path = require("path");
 var express = require("express");
 var https = require("https");
-var body_parser = require("body-parser");
-var firebase = require("firebase");
+var bodyParser = require("body-parser");
 var session = require("express-session");
-var ssl = {
+var mongo = require("mongodb").MongoClient;
+
+var DB_URL = "mongodb://localhost:27017/groupC";
+var STORY_CONTENT = "werowerjoifjsdf";
+var SVG_W = 9078, SVG_H = 16107, WANT_W = 1440, WANT_H = 2176;
+var SSL = {
     key: fs.readFileSync("key.pem"),
     cert: fs.readFileSync("certificate.pem")
 };
 
 var app = new express();
-
-var content = "日治時期日本成立各種農業產品運銷組織，臺南州青果同業組合於西市場設置香蕉倉庫，以利運銷。原空間於1930年之前原作為臺灣漁業株式會社之「魚賣場」，後因1935年前後該會社搬遷至運河旁，建築形貌與用途因之改變，其後成為「臺南州青果同業組合」之香蕉倉庫。本倉庫有冷藏、加溫等設施。香蕉，曾是臺灣重要的外銷農產品，因具歷史價值現已指定為古蹟。";
-
-firebase.initializeApp({
-    databaseURL: "https://story-scaner.firebaseio.com/",
-    serviceAccount: "auth.json"
-});
-var db = firebase.database(),
-    col_images = db.ref("images");
-var svgx = 9078, svgy = 16107, wantx = 1440, wanty = 2176;
+var dbGroupC;
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(["/signup", "/signin", "/story", "/position"], body_parser.json());
+app.use(["/signup", "/signin", "/story", "/position"], bodyParser.json());
 app.use(session({
     secret: "adminstrator",
     resave: false,
     saveUninitialized: false
 }));
 
-app.post("/signup", function (req, res) {
+mongo.connect(DB_URL, function (err, db) {
+    if (err) {
+        throw err;
+    }
+
+    var auth = JSON.parse(fs.readFileSync("auth.json", "utf8"));
+    db.authenticate(
+        auth.username,
+        auth.password,
+        null,
+        function (err, result) {
+            if (err) {
+                throw err;
+            }
+
+            dbGroupC = db;
+
+            app.post("/signup", signup);
+            app.post("/signin", signin);
+            app.post("/upload", upload);
+            app.post("/gallery", gallery);
+            app.post("/story", story);
+            app.post("/position", position);
+        });
+});
+
+function signup(req, res) {
     var user = req.body;
+
     res.set({
         "Content-Type": "application/json"
     });
-    db.ref("users/" + user.username)
-        .once("value", function (user_snapshot) {
-            if (user_snapshot.exists()) {
-                res.end(JSON.stringify({
-                    status: "FAIL",
-                    content: "Username duplicate"
-                }));
+
+    dbGroupC.collection("users")
+        .insertOne(user, { w: 1 }, function (err, result) {
+            if (err) {
+                if (err.message.indexOf("duplicate key") > -1) {
+                    res.end(JSON.stringify({
+                        status: "FAIL",
+                        content: "Username duplicate"
+                    }));
+                } else {
+                    res.end(JSON.stringify({
+                        status: "FAIL",
+                        content: err.message
+                    }));
+                }
             } else {
-                user_snapshot.ref.set({
-                    password: user.password
-                });
                 res.end(JSON.stringify({
                     status: "SUCCESS",
                     content: null
                 }));
             }
         });
-});
+}
 
-app.post("/signin", function (req, res) {
+function signin(req, res) {
     var user = req.body;
+
     res.set({
         "Content-Type": "application/json"
     });
-    db.ref("users/" + user.username)
-        .once("value", function (user_snapshot) {
-            if (user_snapshot.exists()) {
-                if (user_snapshot.val().password === user.password) {
-                    req.session.user = user.username;
-                    req.session.lat = 0;
-                    req.session.lon = 0;
-                    req.session.heading = 0;
-                    res.end(JSON.stringify({
-                        status: "SUCCESS",
-                        content: null
-                    }));
+
+    dbGroupC.collection("users")
+        .find({ username: user.username }).limit(1)
+        .next(function (err, item) {
+            if (err) {
+                res.end(JSON.stringify({
+                    status: "FAIL",
+                    content: err.message
+                }));
+            } else {
+                if (item) {
+                    if (item.password === user.password) {
+                        req.session.user = user.username;
+                        res.end(JSON.stringify({
+                            status: "SUCCESS",
+                            content: null
+                        }));
+                    } else {
+                        res.end(JSON.stringify({
+                            status: "FAIL",
+                            content: "Password not matched"
+                        }));
+                    }
                 } else {
                     res.end(JSON.stringify({
                         status: "FAIL",
-                        content: "Password not matched"
+                        content: "User not found"
                     }));
                 }
-            } else {
-                res.end(JSON.stringify({
-                    status: "FAIL",
-                    content: "User not found"
-                }));
             }
         });
-});
+}
 
-app.post("/gallery", function (req, res) {
+function upload(req, res) {
     res.set({
         "Content-Type": "application/json"
     });
-    if (req.session.user) {
-        var images = [];
-        col_images.orderByChild("user")
-            .equalTo(req.session.user)
-            .once("value", function (images_snapshot) {
-                images_snapshot.forEach(function (image_snapshot) {
-                    images.push("/upload_images/" + image_snapshot.key + "." + image_snapshot.val().type);
-                })
-                res.end(JSON.stringify({
-                    status: "SUCCESS",
-                    content: {
-                        images: images
-                    }
-                }));
-            });
-    } else {
-        res.end(JSON.stringify({
-            status: "FAIL",
-            content: "Not sign in yet"
-        }));
-    }
-});
 
-app.post("/upload", function (req, res) {
     var base64_str = "";
     req.setEncoding("utf8");
-    res.set({
-        "Content-Type": "application/json"
-    });
     req.on("data", function (chunk) {
         base64_str += chunk;
     });
@@ -127,31 +135,41 @@ app.post("/upload", function (req, res) {
         var matches = base64_str.match(/^data:[A-Za-z-+]+\/([A-Za-z-+]+);base64,(.+)$/),
             data = new Buffer(matches[2], "base64");
         if (req.session.user) {
-            var image = col_images.push();
-            image.set({
-                user: req.session.user,
-                type: matches[1],
-                lat: req.session.lat,
-                lon: req.session.lon 
-            });
-            var save_path = "/upload_images/" + image.key + "." + matches[1];
-            fs.writeFile("public" + save_path, data, function (err) {
-                if (err) {
-                    res.end(JSON.stringify({
-                        status: "FAIL",
-                        content: "Write file error"
-                    }));
-                    throw err;
-                } else {
-                    res.end(JSON.stringify({
-                        status: "SUCCESS",
-                        content: {
-                            path: save_path,
-                            story: content
-                        }
-                    }));
-                }
-            });
+            dbGroupC.collection("images")
+                .insertOne({
+                    user: req.session.user,
+                    type: matches[1],
+                    lat: (req.session.lat ? req.session.lat : 0),
+                    lon: (req.session.lon ? req.session.lon : 0)
+                }, { w: 1 }, function (err, result) {
+                    if (err) {
+                        res.end(JSON.stringify({
+                            status: "FAIL",
+                            content: err.message
+                        }));
+                    } else {
+                        var save_path = "/upload_images/";
+                        save_path += result.insertedId.toHexString();
+                        save_path += "." + matches[1];
+
+                        fs.writeFile("public" + save_path, data, function (err) {
+                            if (err) {
+                                res.end(JSON.stringify({
+                                    status: "FAIL",
+                                    content: "Write file error"
+                                }));
+                            } else {
+                                res.end(JSON.stringify({
+                                    status: "SUCCESS",
+                                    content: {
+                                        path: save_path,
+                                        story: STORY_CONTENT
+                                    }
+                                }));
+                            }
+                        });
+                    }
+                });
         } else {
             res.end(JSON.stringify({
                 status: "FAIL",
@@ -159,56 +177,104 @@ app.post("/upload", function (req, res) {
             }));
         }
     });
-});
+}
 
-app.post("/story", function (req, res) {
-    var stories = {};
+function gallery(req, res) {
     res.set({
         "Content-Type": "application/json"
     });
-    req.body.images.forEach(function (name) {
-        stories[name] = content;
+
+    if (req.session.user) {
+        var images = [];
+
+        dbGroupC.collection("images")
+            .find({ user: req.session.user })
+            .toArray(function (err, docs) {
+                if (err) {
+                    res.end(JSON.stringify({
+                        status: "FAIL",
+                        content: err.message
+                    }));
+                } else {
+                    docs.forEach(function (doc) {
+                        images.push("/upload_images/" + doc._id + "." + doc.type);
+                    });
+                    res.end(JSON.stringify({
+                        status: "SUCCESS",
+                        content: {
+                            images: images
+                        }
+                    }));
+                }
+            });
+    } else {
+        res.end(JSON.stringify({
+            status: "FAIL",
+            content: "Not sign in yet"
+        }));
+    }
+}
+
+function story(req, res) {
+    var stories = {};
+
+    res.set({
+        "Content-Type": "application/json"
     });
+
+    req.body.images.forEach(function (name) {
+        stories[name] = STORY_CONTENT;
+    });
+
     res.end(JSON.stringify({
         status: "SUCCESS",
         content: {
             stories: stories
         }
     }));
-});
+}
 
-app.post("/position", function (req, res) {
+function position(req, res) {
     var position = req.body;
-    var desx = 4900, desy = 8400;
+    var desx = 4950, desy = 8330, cenx, ceny;
+
     res.set({
         "Content-Type": "application/json"
     });
+
     req.session.lat = position.lat;
     req.session.lon = position.lon;
-    req.session.heading = position.heading;
+
     res.end(JSON.stringify({
         status: "SUCCESS",
         content: {
             transform: (function () {
                 var transform = "",
                     scale, translatex, translatey;
-                if (position.divx * svgy / svgx > position.divy) { // limit by x
-                    scale = Math.min(svgx / wantx, position.divy * svgx / (position.divx * wanty));
-                    translatex = 0.5 * svgx - desx * scale;
-                    translatey = 0.5 * svgx * position.divy / position.divx - desy * scale;
+                if (position.divx * SVG_H / SVG_W > position.divy) { // limit by x
+                    scale = Math.min(SVG_W / WANT_W, position.divy * SVG_W / (position.divx * WANT_H));
+                    cenx = 0.5 * SVG_W;
+                    ceny = 0.5 * SVG_W * position.divy / position.divx;
+                    translatex = cenx - desx * scale;
+                    translatey = ceny - desy * scale;
                 } else {
-                    scale = Math.min(svgy / wanty, position.divx * svgy / (position.divy * wantx));
-                    translatex = 0.5 * svgy * position.divx / position.divy - desx * scale;
-                    translatey = 0.5 * svgy - desy * scale;
+                    scale = Math.min(SVG_H / WANT_H, position.divx * SVG_H / (position.divy * WANT_W));
+                    cenx = 0.5 * SVG_H * position.divx / position.divy;
+                    ceny = 0.5 * SVG_H;
+                    translatex = 0.5 * SVG_H * position.divx / position.divy - desx * scale;
+                    translatey = 0.5 * SVG_H - desy * scale;
                 }
-                transform += "m" + scale + ",0,0," + scale + "," + translatex + "," + translatey;
+                transform += "m1,0,0,1," + (cenx - desx) + "," + (ceny - desy);
+                transform += "r" + (position.heading > 0 ? position.heading : Math.round(Math.random() * 360)) + "," + desx + "," + desy;
+                transform += "m1,0,0,1," + ((-desx) * (scale - 1)) + "," + ((-desy) * (scale - 1));
+                transform += "m" + scale + ",0,0," + scale + ",0,0";
                 return transform;
             })()
         }
     }));
-});
+}
 
-var https_server = https.createServer(ssl, app);
+var https_server = https.createServer(SSL, app);
 
 https_server.listen(process.argv[2], function () {
     console.log("Listen on port " + process.argv[2]);

@@ -13,7 +13,7 @@ function MapSVG() {
         var $img = $("<img src='/images/footstep.gif'></img>");
         selector = s;
         $img.css({
-            "height": "13%",
+            "height": "10%",
             "z-index": 2,
             "position": "absolute",
             "display": "none"
@@ -31,6 +31,16 @@ function MapSVG() {
                 overflow: "hidden"
             });
             snap.append(f);
+            TweenMax.staggerTo(".point", 2, {
+                attr: {
+                    r: 150
+                },
+                opacity: 0,
+                repeat: -1
+            }, 1);
+            $("circle").on("click", function () {
+                window.alert("Don't click me!");
+            });
             navigator.geolocation.watchPosition(
                 applyPosition,
                 function (err) {
@@ -51,7 +61,7 @@ function applyPosition(pos) {
         divy: $(selector).height(),
         lat: pos.coords.latitude,
         lon: pos.coords.longitude,
-        heading: isNaN(pos.coords.heading) ? 0 : pos.coords.heading
+        heading: (isNaN(pos.coords.heading) || !pos.coords.heading) ? 0 : pos.coords.heading
     };
     $.ajax({
         method: "POST",
@@ -61,7 +71,7 @@ function applyPosition(pos) {
         success: function (obj) {
             $img = $(selector + " img");
             $img.css({
-                "top": parsed_pos.divy / 2,
+                "top": (parsed_pos.divy + $img.height()) / 2,
                 "left": (parsed_pos.divx - $img.width()) / 2
             });
             Snap(selector).select("g").animate({
