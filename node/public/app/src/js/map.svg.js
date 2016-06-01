@@ -8,10 +8,13 @@ $(window).resize(function () {
 
 function MapSVG() {
     "use strict";
-    var map_url = "../images/MAP.svg";
+    var map_url = "/app/src/img/MAP.svg";
     this.loadMap = function (s) {
-        var $img = $("<img src='/images/footstep.gif'></img>");
+        var $img = $("<img src='/app/src/img/footstep.gif'></img>");
         selector = s;
+        touch.on(selector, "drag", function (eve) {
+            // debug(eve);
+        });
         $img.css({
             "height": "10%",
             "z-index": 2,
@@ -46,17 +49,17 @@ function MapSVG() {
                 function (err) {
                 },
                 {
-                    enableHighAccuracy: true,
                     timeout: 2000
                 }
             );
-            applyPosition({
-                coords: {
-                    latitude: 0,
-                    longitutde: 0,
-                    heading: 0
+            navigator.geolocation.getCurrentPosition(
+                applyPosition,
+                function (err) {
+                },
+                {
+                    timeout: 2000
                 }
-            });
+            );
         });
     };
 }
@@ -86,6 +89,18 @@ function applyPosition(pos) {
             }, 4000, null, function () {
                 $img.fadeIn();
             });
+        },
+        dataType: "json"
+    });
+}
+
+function debug(v) {
+    $.ajax({
+        method: "POST",
+        url: "/debug",
+        contentType: "text/plain",
+        data: JSON.stringify(v),
+        success: function (obj) {
         },
         dataType: "json"
     });

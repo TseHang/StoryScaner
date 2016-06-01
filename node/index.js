@@ -49,6 +49,15 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/gallery", gallery);
             app.post("/story", story);
             app.post("/position", position);
+            app.post("/debug", function (req, res) {
+                req.setEncoding("utf8");
+                req.on("data", function (chunk) {
+                    console.log(chunk);
+                });
+                req.on("end", function () {
+                    res.json({});
+                });
+            });
         });
 });
 
