@@ -1,28 +1,59 @@
 /*global Snap:false*/
 
-var selector, posi_cache;
+var selector, pos_cache;
+var SVG_W = 9078, SVG_H = 16107, WANT_W = 1440, WANT_H = 2176;
+var cenx = 0, ceny = 0;
+var positionWatchId;
+var transformString;
+var transformModified = {
+    scale: 1,
+    translateX: 0,
+    translateY: 0
+};
 
 $(window).resize(function () {
-    applyPosition(posi_cache);
+    applyPosition(pos_cache);
 });
 
 function MapSVG() {
     "use strict";
     var map_url = "/app/src/img/MAP.svg";
     this.loadMap = function (s) {
-        var $img = $("<img src='/app/src/img/footstep.gif'></img>");
         selector = s;
-        touch.on(selector, "drag", function (eve) {
+        touch.on(selector, "drag pinch", function (eve) {
+            var transformModifiedString, g = Snap(selector).select("g");
+            var scaleCenterX, scaleCenterY;
+            transformModified.translateX += eve.x ? eve.x : 0;
+            transformModified.translateY += eve.y ? eve.y : 0;
+            transformModified.scale *= eve.scale ? (eve.scale > 1 ? 1 + eve.scale * 0.01 : 1 - eve.scale * 0.1) : 1;
+            if (transformModified.scale > 1.15) {
+                transformModified.scale = 1.15;
+            } else if (transformModified.scale < 0.25) {
+                transformModified.scale = 0.25;
+            }
+            scaleCenterX = cenx + transformModified.translateX;
+            scaleCenterY = ceny + transformModified.translateY;
+            transformModifiedString = [
+                "m1,0,0,1,",
+                ((-scaleCenterX) * (transformModified.scale - 1)),
+                ",",
+                ((-scaleCenterY) * (transformModified.scale - 1)),
+                "m",
+                transformModified.scale,
+                ",0,0,",
+                transformModified.scale,
+                ",0,0",
+                "m1,0,0,1,",
+                transformModified.translateX,
+                ",",
+                transformModified.translateY
+            ].join("");
+            g.transform(
+                transformModifiedString + transformString
+            );
             // debug(eve);
         });
-        $img.css({
-            "height": "10%",
-            "z-index": 2,
-            "position": "absolute",
-            "display": "none"
-        });
         $(selector).children().remove();
-        $(selector).append($img);
         Snap.load(map_url, function (f) {
             f.select("svg").attr({
                 height: "100%",
@@ -41,54 +72,65 @@ function MapSVG() {
                 opacity: 0,
                 repeat: -1
             }, 1);
-            $("circle").on("click", function () {
-                window.alert("Don't click me!");
+            /*
+            positionWatchId = navigator.geolocation.watchPosition(
+                applyPosition,
+                function (err) {
+                },
+                {
+                    timeout: 2000
+                }
+            );
+            */
+            applyPosition({
+                coords: {
+                    latitude: 0,
+                    longitude: 0
+                }
             });
-            navigator.geolocation.watchPosition(
-                applyPosition,
-                function (err) {
-                },
-                {
-                    timeout: 2000
-                }
-            );
-            navigator.geolocation.getCurrentPosition(
-                applyPosition,
-                function (err) {
-                },
-                {
-                    timeout: 2000
-                }
-            );
         });
     };
 }
 
 function applyPosition(pos) {
-    posi_cache = pos;
-    var parsed_pos = {
-        divx: $(selector).width(),
-        divy: $(selector).height(),
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
-        heading: (isNaN(pos.coords.heading) || !pos.coords.heading) ? 0 : pos.coords.heading
-    };
+    var divx = $(selector).width(),
+        divy = $(selector).height(),
+        heading = (isNaN(pos.coords.heading) || !pos.coords.heading) ? 0 : pos.coords.heading,
+        transform = "",
+        scale,
+        translateX,
+        translateY;
+
+    pos_cache = pos;
+
     $.ajax({
         method: "POST",
         url: "/position",
         contentType: "application/json",
-        data: JSON.stringify(parsed_pos),
+        data: JSON.stringify({
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude
+        }),
         success: function (obj) {
-            $img = $(selector + " img");
-            $img.css({
-                "top": (parsed_pos.divy + $img.height()) / 2,
-                "left": (parsed_pos.divx - $img.width()) / 2
-            });
+            if (divx * SVG_H / SVG_W > divy) { // limit by x
+                scale = Math.min(SVG_W / WANT_W, divy * SVG_W / (divx * WANT_H)) * transformModified.scale;
+                cenx = 0.5 * SVG_W;
+                ceny = 0.5 * SVG_W * divy / divx;
+            } else {
+                scale = Math.min(SVG_H / WANT_H, divx * SVG_H / (divy * WANT_W)) * transformModified.scale;
+                cenx = 0.5 * SVG_H * divx / divy;
+                ceny = 0.5 * SVG_H;
+            }
+            Snap(selector).select("g#footstep").transform(
+                "m1,0,0,1," + obj.content.desx + "," + obj.content.desy
+            );
+            transform += "m1,0,0,1," + (cenx - obj.content.desx) + "," + (ceny - obj.content.desy);
+            transform += "m1,0,0,1," + ((-obj.content.desx) * (scale - 1)) + "," + ((-obj.content.desy) * (scale - 1));
+            transform += "m" + scale + ",0,0," + scale + ",0,0";
+            transformString = transform;
             Snap(selector).select("g").animate({
-                transform: obj.content.transform
-            }, 4000, null, function () {
-                $img.fadeIn();
-            });
+                transform: transform
+            }, 4000);
         },
         dataType: "json"
     });
