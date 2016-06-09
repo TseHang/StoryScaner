@@ -76,7 +76,7 @@ function signup(req, res) {
 
     user.password = hash.generate(user.password);
 
-    dbGroupC.collection("users")
+    dbGroupC.collection("USER")
         .insertOne(user, { w: 1 }, function (err, result) {
             if (err) {
                 if (err.message.indexOf("duplicate key") > -1) {
@@ -102,7 +102,7 @@ function signup(req, res) {
 function signin(req, res) {
     var user = req.body;
 
-    dbGroupC.collection("users")
+    dbGroupC.collection("USER")
         .find({ username: user.username }).limit(1)
         .next(function (err, item) {
             if (err) {
@@ -144,7 +144,7 @@ function upload(req, res) {
         var matches = base64_str.match(/^data:[A-Za-z-+]+\/([A-Za-z-+]+);base64,(.+)$/),
             data = new Buffer(matches[2], "base64");
         if (req.session.user) {
-            dbGroupC.collection("images")
+            dbGroupC.collection("IMAGE")
                 .insertOne({
                     user: req.session.user,
                     type: matches[1],
@@ -192,7 +192,7 @@ function gallery(req, res) {
     if (req.session.user) {
         var images = [];
 
-        dbGroupC.collection("images")
+        dbGroupC.collection("IMAGE")
             .find({ user: req.session.user })
             .toArray(function (err, docs) {
                 if (err) {
