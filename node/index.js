@@ -5,6 +5,7 @@ var https = require("https");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var mongo = require("mongodb").MongoClient;
+var hash = require("password-hash");
 
 var DB_URL = "mongodb://localhost:27017/groupC";
 var SSL = {
@@ -73,6 +74,8 @@ function signup(req, res) {
         });
     }
 
+    user.password = hash.generate(user.password);
+
     dbGroupC.collection("users")
         .insertOne(user, { w: 1 }, function (err, result) {
             if (err) {
@@ -109,7 +112,7 @@ function signin(req, res) {
                 });
             } else {
                 if (item) {
-                    if (item.password === user.password) {
+                    if (hash.verify(user.password, item.password)) {
                         req.session.user = user.username;
                         res.json({
                             status: "SUCCESS",
