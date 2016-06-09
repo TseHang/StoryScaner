@@ -7,20 +7,23 @@ var session = require("express-session");
 var mongo = require("mongodb").MongoClient;
 
 var DB_URL = "mongodb://localhost:27017/groupC";
-var STORY_CONTENT = "日治時期日本成立各種農業產品運銷組織，臺南州青果同業組合於西市場設置香蕉倉庫，以利運銷。原空間於1930年之前原作為臺灣漁業株式會社之「魚賣場」，後因1935年前後該會社搬遷至運河旁，建築形貌與用途因之改變，其後成為「臺南州青果同業組合」之香蕉倉庫。本倉庫有冷藏、加溫等設施。香蕉，曾是臺灣重要的外銷農產品，因具歷史價值現已指定為古蹟。";
 var SSL = {
-    key: fs.readFileSync("key.pem"),
-    cert: fs.readFileSync("certificate.pem")
+    key: fs.readFileSync("auth/key.pem"),
+    cert: fs.readFileSync("auth/certificate.pem")
 };
 
 var app = new express();
 var dbGroupC;
 
+var log = fs.createWriteStream("err.log");
+
+process.stdout.write = process.stderr.write = log.write.bind(log);
+
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(["/signup", "/signin", "/story", "/position"], bodyParser.json());
 app.use(session({
-    secret: "adminstrator",
+    secret: "story-scaner",
     resave: false,
     saveUninitialized: false
 }));
@@ -30,7 +33,7 @@ mongo.connect(DB_URL, function (err, db) {
         throw err;
     }
 
-    var auth = JSON.parse(fs.readFileSync("auth.json", "utf8"));
+    var auth = JSON.parse(fs.readFileSync("auth/auth.json", "utf8"));
     db.authenticate(
         auth.username,
         auth.password,
@@ -166,7 +169,7 @@ function upload(req, res) {
                                     status: "SUCCESS",
                                     content: {
                                         path: save_path,
-                                        story: STORY_CONTENT
+                                        story: "No content yet"
                                     }
                                 });
                             }
@@ -218,7 +221,7 @@ function story(req, res) {
     var stories = {};
 
     req.body.images.forEach(function (name) {
-        stories[name] = STORY_CONTENT;
+        stories[name] = "";
     });
 
     res.json({
