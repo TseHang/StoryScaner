@@ -102,36 +102,44 @@ function signup(req, res) {
 function signin(req, res) {
     var user = req.body;
 
-    dbGroupC.collection("USER")
-        .find({ username: user.username }).limit(1)
-        .next(function (err, item) {
-            if (err) {
-                res.json({
-                    status: "FAIL",
-                    content: err.message
-                });
-            } else {
-                if (item) {
-                    if (hash.verify(user.password, item.password)) {
-                        req.session.user = user.username;
-                        res.json({
-                            status: "SUCCESS",
-                            content: null
-                        });
+    if (user.facebook) {
+        req.session.user = user.username;
+        res.json({
+            status: "SUCCESS",
+            content: null
+        });
+    } else {
+        dbGroupC.collection("USER")
+            .find({ username: user.username }).limit(1)
+            .next(function (err, item) {
+                if (err) {
+                    res.json({
+                        status: "FAIL",
+                        content: err.message
+                    });
+                } else {
+                    if (item) {
+                        if (hash.verify(user.password, item.password)) {
+                            req.session.user = user.username;
+                            res.json({
+                                status: "SUCCESS",
+                                content: null
+                            });
+                        } else {
+                            res.json({
+                                status: "FAIL",
+                                content: "Password not matched"
+                            });
+                        }
                     } else {
                         res.json({
                             status: "FAIL",
-                            content: "Password not matched"
+                            content: "User not found"
                         });
                     }
-                } else {
-                    res.json({
-                        status: "FAIL",
-                        content: "User not found"
-                    });
                 }
-            }
-        });
+            });
+    }
 }
 
 function upload(req, res) {
