@@ -5,6 +5,7 @@ var https = require("https");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var mongo = require("mongodb").MongoClient;
+var ObjectID = require("mongodb").ObjectID;
 var hash = require("password-hash");
 
 var DB_URL = "mongodb://localhost:27017/groupC";
@@ -102,36 +103,44 @@ function signup(req, res) {
 function signin(req, res) {
     var user = req.body;
 
-    dbGroupC.collection("USER")
-        .find({ username: user.username }).limit(1)
-        .next(function (err, item) {
-            if (err) {
-                res.json({
-                    status: "FAIL",
-                    content: err.message
-                });
-            } else {
-                if (item) {
-                    if (hash.verify(user.password, item.password)) {
-                        req.session.user = user.username;
-                        res.json({
-                            status: "SUCCESS",
-                            content: null
-                        });
+    if (user.facebook) {
+        req.session.user = user.username;
+        res.json({
+            status: "SUCCESS",
+            content: null
+        });
+    } else {
+        dbGroupC.collection("USER")
+            .find({ username: user.username }).limit(1)
+            .next(function (err, item) {
+                if (err) {
+                    res.json({
+                        status: "FAIL",
+                        content: err.message
+                    });
+                } else {
+                    if (item) {
+                        if (hash.verify(user.password, item.password)) {
+                            req.session.user = user.username;
+                            res.json({
+                                status: "SUCCESS",
+                                content: null
+                            });
+                        } else {
+                            res.json({
+                                status: "FAIL",
+                                content: "Password not matched"
+                            });
+                        }
                     } else {
                         res.json({
                             status: "FAIL",
-                            content: "Password not matched"
+                            content: "User not found"
                         });
                     }
-                } else {
-                    res.json({
-                        status: "FAIL",
-                        content: "User not found"
-                    });
                 }
-            }
-        });
+            });
+    }
 }
 
 function upload(req, res) {
@@ -148,8 +157,8 @@ function upload(req, res) {
                 .insertOne({
                     user: req.session.user,
                     type: matches[1],
-                    lat: (req.session.lat ? req.session.lat : 0),
-                    lng: (req.session.lng ? req.session.lng : 0)
+                    story: "",
+                    title: ""
                 }, { w: 1 }, function (err, result) {
                     if (err) {
                         res.json({
@@ -172,7 +181,7 @@ function upload(req, res) {
                                     status: "SUCCESS",
                                     content: {
                                         path: save_path,
-                                        story: "No content yet"
+                                        story: ""
                                     }
                                 });
                             }
@@ -221,17 +230,25 @@ function gallery(req, res) {
 }
 
 function story(req, res) {
-    var stories = {};
+    var stories = {}, counter = 0;
 
     req.body.images.forEach(function (name) {
-        stories[name] = "";
-    });
-
-    res.json({
-        status: "SUCCESS",
-        content: {
-            stories: stories
-        }
+        dbGroupC.collection("IMAGE")
+            .find({ _id: ObjectID.createFromHexString(name) }).limit(1)
+            .next(function (err, item) {
+                counter += 1;
+                if (!err) {
+                    stories[name] = item.story;
+                }
+                if (counter === req.body.images.length) {
+                    res.json({
+                        status: "SUCCESS",
+                        content: {
+                            stories: stories
+                        }
+                    });
+                }
+            });
     });
 }
 
