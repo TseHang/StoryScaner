@@ -84,6 +84,7 @@ function signup(req, res) {
             status: "FAIL",
             content: "Please do not leave blank"
         });
+        return;
     }
 
     user.password = hash.generate(user.password);
