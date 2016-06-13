@@ -23,7 +23,7 @@ process.stdout.write = process.stderr.write = log.write.bind(log);
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(["/signup", "/signin", "/story", "/position", "/route"], bodyParser.json());
+app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit"], bodyParser.json());
 app.use(session({
     secret: "story-scaner",
     resave: false,
@@ -54,6 +54,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/story", story);
             app.post("/position", position);
             app.post("/route", route);
+            app.post("/edit", edit);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -259,6 +260,31 @@ function story(req, res) {
                 }
             });
     });
+}
+
+function edit(req, res) {
+    var name = req.body.image;
+
+    delete req.body.image;
+    dbGroupC.collection("IMAGE")
+        .findOneAndUpdate(
+            { _id: ObjectID.createFromHexString(name) },
+            { $set: req.body },
+            { returnOriginal: false },
+            function (err, result) {
+                if (err) {
+                    res.json({
+                        status: "FAIL",
+                        content: err.message
+                    });
+                } else {
+                    res.json({
+                        status: "SUCCESS",
+                        content: null
+                    });
+                }
+            }
+        );
 }
 
 function position(req, res) {
