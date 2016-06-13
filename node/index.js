@@ -23,7 +23,7 @@ process.stdout.write = process.stderr.write = log.write.bind(log);
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(["/signup", "/signin", "/story", "/position"], bodyParser.json());
+app.use(["/signup", "/signin", "/story", "/position", "/route"], bodyParser.json());
 app.use(session({
     secret: "story-scaner",
     resave: false,
@@ -53,6 +53,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/gallery", gallery);
             app.post("/story", story);
             app.post("/position", position);
+            app.post("/route", route);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -64,6 +65,14 @@ mongo.connect(DB_URL, function (err, db) {
             });
         });
 });
+
+function route(req, res) {
+    req.session.route = req.body.route;
+    res.json({
+        status: "SUCCESS",
+        content: null
+    });
+}
 
 function signup(req, res) {
     var user = req.body;
