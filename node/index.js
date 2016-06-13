@@ -9,6 +9,29 @@ var ObjectID = require("mongodb").ObjectID;
 var hash = require("password-hash");
 
 var DB_URL = "mongodb://localhost:27017/groupC";
+var POI = {
+    1: {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: []
+    },
+    2: {
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+        10: []
+    },
+    3: {
+        11: [],
+        12: [],
+        13: [],
+        14: [],
+        15: []
+    }
+};
 var SSL = {
     key: fs.readFileSync("auth/key.pem"),
     cert: fs.readFileSync("auth/certificate.pem")
@@ -194,13 +217,52 @@ function upload(req, res) {
                                     content: "Write file error"
                                 });
                             } else {
-                                res.json({
-                                    status: "SUCCESS",
-                                    content: {
-                                        path: save_path,
-                                        story: ""
-                                    }
-                                });
+                                var un_p = find_unlocked(
+                                    Number(req.session.route),
+                                    Number(req.session.lng),
+                                    Number(req.session.lat)
+                                );
+
+                                dbGroupC.collection("USER")
+                                    .find({ username: req.session.user }).limit(1)
+                                    .next(function (err, item) {
+                                        if (err) {
+                                            res.json({
+                                                status: "FAIL",
+                                                content: err.message
+                                            });
+                                        } else {
+                                            if (un_p === -1 || item.unlocked[req.session.route].indexOf(un_p) !== -1) {
+                                                res.json({
+                                                    status: "SUCCESS",
+                                                    content: {
+                                                        path: save_path,
+                                                        unlocked: -1
+                                                    }
+                                                });
+                                            } else {
+                                                res.json({
+                                                    status: "SUCCESS",
+                                                    content: {
+                                                        path: save_path,
+                                                        unlocked: un_p
+                                                    }
+                                                });
+                                                item.unlocked[req.session.route].push(un_p);
+                                                dbGroupC.collection("USER")
+                                                    .findOneAndUpdate(
+                                                        { username: req.session.user },
+                                                        { $set: { unlocked: item.unlocked } },
+                                                        { returnOriginal: false },
+                                                        function (err, result) {
+                                                            if (err) {
+                                                                console.log(err.message);
+                                                            }
+                                                        }
+                                                    );
+                                            }
+                                        }
+                                    });
                             }
                         });
                     }
@@ -328,6 +390,16 @@ function position(req, res) {
             desx: desx
         }
     });
+}
+
+function find_unlocked(route, lng, lat) {
+    if (route === 1) {
+        return Math.floor(Math.random() * 5) + 1;
+    } else if (route === 2) {
+        return Math.floor(Math.random() * 5) + 6;
+    } else if (route === 3) {
+        return Math.floor(Math.random() * 5) + 11;
+    }
 }
 
 var https_server = https.createServer(SSL, app);
