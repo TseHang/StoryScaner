@@ -55,6 +55,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/position", position);
             app.post("/route", route);
             app.post("/edit", edit);
+            app.post("/unlocked", unlocked);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -86,6 +87,11 @@ function signup(req, res) {
     }
 
     user.password = hash.generate(user.password);
+    user.unlocked = {
+        0: [],
+        1: [],
+        2: []
+    };
 
     dbGroupC.collection("USER")
         .insertOne(user, { w: 1 }, function (err, result) {
@@ -285,6 +291,26 @@ function edit(req, res) {
                 }
             }
         );
+}
+
+function unlocked(req, res) {
+    dbGroupC.collection("USER")
+        .find({ username: req.session.user }).limit(1)
+        .next(function (err, item) {
+            if (err) {
+                res.json({
+                    status: "FAIL",
+                    content: err.message
+                });
+            } else {
+                res.json({
+                    status: "SUCCESS",
+                    content: {
+                        point: item.unlocked[req.session.route]
+                    }
+                });
+            }
+        });
 }
 
 function position(req, res) {
