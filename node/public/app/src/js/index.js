@@ -1,3 +1,8 @@
+$('#loading').delay(2000).animate({'opacity':0} , 300,function(){
+  $('#loading').css("display","none");
+})
+
+
 $(window).load(function() {
   console.log("都載入完囉");
 
@@ -7,79 +12,96 @@ $(window).load(function() {
 })
 
 $('#signin').click(function(){
-  $.ajax({
-    method: 'POST',
-    contentType: 'application/json',
-    url: '/signin',
-    data: JSON.stringify({
-      username: $('#usrname').val(),
-      password: $('#password').val()
-    }),
-    success: function(response) {
-      if (response.status == 'SUCCESS'){
-        console.log("登入成功");
+  if ($('#signin').attr("value") == "登入"){
+    $.ajax({
+      method: 'POST',
+      contentType: 'application/json',
+      url: '/signin',
+      data: JSON.stringify({
+        username: $('#usrname').val(),
+        password: $('#password').val()
+      }),
+      success: function(response) {
+        if (response.status == 'SUCCESS'){
+          console.log("登入成功");
 
-        $('#sign-status').css('color','#41637C');
-        $('#sign-status').text("登入成功!!");
+          $('#sign-status').css('color','#BDD1C1');
+          $('#sign-status').text("登入成功!!");
 
-        $('#modal').delay(700).animate({"opacity":0}, 500 , function(){
-          $('#modal').css("display","none");
-          console.log("登入成功!!");
-        });
-      }
-      else if(response.status == 'FAIL'){
+          $('#login-slide').delay(700).animate({"opacity":0}, 500 , function(){
+            $('#login-slide').css("display","none");
+            console.log("登入成功!!");
+          });
+        }
+        else if(response.status == 'FAIL'){
 
-        $('#sign-status').css('color','red');
-        $('#sign-status').text(response.content);
-        
-        $('#password').val("");
-      }
-      else {
-        alert('出現到這裡就代表你ＧＧ了');
-      }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      alert(jqXHR + "\n" + errorThrown);
-    },
-    dataType: 'json'
-  });
+          $('#sign-status').css('color','red');
+          $('#sign-status').text(response.content);
+          
+          $('#password').val("");
+        }
+        else {
+          alert('出現到這裡就代表你ＧＧ了');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR + "\n" + errorThrown);
+      },
+      dataType: 'json'
+    });
+
+    $('#usrname').val("");
+    $('#password').val("");
+  }
+  else if ($('#signin').attr("value") == "註冊"){
+    $.ajax({
+      method: 'POST',
+      contentType: 'application/json',
+      url: '/signup',
+      data: JSON.stringify({
+        username: $('#usrname').val(),
+        password: $('#password').val()
+      }),
+      success: function(response) {
+        if (response.status == 'SUCCESS'){
+          console.log("註冊成功");
+
+          $('#sign-status').css('color','#BDD1C1');
+          $('#sign-status').text("Hi，來登入吧！！");
+
+          alert('恭喜：註冊成功');
+        }
+        else if(response.status == 'FAIL'){
+          $('#sign-status').css('color','red');
+          $('#sign-status').text(response.content);
+          alert('帳號可能有人使用，或是密碼太過相似');
+        }
+        else {
+          alert('出現到這裡就代表你ＧＧ了');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR + "\n" + errorThrown);
+      },
+      dataType: 'json'
+    });
+
+    $('#usrname').val("");
+    $('#password').val("");
+
+    $('#usrname').attr("placeholder","帳號");
+    $('#password').attr("placeholder","密碼");
+    $('#signin').attr("value","登入");
+  }
 })
 
 $('#signup').click(function(){
-  $.ajax({
-    method: 'POST',
-    contentType: 'application/json',
-    url: '/signup',
-    data: JSON.stringify({
-      username: $('#usrname').val(),
-      password: $('#password').val()
-    }),
-    success: function(response) {
-      if (response.status == 'SUCCESS'){
-        console.log("註冊成功");
-
-        $('#sign-status').css('color','#41637C');
-        $('#sign-status').text("Hi，來登入吧！！");
-
-        alert('恭喜：註冊成功');
-      }
-      else if(response.status == 'FAIL'){
-        $('#sign-status').css('color','red');
-        $('#sign-status').text(response.content);
-        alert('帳號可能有人使用，或是密碼太過相似');
-      }
-      else {
-        alert('出現到這裡就代表你ＧＧ了');
-      }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      alert(jqXHR + "\n" + errorThrown);
-    },
-    dataType: 'json'
-  });
-
   $('#usrname').val("");
   $('#password').val("");
+
+  $('#usrname').attr("placeholder","輸入你的新帳號");
+  $('#password').attr("placeholder","輸入你的新密碼");
+  $('#signin').attr("value","註冊");
 })
 
 var intro2ContentToggle = 0;
@@ -92,46 +114,62 @@ $(document).ready(function (){
   var introSwiper = new Swiper ('.intro-container', {
     direction: 'horizontal',
     //loop: true,
-  }) ;
 
-  $('a#okbtn').click(function(){
-  	introSwiper.unlockSwipeToNext();
+  }) ;
+  introSwiper.lockSwipes();
+
+  $('#intro2-btn').click(function(){
+  	introSwiper.unlockSwipes();
   	introSwiper.slideNext(300); 
+    introSwiper.lockSwipes();
   })
 
+  var intro2Height = $('#content1').height()+24;
   $('.intro2-content').click(function(e){
   	//移動
   	e.preventDefault(); 
   	goToByScroll(this.id);
 
+    pointID = "#intro2-"+this.id;
+
     //tempID == this.id ==> 同一個  代表縮起來
     //tempID != this.id ==> 不同個  先縮再放
-    if (tempID == this.id){
+    if (tempID == pointID){
       if (intro2ContentToggle == 0){
-        $(this).addClass('intro2-content-show');
+        $(pointID).addClass('intro2-content-show');
+        $(pointID).css("height" , 2*intro2Height-70);
+
         intro2ContentToggle = 1;
       }
       else {
-        $(this).removeClass('intro2-content-show');
+        $(pointID).removeClass('intro2-content-show');
+        $(pointID).css("height" , 0);
+
         intro2ContentToggle = 0 ;
       }
     }
     else{
-      $('#'+tempID).removeClass('intro2-content-show');
-      $(this).addClass('intro2-content-show');
+      $(tempID).removeClass('intro2-content-show');
+      $(tempID).css("height" , 0);
+
+      $(pointID).addClass('intro2-content-show');
+      $(pointID).css("height" , 2*intro2Height-70);
+      
       intro2ContentToggle = 1 ;
     }
 
-    tempID = this.id ;
+    tempID = pointID ;
   })
 
 });
 
 function goToByScroll(id){
 	// Scroll
-  $('html,body').animate({
-  	scrollTop: $("#"+id).offset().top
-  },400);
+  $('.intro2-body').animate({
+  	scrollTop: $("#"+id).offset().top -120
+  },200);
 }
+
+
 
 
