@@ -1,6 +1,5 @@
-auth.json
 nohup.out
 node_modules/
 public/upload_images/
-*.pem
-*.csr
+auth/
+err.log

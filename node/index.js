@@ -5,22 +5,27 @@ var https = require("https");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var mongo = require("mongodb").MongoClient;
+var ObjectID = require("mongodb").ObjectID;
+var hash = require("password-hash");
 
 var DB_URL = "mongodb://localhost:27017/groupC";
-var STORY_CONTENT = "日治時期日本成立各種農業產品運銷組織，臺南州青果同業組合於西市場設置香蕉倉庫，以利運銷。原空間於1930年之前原作為臺灣漁業株式會社之「魚賣場」，後因1935年前後該會社搬遷至運河旁，建築形貌與用途因之改變，其後成為「臺南州青果同業組合」之香蕉倉庫。本倉庫有冷藏、加溫等設施。香蕉，曾是臺灣重要的外銷農產品，因具歷史價值現已指定為古蹟。";
 var SSL = {
-    key: fs.readFileSync("key.pem"),
-    cert: fs.readFileSync("certificate.pem")
+    key: fs.readFileSync("auth/key.pem"),
+    cert: fs.readFileSync("auth/certificate.pem")
 };
 
 var app = new express();
 var dbGroupC;
 
+var log = fs.createWriteStream("err.log");
+
+process.stdout.write = process.stderr.write = log.write.bind(log);
+
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(["/signup", "/signin", "/story", "/position"], bodyParser.json());
 app.use(session({
-    secret: "adminstrator",
+    secret: "story-scaner",
     resave: false,
     saveUninitialized: false
 }));
@@ -30,7 +35,7 @@ mongo.connect(DB_URL, function (err, db) {
         throw err;
     }
 
-    var auth = JSON.parse(fs.readFileSync("auth.json", "utf8"));
+    var auth = JSON.parse(fs.readFileSync("auth/auth.json", "utf8"));
     db.authenticate(
         auth.username,
         auth.password,
@@ -70,7 +75,9 @@ function signup(req, res) {
         });
     }
 
-    dbGroupC.collection("users")
+    user.password = hash.generate(user.password);
+
+    dbGroupC.collection("USER")
         .insertOne(user, { w: 1 }, function (err, result) {
             if (err) {
                 if (err.message.indexOf("duplicate key") > -1) {
@@ -96,36 +103,44 @@ function signup(req, res) {
 function signin(req, res) {
     var user = req.body;
 
-    dbGroupC.collection("users")
-        .find({ username: user.username }).limit(1)
-        .next(function (err, item) {
-            if (err) {
-                res.json({
-                    status: "FAIL",
-                    content: err.message
-                });
-            } else {
-                if (item) {
-                    if (item.password === user.password) {
-                        req.session.user = user.username;
-                        res.json({
-                            status: "SUCCESS",
-                            content: null
-                        });
+    if (user.facebook) {
+        req.session.user = user.username;
+        res.json({
+            status: "SUCCESS",
+            content: null
+        });
+    } else {
+        dbGroupC.collection("USER")
+            .find({ username: user.username }).limit(1)
+            .next(function (err, item) {
+                if (err) {
+                    res.json({
+                        status: "FAIL",
+                        content: err.message
+                    });
+                } else {
+                    if (item) {
+                        if (hash.verify(user.password, item.password)) {
+                            req.session.user = user.username;
+                            res.json({
+                                status: "SUCCESS",
+                                content: null
+                            });
+                        } else {
+                            res.json({
+                                status: "FAIL",
+                                content: "Password not matched"
+                            });
+                        }
                     } else {
                         res.json({
                             status: "FAIL",
-                            content: "Password not matched"
+                            content: "User not found"
                         });
                     }
-                } else {
-                    res.json({
-                        status: "FAIL",
-                        content: "User not found"
-                    });
                 }
-            }
-        });
+            });
+    }
 }
 
 function upload(req, res) {
@@ -138,12 +153,12 @@ function upload(req, res) {
         var matches = base64_str.match(/^data:[A-Za-z-+]+\/([A-Za-z-+]+);base64,(.+)$/),
             data = new Buffer(matches[2], "base64");
         if (req.session.user) {
-            dbGroupC.collection("images")
+            dbGroupC.collection("IMAGE")
                 .insertOne({
                     user: req.session.user,
                     type: matches[1],
-                    lat: (req.session.lat ? req.session.lat : 0),
-                    lng: (req.session.lng ? req.session.lng : 0)
+                    story: "",
+                    title: ""
                 }, { w: 1 }, function (err, result) {
                     if (err) {
                         res.json({
@@ -166,7 +181,7 @@ function upload(req, res) {
                                     status: "SUCCESS",
                                     content: {
                                         path: save_path,
-                                        story: STORY_CONTENT
+                                        story: ""
                                     }
                                 });
                             }
@@ -186,7 +201,7 @@ function gallery(req, res) {
     if (req.session.user) {
         var images = [];
 
-        dbGroupC.collection("images")
+        dbGroupC.collection("IMAGE")
             .find({ user: req.session.user })
             .toArray(function (err, docs) {
                 if (err) {
@@ -215,17 +230,25 @@ function gallery(req, res) {
 }
 
 function story(req, res) {
-    var stories = {};
+    var stories = {}, counter = 0;
 
     req.body.images.forEach(function (name) {
-        stories[name] = STORY_CONTENT;
-    });
-
-    res.json({
-        status: "SUCCESS",
-        content: {
-            stories: stories
-        }
+        dbGroupC.collection("IMAGE")
+            .find({ _id: ObjectID.createFromHexString(name) }).limit(1)
+            .next(function (err, item) {
+                counter += 1;
+                if (!err) {
+                    stories[name] = item.story;
+                }
+                if (counter === req.body.images.length) {
+                    res.json({
+                        status: "SUCCESS",
+                        content: {
+                            stories: stories
+                        }
+                    });
+                }
+            });
     });
 }
 

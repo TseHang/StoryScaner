@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "rm nohup.out && nohup node index.js 16043 &"
+    "start": "node index.js 16043",
+    "test": "node index.js 16045"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "mongodb": "^2.1.19"
+    "mongodb": "^2.1.19",
+    "password-hash": "^1.2.2"
   }
 }
