@@ -1,10 +1,10 @@
 @import './reset';
 @import './headBar';
 
-$background-color:#E9E3D7;
+$background-color:#AACAC1;
 $base-z-index:10;
 
-$font-color:#595757;
+$font-color:white;
 $font-size:16px;
 
 //intro2 - color
@@ -12,26 +12,18 @@ $header-bar-color: #c0d5c4;
 $header-bar-height: 60px;
 $header-text-color:#4A544B;
 
+$header-big-bar-height: 2*$header-bar-height;
+
 $contentWidth: 100%;
-$contentTextColor:rgba(255,255,255,0.83);
+$contentTextColor:white;
 $disappear:0px;
 $intro2-content-body-height:90px;
 $intro2-button-borderRadius:18px;
 $intro2-button-height:35px;
 
-$intro2-content1-color:#41637C;
-$intro2-content2-color:#459793;
-$intro2-content3-color:#5DB9B6;
-
-img{
-	width: auto;
-  height : auto;
-}
-
-body {
-	background-color:$background-color;
-	overflow:hidden;
-}
+$intro2-content1-color:rgba(189,209,193,0.7);
+$intro2-content2-color:rgba(69,146,142,0.7);
+$intro2-content3-color:rgba(63,96,120,0.7);
 
 %inline-flex{
 	display: flex;
@@ -44,6 +36,33 @@ body {
 	height:100%;
 	width:100%;
 }
+
+@mixin background-linear-gradient($colorSTART , $colorEND , $direction){
+	@if $direction == left {
+		background: -webkit-linear-gradient(right , $colorSTART, $colorEND);
+	}
+	@else if $direction  == right {
+		background: -webkit-linear-gradient(left , $colorSTART, $colorEND);
+	}
+	@else {
+		background: -webkit-linear-gradient(left , $colorSTART, $colorEND);
+	}
+	background: -o-linear-gradient($direction , $colorSTART, $colorEND );
+	background: -moz-linear-gradient($direction,$colorSTART, $colorEND );
+	background: linear-gradient(to $direction , $colorSTART, $colorEND );
+}
+
+@mixin height($a , $b , $c:1){
+  height: -webkit-calc((#{$a} - #{$b})/#{$c});
+  height:    -moz-calc((#{$a} - #{$b})/#{$c});
+  height:         calc((#{$a} - #{$b})/#{$c});
+}
+
+@mixin width($a , $b){
+  width: -webkit-calc(#{$a} - #{$b});
+  width:    -moz-calc(#{$a} - #{$b});
+  width:         calc(#{$a} - #{$b});
+}
 /*************** 主頁面 *****************/
 
 %font{
@@ -52,7 +71,32 @@ body {
 	color:$font-color;
 }
 
-#modal {
+img{
+	width: auto;
+  height : auto;
+}
+
+body {
+	background-color:$background-color;
+	@include background-linear-gradient(#AACAC1 , #45928E , right top);
+	
+	overflow-x:hidden;
+}
+
+#loading{
+	@extend %view100;
+	@extend %inline-flex;
+	@include background-linear-gradient(#AACAC1 , #45928E , right);
+
+	position:absolute;
+	> img{
+		margin:20px 0px 0px 40px;
+	}
+	z-index: $base-z-index+5;
+}
+
+
+#login-slide {
 	@extend %inline-flex;
 	@extend %view100;
 
@@ -60,10 +104,12 @@ body {
 	top:0;
 	left:0;
 	z-index: $base-z-index+2;
-	background-color: $background-color;
+
+	@include background-linear-gradient(#AACAC1 , #45928E , right top);
 
 	> img{
 		width:150px;
+		margin-bottom: 50px;
 	}
 
 	form {
@@ -80,59 +126,39 @@ body {
   	margin:auto;
 	  padding: 6px 8px;
 	  border:none;
+	  background-color: rgba(255,255,255,0.3);
+	  border-radius:40px;
+
+	  width:210px;
 
 	  &:focus{
 			outline:none;
-			~ .bar{
-			 	&:before , &:after{
-					width:50%;
-					background-color: $intro2-content1-color;
-				}
-			}
 		}
 	}
 }
 
-%bar-content{
-  content: '';
-  height: 2px;
-  width:0px;
-  bottom: 0px;
-  position: absolute;
-
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
+#signin{
+	width:226px;
+	background-color:#E94F4F;
 }
 
-.bar {
-  position: relative;
-  display: block;
-  width:100%;
-  &:before{
-  	@extend %bar-content;
-  	left:50%;
-  }
-
-  &:after{
-  	@extend %bar-content;
-  	right:50%;
-  }
+#signup{
+	left:15px;
 }
 
-.button{
-	@extend %font;
+#forgetpwd{
+	right:20px;
+}
 
-	width:100px;
-	height:$intro2-button-height;
-	line-height: $intro2-button-height;
-	background-color:$header-bar-color;
-	border-radius:25px;
+.optionText{
+	position:absolute;
+	bottom:10px;
+	color:white;
 }
 
 #sign-status{
+	color:$font-color;
 	margin-top:10px;
-	color:$intro2-content1-color;
 }
 
 /*************** swier 屬性 *****************/
@@ -143,116 +169,104 @@ body {
 
 /************** intro1 *********************/
 
-$intro1-content-height: 50px;
+.head-big-bar{
+	@include headBigBar ;
+
+	> img {
+		margin-top:20px;
+	}
+
+	> p {
+		font-weight: 100;
+	}
+}
 
 .intro-box{
 	@extend %inline-flex;
-	@extend %view100;
-}
 
-.intro1-content {
-	display:flex;
-		
-	width:73%;
-	height: $intro1-content-height;
-	margin-top:20px;
+	width:100%;
+	@include height(100% , $header-big-bar-height );
 
-
-	div:nth-child(1) {
-		width:$intro1-content-height+5;
+	> .intro-step{
+		margin-bottom: 2em;
+		width:85px;
 	}
 }
-
-.intro1-text {
-	margin:auto;
-	> p{
-		line-height: $intro1-content-height/2;
-		font-weight: bold;
-	}
-
-	p:nth-child(1){
-		font-size: 16px;
-	}
-	p:nth-child(2){
-		font-size: 14px;
-	}
-}
-
-@for $i from 1 to 5 {
-	.intro1-content:nth-child(#{$i}) > .intro1-img{
-		@if $i == 1 {
-			background: url('../../img2/2-1.png') no-repeat center;
-		}
-		@else if $i == 2 {
-			background: url('../../img2/2-2.png') no-repeat center;
-		}
-		@else if $i == 3 {
-			background: url('../../img2/2-3.png') no-repeat center;
-		}
-		@else {
-			background: url('../../img2/2-4.png') no-repeat center;
-		}
-		background-size: contain;
-	}
+#intro2-btn{
+	position:absolute;
+	bottom:60px;
+	right:20px;
 }
 
 /************** intro2 *********************/
 
-#intro2-head-bar{
-	@include headeBar ;
+.intro2-body{
+	width:100%;
+	@include height(100% , $header-big-bar-height);
+	overflow:scroll;
 }
 
 .intro2-content{
-	padding: 1em 0px;
-	color: $contentTextColor;
-}
+	display:flex;
+	justify-content:space-around;
+	align-items:center;
 
-.intro2-title{
-	cursor: pointer;
-	padding:6px 0px;
-	font-size: 1.6em;
+	padding: 12px 0px;
+	color: $contentTextColor;
+	@include height(100% , $header-big-bar-height , 2.7);	
+	
+	box-shadow:0px 7px 5px rgba(0,0,0,0.7);
+
+	> .intro2-middle-bar{
+		background-color: white;
+		width:6px;
+		height:36px;
+	}
+
+	> .intro2-text{
+		width:98px;
+		font-size:14px;
+		text-align: left;
+	}
 }
 
 .intro2-content-body{
-	height:$disappear;
-	opacity:$disappear;
-	font-size: 13px;
+	height:0px;	
+	color:$contentTextColor;
+	text-align: -webkit-center;
 
-	> .intro2-detail , > .intro2-button{
-		display: none;
+	transition: height 0.2s ease-in;
+
+	> p , img {
+		display:none;
+	}
+	> img{
+		margin-top:30px;
 	}
 }
 
 .intro2-content-show{
-
-	> .intro2-content-body{
-		height:$intro2-content-body-height;
-		font-size: 13px;
-		opacity: 1;
-		transition: all 0.2s ease-in;
-	}
-
-	.intro2-detail {
-		display: block;
-		width:90%;
-		margin:1em auto auto auto;
-	}
-
-	.intro2-button{
-		display: block;
-		cursor: pointer;
-
-		width:100px;
-		height:$intro2-button-height;
-		line-height: $intro2-button-height;
-		border:white 1px solid;
-		border-radius:$intro2-button-borderRadius;
-		margin:0.8em auto auto auto ;
+	padding:40px;
+	
+	> p , img{
+		display:block;
 	}
 }
 
 @for $i from 1 to 4 {
-	.intro2-content:nth-child(#{$i}) {
+	#content#{$i} {
+		@if $i == 1{
+			background-color: $intro2-content1-color;
+		}
+		@else if $i == 2{
+			background-color: $intro2-content2-color;
+		}
+		@else {
+			background-color: $intro2-content3-color;
+		}
+	}
+
+	#intro2-content#{$i} {
 		@if $i == 1{
 			background-color: $intro2-content1-color;
 		}
@@ -265,18 +279,18 @@ $intro1-content-height: 50px;
 	}
 }
 
-@for $i from 1 to 4 {
-	#intro2-content-image-#{$i} {
-		@if $i == 1{
-			background: transparent url('../../img2/1.png') no-repeat center;
-		}
-		@else if $i == 2{
-			background: transparent url('../../img2/2.png') no-repeat 120px 0%;
-		}
-		@else {
-			background: transparent url('../../img2/3.png') no-repeat center;
-		}
+// @for $i from 1 to 4 {
+// 	#intro2-content-image-#{$i} {
+// 		@if $i == 1{
+// 			background: transparent url('../../img2/1.png') no-repeat center;
+// 		}
+// 		@else if $i == 2{
+// 			background: transparent url('../../img2/2.png') no-repeat 120px 0%;
+// 		}
+// 		@else {
+// 			background: transparent url('../../img2/3.png') no-repeat center;
+// 		}
 
-		height: 100px;
-	}
-}
+// 		height: 100px;
+// 	}
+// }
