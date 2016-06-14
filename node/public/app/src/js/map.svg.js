@@ -55,6 +55,16 @@ function MapSVG() {
             // debug(eve);
         });
         $(selector).children().remove();
+        // for demo
+        $(selector).append("<div id='hidden-demo-button'></div>");
+        $("#hidden-demo-button").click(function () {
+            applyPosition({
+                coords: {
+                    latitude: 0,
+                    longitude: 0
+                }
+            });
+        });
         Snap.load(map_url, function (f) {
             f.select("svg").attr({
                 height: "100%",

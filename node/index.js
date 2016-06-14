@@ -387,21 +387,37 @@ function unlocked(req, res) {
 
 function position(req, res) {
     var position = req.body;
-    var desx = 4820, desy = 8250;
+    var des = [
+        [1200, 10000, 90, false],
+        [1700, 10030, 90, false],
+        [2200, 10040, 90, false],
+        [2700, 10060, 90, true],
+        [3200, 10060, 90, false],
+        [3600, 10240, 0, false]
+    ];
 
     req.session.lat = position.lat;
     req.session.lng = position.lng;
 
+    if (isNaN(req.session.seq)) {
+        req.session.seq = 0;
+    } else {
+        req.session.seq = (Number(req.session.seq) + 1) % des.length;
+    }
+
     res.json({
         status: "SUCCESS",
         content: {
-            desy: desy,
-            desx: desx
+            desx: des[req.session.seq][0],
+            desy: des[req.session.seq][1],
+            r: des[req.session.seq][2],
+            vibrate: des[req.session.seq][3]
         }
     });
 }
 
 function find_unlocked(route, lng, lat) {
+    // demo
     if (route === 1) {
         return Math.floor(Math.random() * 5) + 1;
     } else if (route === 2) {
