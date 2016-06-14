@@ -1,7 +1,7 @@
 /*global Snap:false*/
 
 var selector, pos_cache;
-var SVG_W = 9078, SVG_H = 16107, WANT_W = 1440, WANT_H = 2176;
+var SVG_W = 9078, SVG_H = 16107, WANT_W = 1440, WANT_H = 2176, STEP_W = 177, STEP_H = 258;
 var cenx = 0, ceny = 0;
 var positionWatchId;
 var transformString;
@@ -84,7 +84,6 @@ function MapSVG() {
                 repeat: -1
             }, 1);
             init();
-            /*
             positionWatchId = navigator.geolocation.watchPosition(
                 applyPosition,
                 function (err) {
@@ -93,7 +92,6 @@ function MapSVG() {
                     timeout: 2000
                 }
             );
-            */
         });
     };
 }
@@ -143,13 +141,6 @@ function init() {
         },
         dataType: "json"
     });
-
-    applyPosition({
-        coords: {
-            latitude: 0,
-            longitude: 0
-        }
-    });
 }
 
 function applyPosition(pos) {
@@ -182,7 +173,7 @@ function applyPosition(pos) {
                 ceny = 0.5 * SVG_H;
             }
             Snap(selector).select("g#footstep").transform(
-                "m1,0,0,1," + obj.content.desx + "," + obj.content.desy
+                "m1,0,0,1," + (obj.content.desx - STEP_W / 2) + "," + (obj.content.desy - STEP_H / 2)
             );
             transform += "m1,0,0,1," + (cenx - obj.content.desx) + "," + (ceny - obj.content.desy);
             transform += "m1,0,0,1," + ((-obj.content.desx) * (scale - 1)) + "," + ((-obj.content.desy) * (scale - 1));
@@ -191,6 +182,17 @@ function applyPosition(pos) {
             Snap(selector).select("g").animate({
                 transform: transform
             }, 4000);
+
+            var stepbox = Snap(selector).select("g#footstep").getBBox(),
+                extrans = Snap(selector).select("g#footstep").attr("transform").string;
+
+            Snap(selector).select("g#footstep").transform(
+                "r" + obj.content.r + "," + stepbox.cx + "," + stepbox.cy + extrans
+            );
+
+            if (obj.content.vibrate) {
+                window.navigator.vibrate(200);
+            }
         },
         dataType: "json"
     });
