@@ -24,8 +24,8 @@ function MapSVG() {
         touch.on(selector, "drag pinch", function (eve) {
             var transformModifiedString, g = Snap(selector).select("g");
             var scaleCenterX, scaleCenterY;
-            transformModified.translateX += eve.x ? eve.x : 0;
-            transformModified.translateY += eve.y ? eve.y : 0;
+            transformModified.translateX += eve.x ? eve.x * 1.5 : 0;
+            transformModified.translateY += eve.y ? eve.y * 1.5 : 0;
             transformModified.scale *= eve.scale ? (eve.scale > 1 ? 1 + eve.scale * 0.01 : 1 - eve.scale * 0.1) : 1;
             if (transformModified.scale > 1.15) {
                 transformModified.scale = 1.15;
