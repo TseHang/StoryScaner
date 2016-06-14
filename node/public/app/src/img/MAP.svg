@@ -5536,26 +5536,76 @@
             <path fill="#7c877b" d=" M 118.71 142.84 C 126.04 140.97 132.91 145.45 140.08 146.22 C 148.54 147.75 158.03 144.35 165.67 149.43 C 169.75 151.72 170.07 156.82 170.16 160.98 C 167.93 165.37 165.65 169.76 162.98 173.91 C 159.96 177.91 157.07 183.81 151.22 183.57 C 141.01 183.61 129.85 182.03 122.00 174.93 C 115.63 169.04 114.44 159.75 114.47 151.52 C 114.43 148.25 114.96 143.86 118.71 142.84 Z" />
         </g>
     </g>
-    <g stroke-width="20" stroke="#476378" fill="none">
-        <circle cx="4700" cy="7950" r="30" fill="#476378">
+    <g stroke-width="20" stroke="#486378" fill="none" id="route1">
+        <circle cx="2500" cy="7500" r="30" fill="#486378" data-toggle="tooltip" title="淺草商場">
         </circle>
-        <circle cx="4700" cy="7950" r="0" class="point">
+        <circle cx="2500" cy="7500" r="0" class="point">
         </circle>
-        <circle cx="4700" cy="7950" r="0" class="point">
+        <circle cx="2500" cy="7500" r="0" class="point">
+        </circle>
+        <circle cx="5400" cy="10300" r="30" fill="#486378" data-toggle="tooltip" title="香蕉倉庫">
+        </circle>
+        <circle cx="5400" cy="10300" r="0" class="point">
+        </circle>
+        <circle cx="5400" cy="10300" r="0" class="point">
         </circle>
     </g>
-    <g stroke-width="20" stroke="#8FE69A" fill="none">
-        <circle cx="6320" cy="8750" r="30" fill="#8FE69A">
+    <g stroke-width="20" stroke="#489A98" fill="none" id="route2">
+        <circle cx="4400" cy="6100" r="30" fill="#489A98" data-toggle="tooltip" title="老榕樹">
         </circle>
-        <circle cx="6320" cy="8750" r="0" class="point">
+        <circle cx="4400" cy="6100" r="0" class="point">
         </circle>
-        <circle cx="6320" cy="8750" r="0" class="point">
+        <circle cx="4400" cy="6100" r="0" class="point">
         </circle>
-        <circle cx="4500" cy="9100" r="30" fill="#8FE69A">
+        <circle cx="7200" cy="6050" r="30" fill="#489A98" data-toggle="tooltip" title="舊西海岸餐廳">
         </circle>
-        <circle cx="4500" cy="9100" r="0" class="point">
+        <circle cx="7200" cy="6050" r="0" class="point">
         </circle>
-        <circle cx="4500" cy="9100" r="0" class="point">
+        <circle cx="7200" cy="6050" r="0" class="point">
+        </circle>
+        <circle cx="2650" cy="10300" r="30" fill="#489A98" data-toggle="tooltip" title="猴仔標腸胃藥">
+        </circle>
+        <circle cx="2650" cy="10300" r="0" class="point">
+        </circle>
+        <circle cx="2650" cy="10300" r="0" class="point">
+        </circle>
+        <circle cx="2180" cy="9750" r="30" fill="#489A98" data-toggle="tooltip" title="杏本善">
+        </circle>
+        <circle cx="2180" cy="9750" r="0" class="point">
+        </circle>
+        <circle cx="2180" cy="9750" r="0" class="point">
+        </circle>
+    </g>
+    <g stroke-width="20" stroke="#5CB8B5" fill="none" id="route3">
+        <circle cx="3300" cy="10800" r="30" fill="#5CB8B5" data-toggle="tooltip" title="誠實商店">
+        </circle>
+        <circle cx="3300" cy="10800" r="0" class="point">
+        </circle>
+        <circle cx="3300" cy="10800" r="0" class="point">
+        </circle>
+        <circle cx="1870" cy="10800" r="30" fill="#5CB8B5" data-toggle="tooltip" title="京都奈口金包">
+        </circle>
+        <circle cx="1870" cy="10800" r="0" class="point">
+        </circle>
+        <circle cx="1870" cy="10800" r="0" class="point">
+        </circle>
+        <circle cx="600" cy="7300" r="30" fill="#5CB8B5" data-toggle="tooltip" title="朵拉手工藝材料">
+        </circle>
+        <circle cx="600" cy="7300" r="0" class="point">
+        </circle>
+        <circle cx="600" cy="7300" r="0" class="point">
+        </circle>
+        <circle cx="5100" cy="5950" r="30" fill="#5CB8B5" data-toggle="tooltip" title="佳佳西市場旅店">
+        </circle>
+        <circle cx="5100" cy="5950" r="0" class="point">
+        </circle>
+        <circle cx="5100" cy="5950" r="0" class="point">
+        </circle>
+        <circle cx="6730" cy="7930" r="30" fill="#5CB8B5" data-toggle="tooltip" title="什物町鋼筆店">
+        </circle>
+        <circle cx="6730" cy="7930" r="0" class="point">
+        </circle>
+        <circle cx="6730" cy="7930" r="0" class="point">
         </circle>
     </g>
 </g>

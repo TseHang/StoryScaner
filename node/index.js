@@ -92,11 +92,20 @@ mongo.connect(DB_URL, function (err, db) {
 });
 
 function route(req, res) {
-    req.session.route = req.body.route;
-    res.json({
-        status: "SUCCESS",
-        content: null
-    });
+    if (req.body.route) {
+        req.session.route = req.body.route;
+        res.json({
+            status: "SUCCESS",
+            content: null
+        });
+    } else {
+        res.json({
+            status: "SUCCESS",
+            content: {
+                route: req.session.route
+            }
+        });
+    }
 }
 
 function signup(req, res) {

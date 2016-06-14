@@ -5,6 +5,7 @@ var SVG_W = 9078, SVG_H = 16107, WANT_W = 1440, WANT_H = 2176;
 var cenx = 0, ceny = 0;
 var positionWatchId;
 var transformString;
+var tooltip;
 var transformModified = {
     scale: 1,
     translateX: 0,
@@ -72,6 +73,7 @@ function MapSVG() {
                 opacity: 0,
                 repeat: -1
             }, 1);
+            init();
             /*
             positionWatchId = navigator.geolocation.watchPosition(
                 applyPosition,
@@ -82,14 +84,62 @@ function MapSVG() {
                 }
             );
             */
-            applyPosition({
-                coords: {
-                    latitude: 0,
-                    longitude: 0
-                }
-            });
         });
     };
+}
+
+function init() {
+    $.ajax({
+        method: "POST",
+        url: "/route",
+        contentType: "text/plain",
+        data: JSON.stringify({}),
+        success: function (obj) {
+
+            for (var i = 1; i < 4; i += 1) {
+                if (i !== obj.content.route) {
+                    $("#route" + i).remove();
+                }
+            }
+
+            Snap(selector).selectAll("[data-toggle='tooltip'").forEach(function (node) {
+                node.click(function () {
+                    var box = this.getBBox();
+
+                    if (tooltip && tooltip.innerSVG() === this.attr("title")) {
+                        tooltip.remove();
+                        tooltip = null;
+                    } else {
+                        if (tooltip) {
+                            tooltip.remove();
+                        }
+
+                        tooltip = Snap(selector).select("g")
+                                    .text(
+                                        box.x - 39 * (this.attr("title").length - 1),
+                                        box.y - 50,
+                                        this.attr("title")
+                                    )
+                                    .attr({
+                                        "font-size": 78,
+                                        "opacity": 0
+                                    })
+                                    .animate({
+                                        "opacity": 1
+                                    }, 100);
+                    }
+                });
+            });
+        },
+        dataType: "json"
+    });
+
+    applyPosition({
+        coords: {
+            latitude: 0,
+            longitude: 0
+        }
+    });
 }
 
 function applyPosition(pos) {
