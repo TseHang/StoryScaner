@@ -8,7 +8,7 @@ var mongo = require("mongodb").MongoClient;
 var ObjectID = require("mongodb").ObjectID;
 var hash = require("password-hash");
 
-var DB_URL = "mongodb://140.116.177.150:27017/groupC";
+var DB_URL = "mongodb://localhost:27017/groupC";
 var POI = {
     1: {
         1: [],
@@ -201,7 +201,7 @@ function upload(req, res) {
     req.on("end", function () {
         var matches = base64_str.match(/^data:[A-Za-z-+]+\/([A-Za-z-+]+);base64,(.+)$/),
             data = new Buffer(matches[2], "base64");
-        if (req.session.user) {
+        if (req.session.user && req.session.route) {
             dbGroupC.collection("IMAGE")
                 .insertOne({
                     user: req.session.user,
@@ -279,7 +279,7 @@ function upload(req, res) {
         } else {
             res.json({
                 status: "FAIL",
-                content: "Not sign in yet"
+                content: "Not sign in yet or not choose a route"
             });
         }
     });
@@ -387,21 +387,37 @@ function unlocked(req, res) {
 
 function position(req, res) {
     var position = req.body;
-    var desx = 4820, desy = 8250;
+    var des = [
+        [1200, 10000, 90, false],
+        [1700, 10030, 90, false],
+        [2200, 10040, 90, false],
+        [2700, 10060, 90, true],
+        [3200, 10060, 90, false],
+        [3600, 10240, 0, false]
+    ];
 
     req.session.lat = position.lat;
     req.session.lng = position.lng;
 
+    if (isNaN(req.session.seq)) {
+        req.session.seq = 0;
+    } else {
+        req.session.seq = (Number(req.session.seq) + 1) % des.length;
+    }
+
     res.json({
         status: "SUCCESS",
         content: {
-            desy: desy,
-            desx: desx
+            desx: des[req.session.seq][0],
+            desy: des[req.session.seq][1],
+            r: des[req.session.seq][2],
+            vibrate: des[req.session.seq][3]
         }
     });
 }
 
 function find_unlocked(route, lng, lat) {
+    // demo
     if (route === 1) {
         return Math.floor(Math.random() * 5) + 1;
     } else if (route === 2) {
