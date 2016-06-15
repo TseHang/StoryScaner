@@ -201,7 +201,7 @@ function upload(req, res) {
     req.on("end", function () {
         var matches = base64_str.match(/^data:[A-Za-z-+]+\/([A-Za-z-+]+);base64,(.+)$/),
             data = new Buffer(matches[2], "base64");
-        if (req.session.user) {
+        if (req.session.user && req.session.route) {
             dbGroupC.collection("IMAGE")
                 .insertOne({
                     user: req.session.user,
@@ -279,7 +279,7 @@ function upload(req, res) {
         } else {
             res.json({
                 status: "FAIL",
-                content: "Not sign in yet"
+                content: "Not sign in yet or not choose a route"
             });
         }
     });
