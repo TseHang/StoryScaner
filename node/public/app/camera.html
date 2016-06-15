@@ -12,7 +12,9 @@
 
 <body>
   <!-- 為了一開始的畫面 -->
-  <div id = "intro-map"></div>
+  <div id = "intro-map">
+    <img id = "intro-map-close" src="src/newImg/close.png">
+  </div>
 
   <!-- 相機 -->
 	<div class = "camera">
@@ -22,13 +24,17 @@
     </div>
 
   	<video id="video" width= "100%" height = "70%" autoplay></video>
-  	<div id = "snap"></div>
+    <div class = "camera-sub">
 
-    <!-- 小地圖 -->
-    <div class = "sub-map"></div>
-
-    <!-- story-box -->
-    <div class = "sub-box"></div>
+      <!-- 小地圖 -->
+      <div class = "sub-map"></div>
+      
+      <!-- 快門 -->
+      <div id = "snap"></div>
+      
+      <!-- story-box -->
+      <div class = "sub-box"></div>
+    </div>
 
     <!-- 側邊欄的Bar -->
     <div class = "left-nav" >

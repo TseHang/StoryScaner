@@ -55,7 +55,7 @@ table {
 :focus {
   outline: 0; }
 
-#intro-map, .camera, .picture-container, #map, #story, #snapShot {
+.camera, .picture-container, #map, #story, #snapShot {
   height: 100%;
   width: 100%; }
 
@@ -110,11 +110,19 @@ body {
     font-weight: 100; }
 
 #intro-map {
+  position: absolute;
   z-index: 1010;
   background: url("../../img2/map1.png") no-repeat center;
   background-size: 100% auto;
   opacity: 0.7;
-  position: absolute; }
+  top: 60px;
+  height: 70%;
+  width: 100%; }
+
+#intro-map-close {
+  position: absolute;
+  right: 25px;
+  top: 25px; }
 
 /************** camera ************/
 .camera {
@@ -126,26 +134,31 @@ body {
 #video {
   height: 70%; }
 
+.camera-sub {
+  display: flex;
+  justify-content: center; }
+
 #snap {
   border-radius: 50%;
   border: 5px solid #BDD1C1;
   width: 65px;
   height: 65px;
-  margin: 1em auto auto auto;
+  margin: 1.5em auto auto auto;
   background-color: white;
   z-index: 10; }
 
 .sub-map, .sub-box {
+  margin: 1.5em auto auto auto;
   width: 70px;
   height: 70px;
-  position: absolute;
-  bottom: 22.5px;
-  left: 9%;
+  position: relative;
+  top: 5px;
   background: url("../../img2/mapbtn.png") no-repeat;
   background-size: 101%; }
 
 .sub-box {
-  left: 70%; }
+  background: url("../../newImg/story-box.svg") no-repeat;
+  background-size: 70%; }
 
 .left-nav {
   background-color: #BDD1C1;
@@ -155,12 +168,13 @@ body {
   text-align: center;
   z-index: 12;
   font-size: 1.2em;
-  overflow-y: scroll;
+  overflow-y: hidden;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.7);
   transition: all ease 0.2s; }
 
 .left-nav-div {
-  height: 90%; }
+  height: 90%;
+  overflow-y: scroll; }
   .left-nav-div > div {
     margin: 18px auto;
     border: 2px white solid; }
@@ -218,17 +232,20 @@ body {
 
 /* story-container */
 .story-body {
-  height: -webkit-calc(100% - 195px);
-  height: -moz-calc(100% - 195px);
-  height: calc(100% - 195px);
+  height: -webkit-calc(100% - 225px);
+  height: -moz-calc(100% - 225px);
+  height: calc(100% - 225px);
   width: -webkit-calc(100% - 2em);
   width: -moz-calc(100% - 2em);
   width: calc(100% - 2em);
   padding: 2em 1em 1em 1em; }
 
 .story-footer {
-  height: 135px;
+  height: 75px;
   width: 100%; }
+  .story-footer img, .story-footer div {
+    width: 55px;
+    height: 55px; }
 
 .story-content {
   background-color: white;

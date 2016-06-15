@@ -1,4 +1,4 @@
-
+// 一開始對camera.html的設定
 //取得裝置高度
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
 var imagesAll = [];
@@ -28,7 +28,7 @@ $(window).load(function() {
   });
 
   //#intro-map
-  touch.on('#intro-map' , 'tap' , function(ev){
+  touch.on('#intro-map-close' , 'tap' , function(ev){
     $('#intro-map').css("display" , "none");
   });
 
@@ -50,6 +50,7 @@ function appendImg (src , pic_id){
   $('.picture-container-body').prepend("<div class = \"story-img pic"+pic_id+"\" ><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
   $('.story-footer').prepend("<div class = \"story-img pic"+pic_id+"\" id = \"pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
+
 
 //開啟視訊串流------------------------------------------
 //看瀏覽器支不支援
@@ -102,6 +103,8 @@ MediaStreamTrack.getSources(
   }
 );
 
+
+// ************************************************
 //拍照-------------------------------------
 function snapshot() {
   ctx = canvas.getContext('2d');
