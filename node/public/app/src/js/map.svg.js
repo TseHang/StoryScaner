@@ -105,7 +105,7 @@ function init() {
         success: function (obj) {
 
             for (var i = 1; i < 4; i += 1) {
-                if (i !== obj.content.route) {
+                if (i !== Number(obj.content.route)) {
                     $("#route" + i).remove();
                 }
             }

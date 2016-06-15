@@ -104,7 +104,7 @@ function route(req, res) {
         res.json({
             status: "SUCCESS",
             content: {
-                route: req.session.route
+                route: req.session.route ? req.session.route : "2"
             }
         });
     }
