@@ -99,14 +99,23 @@ body{
 // ************************** //
 
 #intro-map{
-	@extend %view100;
+	position:absolute;
 	z-index:$camera-z-index+1000;
 
 	background:url('../../img2/map1.png') no-repeat center;
 	background-size:100% auto;
 	opacity:0.7;
 
+	// 改位置
+	top:60px;
+	height:70%;
+	width:100%;
+}
+
+#intro-map-close{
 	position:absolute;
+	right:25px;
+	top:25px;
 }
 
 /************** camera ************/ 
@@ -123,31 +132,37 @@ body{
 	height:70%;
 }
 
+.camera-sub{
+	display:flex;
+	justify-content:center;
+}
+
 #snap{
 	border-radius:50%;
 	border: 5px solid $left-nav-color;
 	width:$camera-snap-width;
 	height:$camera-snap-width;
-	margin: 1em auto auto auto;
+	margin: 1.5em auto auto auto;
 	background-color: white;
 	z-index: $camera-z-index;
 }
 
 .sub-map{
+	margin: 1.5em auto auto auto;
+
 	width:$camera-snap-width+5;
 	height:$camera-snap-width+5;
 
-	position:absolute;
-	bottom:22.5px;
-	left:9%;
-
+	position:relative;
+	top:5px;
 	background:url('../../img2/mapbtn.png') no-repeat;
 	background-size:101%;
 }
 
 .sub-box{
 	@extend .sub-map ;
-	left:70%;
+	background:url('../../newImg/story-box.svg') no-repeat;
+	background-size:70%;
 }
 
 
@@ -162,8 +177,8 @@ body{
 	text-align: center;
 	z-index: $camera-z-index+2;
 	font-size:$font-size;
-	overflow-y:scroll;
 
+	overflow-y:hidden;
 	box-shadow:0px 0px 0px rgba(0,0,0,0.7);
 
 	transition: all ease 0.2s;
@@ -172,6 +187,7 @@ body{
 
 .left-nav-div{
 	height:90%;
+	overflow-y:scroll;
 
 	> div {
 		@extend %left-nav-imgsize;
@@ -258,13 +274,18 @@ body{
 	@extend .picture-container;
 }
 .story-body{
-	@include height(100% , $head-height+$left-nav-div-width +60px);
+	@include height(100% , 2*$head-height+$left-nav-div-width+30);
 	@include width(100% , 2em);
 	padding:2em 1em 1em 1em ;
 }
 .story-footer{
-	height:$left-nav-div-width+60px;
+	height:$left-nav-div-width;
 	width:100%;
+
+	img,div{
+		width:55px;
+		height:55px;
+	}
 }
 
 .story-content{
