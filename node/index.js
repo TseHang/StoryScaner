@@ -7,6 +7,7 @@ var session = require("express-session");
 var mongo = require("mongodb").MongoClient;
 var ObjectID = require("mongodb").ObjectID;
 var hash = require("password-hash");
+var cors = require("cors");
 
 var DB_URL = "mongodb://localhost:27017/groupC";
 var POI = {
@@ -45,6 +46,7 @@ var log = fs.createWriteStream("err.log");
 process.stdout.write = process.stderr.write = log.write.bind(log);
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
+app.use(cors());
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit"], bodyParser.json());
 app.use(session({
