@@ -118,6 +118,7 @@ $('.intro2-content-start').click(function() {
     }),
     success: function(response) {
       console.log("進入編號："+idNum);
+      window.location.assign("camera.html");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       alert(jqXHR + "\n" + errorThrown);
