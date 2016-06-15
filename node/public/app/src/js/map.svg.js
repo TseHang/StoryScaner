@@ -24,6 +24,11 @@ function MapSVG() {
         touch.on(selector, "drag pinch", function (eve) {
             var transformModifiedString, g = Snap(selector).select("g");
             var scaleCenterX, scaleCenterY;
+
+            $("#focus-button").fadeIn();
+            clearInterval(positionWatchId);
+            positionWatchId = null;
+
             transformModified.translateX += eve.x ? eve.x * 1.5 : 0;
             transformModified.translateY += eve.y ? eve.y * 1.5 : 0;
             transformModified.scale *= eve.scale ? (eve.scale > 1 ? 1 + eve.scale * 0.01 : 1 - eve.scale * 0.1) : 1;
@@ -65,6 +70,20 @@ function MapSVG() {
                 }
             });
         });
+
+        $(selector).append("<div id='focus-button'></div>");
+        $("#focus-button").click(function () {
+            positionWatchId = navigator.geolocation.watchPosition(
+                applyPosition,
+                function (err) {
+                },
+                {
+                    timeout: 2000
+                }
+            );
+            $(this).fadeOut();
+        });
+
         Snap.load(map_url, function (f) {
             f.select("svg").attr({
                 height: "100%",
@@ -84,14 +103,6 @@ function MapSVG() {
                 repeat: -1
             }, 1);
             init();
-            positionWatchId = navigator.geolocation.watchPosition(
-                applyPosition,
-                function (err) {
-                },
-                {
-                    timeout: 2000
-                }
-            );
         });
     };
 }
@@ -141,6 +152,7 @@ function init() {
         },
         dataType: "json"
     });
+    $("#focus-button").click();
 }
 
 function applyPosition(pos) {
@@ -163,6 +175,10 @@ function applyPosition(pos) {
             lon: pos.coords.longitude
         }),
         success: function (obj) {
+            if (!positionWatchId) {
+                return;
+            }
+
             if (divx * SVG_H / SVG_W > divy) { // limit by x
                 scale = Math.min(SVG_W / WANT_W, divy * SVG_W / (divx * WANT_H)) * transformModified.scale;
                 cenx = 0.5 * SVG_W;
