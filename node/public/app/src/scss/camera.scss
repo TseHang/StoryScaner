@@ -1,11 +1,11 @@
 @import './reset';
 @import './headBar';
 
-$camera-background-color:#E9E3D7;
+$background-color:#AACAC1;
 $camera-snap-width:65px;
 
 $left-nav-width:40%;
-$left-nav-color:#41637c;
+$left-nav-color:#BDD1C1;
 $left-nav-div-width:75px;
 
 $head-height:60px;
@@ -15,6 +15,21 @@ $camera-z-index:10;
 
 $font-color:white;
 $font-size:1.2em;
+
+@mixin background-linear-gradient($colorSTART , $colorEND , $direction){
+	@if $direction == left {
+		background: -webkit-linear-gradient(right , $colorSTART, $colorEND);
+	}
+	@else if $direction  == right {
+		background: -webkit-linear-gradient(left , $colorSTART, $colorEND);
+	}
+	@else {
+		background: -webkit-linear-gradient(left , $colorSTART, $colorEND);
+	}
+	background: -o-linear-gradient($direction , $colorSTART, $colorEND );
+	background: -moz-linear-gradient($direction,$colorSTART, $colorEND );
+	background: linear-gradient(to $direction , $colorSTART, $colorEND );
+}
 
 @mixin height($a , $b){
   height: -webkit-calc(#{$a} - #{$b});
@@ -31,7 +46,6 @@ $font-size:1.2em;
 %view100{
 	height:100%;
 	width:100%;
-	background-color:$camera-background-color;
 }
 
 %positionTop{
@@ -51,8 +65,38 @@ $font-size:1.2em;
 
 body{
 	overflow:hidden;
-	background-color:$camera-background-color;
+	background-color:$background-color;
+	@include background-linear-gradient(#AACAC1 , #45928E , right top);
 }
+
+// ************** HeadBar *************** //
+.head-bar{
+	@include headeBar ;
+	
+	> li{
+		@include headBar-back;
+	}
+}
+
+.head-big-bar{
+	@include headBigBar ;
+
+	> li{
+		@include headBar-back;
+		top:20px;
+	}
+
+	> img {
+		margin-top:20px;
+	}
+
+	> p {
+		font-weight: 100;
+	}
+}
+
+
+// ************************** //
 
 #intro-map{
 	@extend %view100;
@@ -60,11 +104,12 @@ body{
 
 	background:url('../../img2/map1.png') no-repeat center;
 	background-size:100% auto;
-	opacity:0.95;
+	opacity:0.7;
 
 	position:absolute;
 }
 
+/************** camera ************/ 
 .camera{
 	@extend %view100;
 	position: relative;
@@ -75,7 +120,7 @@ body{
 }
 
 #video{
-	height:80%;
+	height:70%;
 }
 
 #snap{
@@ -92,18 +137,25 @@ body{
 	width:$camera-snap-width+5;
 	height:$camera-snap-width+5;
 
-	position:relative;
-	bottom:$camera-snap-width+(5+5/2);
-	left:70%;
+	position:absolute;
+	bottom:22.5px;
+	left:9%;
 
-	background:rgba(0,0,0,0.6) url('../../img2/mapbtn.png') no-repeat;
+	background:url('../../img2/mapbtn.png') no-repeat;
 	background-size:101%;
 }
+
+.sub-box{
+	@extend .sub-map ;
+	left:70%;
+}
+
+
 
 .left-nav{
 	@extend %positionTop;
 
-	background-color: $left-nav-color;
+	background-color:$left-nav-color;
 	height:100%;
 	left:-$left-nav-width;
 	width:$left-nav-width;
@@ -112,7 +164,14 @@ body{
 	font-size:$font-size;
 	overflow-y:scroll;
 
+	box-shadow:0px 0px 0px rgba(0,0,0,0.7);
+
 	transition: all ease 0.2s;
+
+}
+
+.left-nav-div{
+	height:90%;
 
 	> div {
 		@extend %left-nav-imgsize;
@@ -123,9 +182,12 @@ body{
 	img{
 		@extend %left-nav-imgsize;
 	}
+
+
 }
 
 #more-photo{
+
 	font-size: 1.5em;
 	height:60px;
 	color:$font-color;
@@ -194,9 +256,6 @@ body{
 #story{
 	@extend .picture-container;
 }
-.story-header{
-	@extend .picture-container-header;
-}
 .story-body{
 	@include height(100% , $head-height+$left-nav-div-width +60px);
 	@include width(100% , 2em);
@@ -262,7 +321,7 @@ body{
 }
 
 .snapShot-check{
-	background-color: $camera-background-color;
+	background-color:$background-color;
 	height:20%;
 	text-align: center;
 	display: flex;

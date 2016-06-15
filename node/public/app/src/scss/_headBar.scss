@@ -7,17 +7,17 @@ $header-big-bar-height: 2*$header-bar-height;
 @mixin headeBar{
 	width: 100%;
 	height: $header-bar-height;
-	line-height: $header-bar-height;
+	line-height: 75px;
 	color:$header-font-color;
 	font-size:$header-font-size;
 	text-align:center;
 }
 
 @mixin headBar-back{
-	list-style-image: url('../../img2/backbtn.png');
+	list-style-image: url('../../newImg/back.png');
 	position:absolute;
 	left:10px;
-	top:5px;
+	top:-5px;
 }
 
 @mixin headBigBar{

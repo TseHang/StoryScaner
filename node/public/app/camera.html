@@ -16,15 +16,31 @@
 
   <!-- 相機 -->
 	<div class = "camera">
-  	<video id="video" width= "100%" height = "80%" autoplay></video>
-  	<div id = "snap"></div>
-    <div class = "sub-map"></div>
-    <div class = "left-nav" >
-
-      <!-- 放照片 prepend 進來 -->
-
-      <a><p id = "more-photo" >更多... </p></a>
+    <div class = "head-bar">
+      <li class = "head-back" id = "camera-container-back" onclick="location.href = 'index.html';"></li>
+      <img src ="src/newImg/logo2.png">
     </div>
+
+  	<video id="video" width= "100%" height = "70%" autoplay></video>
+  	<div id = "snap"></div>
+
+    <!-- 小地圖 -->
+    <div class = "sub-map"></div>
+
+    <!-- story-box -->
+    <div class = "sub-box"></div>
+
+    <!-- 側邊欄的Bar -->
+    <div class = "left-nav" >
+      <div class = "left-nav-div">
+        <!-- 放照片 prepend 進來 -->
+      </div>
+
+      <a>
+        <p id = "more-photo" >更多... </p>
+      </a>
+    </div>
+
   </div>
 
   <!-- 照片拍好後產生的畫面 -->
@@ -38,9 +54,10 @@
 
   <!-- 個人照片圖庫 - 西式映像 -->
   <div class = "picture-container" >
-    <div class = "picture-container-header">
+    <div class="head-big-bar">
       <li class = "head-back" id = "picture-container-back"></li>
-      <h2>西&nbsp;&nbsp;&nbsp;市&nbsp;&nbsp;&nbsp;映&nbsp;&nbsp;&nbsp;像</h2>
+      <img src="src/newImg/logo1.png">
+      <p>ㄧ&nbsp;屬&nbsp;於&nbsp;我&nbsp;的&nbsp;西&nbsp;市&nbsp;場&nbsp;故&nbsp;事ㄧ</p>
     </div>
 
     <div class = "picture-container-body">
@@ -52,9 +69,9 @@
 
   <!-- map -->
   <div id = "map">
-    <div class = "map-header">
-      <li id = "map-back"></li>
-      <h2>找&nbsp;&nbsp;&nbsp;寶&nbsp;&nbsp;&nbsp;藏&nbsp;&nbsp;&nbsp;囉</h2>
+    <div class = "head-bar">
+      <li class = "head-back" id = "map-back"></li>
+      <img src ="src/newImg/logo2.png">
     </div>
 
     <div class = "map-body"></div>
@@ -62,9 +79,10 @@
 
   <!--話說西市 -->
   <div id = "story">
-    <div class = "story-header">
-      <li class = "head-back" id = "story-back"></li>
-      <h2>話&nbsp;&nbsp;&nbsp;說&nbsp;&nbsp;&nbsp;西&nbsp;&nbsp;&nbsp;市</h2>
+    <div class="head-big-bar">
+      <li class="head-back" id="picture-container-back"></li>
+      <img src="src/newImg/logo1.png">
+      <p>ㄧ&nbsp;屬&nbsp;於&nbsp;我&nbsp;的&nbsp;西&nbsp;市&nbsp;場&nbsp;故&nbsp;事ㄧ</p>
     </div>
 
     <div class = "story-body">

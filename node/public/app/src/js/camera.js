@@ -46,7 +46,7 @@ function leftnavLoadImages(images){
 function appendImg (src , pic_id){
   picNum++;
   //class = story-img pic1.2.3.4.....
-  $('.left-nav').prepend("<div class = \"story-img pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
+  $('.left-nav-div').prepend("<div class = \"story-img pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
   $('.picture-container-body').prepend("<div class = \"story-img pic"+pic_id+"\" ><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
   $('.story-footer').prepend("<div class = \"story-img pic"+pic_id+"\" id = \"pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
@@ -171,9 +171,11 @@ touch.on('#video', 'touchstart', function(ev){
 
 touch.on('#video', 'swiperight', function(ev){
   $('.left-nav').css("left" , "0px") ;
+  $('.left-nav').css("boxShadow","7px 0px 5px rgba(0,0,0,0.4)");
 });
 touch.on('#video', 'swipeleft', function(ev){
   $('.left-nav').css("left" , "-40%") ;
+  $('.left-nav').css("boxShadow","0px 0px 0px rgba(0,0,0,0.7)");
 });
 
 //
@@ -186,6 +188,9 @@ touch.on('#more-photo', 'tap', function(ev){
   //pictue-container 跑出來
   $('.camera').css("left","-100%") ;
   $('.picture-container').css("left","0px") ;
+
+  // 把陰影刪掉
+  $('.left-nav').css("boxShadow","0px 0px 0px rgba(0,0,0,0.7)");
 });
 
 //
@@ -216,16 +221,8 @@ touch.on('#map-back' , 'tap' , function(ev){
 });
 
 // 
-// ---------storty -------------------
-// 需要用 子元素監聽 才監聽得到～
 // 
-// touch.on('.story-img' , 'tap' , '.left-nav' ,function(ev){
-//   //pictue-container 跑出來
-//   $('.camera').css("left","-100%") ;
-//   $('#story').css("left","0px") ;
-
-//   console.log(111);
-// });
+//  /////////////
 
 var pic_class_id ;
 var images = [];

@@ -57,14 +57,13 @@ table {
 
 #intro-map, .camera, .picture-container, #map, #story, #snapShot {
   height: 100%;
-  width: 100%;
-  background-color: #E9E3D7; }
+  width: 100%; }
 
 .left-nav, .picture-container, #map, #story, #snapShot {
   position: absolute;
   top: 0px; }
 
-.left-nav > div, .left-nav img {
+.left-nav-div > div, .left-nav-div img {
   width: 75px;
   height: 75px; }
 
@@ -74,15 +73,50 @@ table {
 
 body {
   overflow: hidden;
-  background-color: #E9E3D7; }
+  background-color: #AACAC1;
+  background: -webkit-linear-gradient(left, #AACAC1, #45928E);
+  background: -o-linear-gradient(right top, #AACAC1, #45928E);
+  background: -moz-linear-gradient(right top, #AACAC1, #45928E);
+  background: linear-gradient(to right top, #AACAC1, #45928E); }
+
+.head-bar {
+  width: 100%;
+  height: 60px;
+  line-height: 75px;
+  color: white;
+  font-size: 1.6em;
+  text-align: center; }
+  .head-bar > li {
+    list-style-image: url("../../newImg/back.png");
+    position: absolute;
+    left: 10px;
+    top: -5px; }
+
+.head-big-bar {
+  width: 100%;
+  height: 120px;
+  color: white;
+  font-size: 1.6em;
+  text-align: center; }
+  .head-big-bar > li {
+    list-style-image: url("../../newImg/back.png");
+    position: absolute;
+    left: 10px;
+    top: -5px;
+    top: 20px; }
+  .head-big-bar > img {
+    margin-top: 20px; }
+  .head-big-bar > p {
+    font-weight: 100; }
 
 #intro-map {
   z-index: 1010;
   background: url("../../img2/map1.png") no-repeat center;
   background-size: 100% auto;
-  opacity: 0.95;
+  opacity: 0.7;
   position: absolute; }
 
+/************** camera ************/
 .camera {
   position: relative;
   text-align: center;
@@ -90,28 +124,31 @@ body {
   transition: all ease 0.2s; }
 
 #video {
-  height: 80%; }
+  height: 70%; }
 
 #snap {
   border-radius: 50%;
-  border: 5px solid #41637c;
+  border: 5px solid #BDD1C1;
   width: 65px;
   height: 65px;
   margin: 1em auto auto auto;
   background-color: white;
   z-index: 10; }
 
-.sub-map {
+.sub-map, .sub-box {
   width: 70px;
   height: 70px;
-  position: relative;
-  bottom: 72.5px;
-  left: 70%;
-  background: rgba(0, 0, 0, 0.6) url("../../img2/mapbtn.png") no-repeat;
+  position: absolute;
+  bottom: 22.5px;
+  left: 9%;
+  background: url("../../img2/mapbtn.png") no-repeat;
   background-size: 101%; }
 
+.sub-box {
+  left: 70%; }
+
 .left-nav {
-  background-color: #41637c;
+  background-color: #BDD1C1;
   height: 100%;
   left: -40%;
   width: 40%;
@@ -119,8 +156,12 @@ body {
   z-index: 12;
   font-size: 1.2em;
   overflow-y: scroll;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.7);
   transition: all ease 0.2s; }
-  .left-nav > div {
+
+.left-nav-div {
+  height: 90%; }
+  .left-nav-div > div {
     margin: 18px auto;
     border: 2px white solid; }
 
@@ -135,19 +176,18 @@ body {
   z-index: 11;
   transition: all ease 0.2s; }
 
-.picture-container-header, .map-header, .story-header {
+.picture-container-header, .map-header {
   width: 100%;
-  background-color: #c0d5c4;
   height: 60px;
-  line-height: 60px;
-  color: #4A544B;
-  font-size: 2em;
+  line-height: 75px;
+  color: white;
+  font-size: 1.6em;
   text-align: center; }
-  .picture-container-header > li, .map-header > li, .story-header > li {
-    list-style-image: url("../../img2/backbtn.png");
+  .picture-container-header > li, .map-header > li {
+    list-style-image: url("../../newImg/back.png");
     position: absolute;
     left: 10px;
-    top: 5px; }
+    top: -5px; }
 
 .picture-container-body {
   height: -webkit-calc(100% - 70px);
@@ -220,7 +260,7 @@ body {
   z-index: 12; }
 
 .snapShot-check {
-  background-color: #E9E3D7;
+  background-color: #AACAC1;
   height: 20%;
   text-align: center;
   display: flex;

@@ -19,7 +19,8 @@ $('#signin').click(function(){
       url: '/signin',
       data: JSON.stringify({
         username: $('#usrname').val(),
-        password: $('#password').val()
+        password: $('#password').val(),
+        facebook: "false"
       }),
       success: function(response) {
         if (response.status == 'SUCCESS'){
@@ -103,6 +104,28 @@ $('#signup').click(function(){
   $('#password').attr("placeholder","輸入你的新密碼");
   $('#signin').attr("value","註冊");
 })
+
+// 進入相機
+$('.intro2-content-start').click(function() {
+  idNum = this.id.split("start")[1] ;
+
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/route',
+    data: JSON.stringify({
+      route: idNum
+    }),
+    success: function(response) {
+      console.log("進入編號："+idNum);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
+})
+
 
 var intro2ContentToggle = 0;
 var tempID;
