@@ -320,7 +320,7 @@ function gallery(req, res) {
 }
 
 function story(req, res) {
-    var stories = {}, counter = 0;
+    var contents = {}, counter = 0;
 
     req.body.images.forEach(function (name) {
         dbGroupC.collection("IMAGE")
@@ -328,14 +328,15 @@ function story(req, res) {
             .next(function (err, item) {
                 counter += 1;
                 if (!err) {
-                    stories[name] = item.story;
+                    contents[name] = {
+                        title: item.title,
+                        story: item.story
+                    };
                 }
                 if (counter === req.body.images.length) {
                     res.json({
                         status: "SUCCESS",
-                        content: {
-                            stories: stories
-                        }
+                        content: contents
                     });
                 }
             });
