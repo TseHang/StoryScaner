@@ -361,7 +361,7 @@ function points(req, res) {
 
                 LOI[req.session.route].forEach(function (poi, index) {
                     poi.routeNum = index;
-                    poi.unlocked = (item.unlocked[req.session.route].indexOf(index) !== -1);
+                    poi.unlocked = true; // (item.unlocked[req.session.route].indexOf(index) !== -1);
                     points.push(poi);
                 });
 
