@@ -21,7 +21,10 @@ var dbGroupC;
 
 var log = fs.createWriteStream("err.log");
 
-// process.stdout.write = process.stderr.write = log.write.bind(log);
+process.stderr.write = log.write.bind(log);
+process.on("uncaughtException", function (err) {
+    console.error(err);
+});
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/poi_images", express.static(path.join(__dirname, "public/poi_images")));
@@ -246,7 +249,7 @@ function upload(req, res) {
                                                         { returnOriginal: false },
                                                         function (err, result) {
                                                             if (err) {
-                                                                console.log(err.message);
+                                                                console.error(err.message);
                                                             }
                                                         }
                                                     );
