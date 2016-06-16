@@ -21,7 +21,7 @@ var dbGroupC;
 
 var log = fs.createWriteStream("err.log");
 
-process.stdout.write = process.stderr.write = log.write.bind(log);
+// process.stdout.write = process.stderr.write = log.write.bind(log);
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/poi_images", express.static(path.join(__dirname, "public/poi_images")));
@@ -102,9 +102,9 @@ function signup(req, res) {
 
     user.password = hash.generate(user.password);
     user.unlocked = {
-        0: [],
         1: [],
-        2: []
+        2: [],
+        3: []
     };
 
     dbGroupC.collection("USER")
