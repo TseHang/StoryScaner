@@ -55,11 +55,11 @@ table {
 :focus {
   outline: 0; }
 
-.camera, .picture-container, #map, #story, #snapShot {
+.camera, .picture-container, #map, #story, .story-box, #snapShot {
   height: 100%;
   width: 100%; }
 
-.left-nav, .picture-container, #map, #story, #snapShot {
+.left-nav, .picture-container, #map, #story, .story-box, #snapShot {
   position: absolute;
   top: 0px; }
 
@@ -67,7 +67,7 @@ table {
   width: 75px;
   height: 75px; }
 
-.picture-container-body > div, .picture-container-body img, .story-footer > div, .story-footer img {
+.picture-container-body > div, .picture-container-body img, .story-footer > div, .story-box-footer > div, .story-footer img, .story-box-footer img {
   width: 85px;
   height: 85px; }
 
@@ -185,7 +185,7 @@ body {
   color: white; }
 
 /* picture-container */
-.picture-container, #map, #story {
+.picture-container, #map, #story, .story-box {
   left: 100%;
   z-index: 11;
   background: -webkit-linear-gradient(left, #AACAC1, #45928E);
@@ -231,7 +231,7 @@ body {
   width: 100%; }
 
 /* story-container */
-.story-body {
+.story-body, .story-box-body {
   height: -webkit-calc(100% - 225px);
   height: -moz-calc(100% - 225px);
   height: calc(100% - 225px);
@@ -240,40 +240,71 @@ body {
   width: calc(100% - 2em);
   padding: 2em 1em 1em 1em; }
 
-.story-footer {
-  height: 75px;
-  width: 100%; }
-  .story-footer img, .story-footer div {
-    width: 55px;
-    height: 55px; }
-
-.story-content {
-  background-color: white;
+.story-content, .story-box-content {
   height: 100%;
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  border-bottom: white 2px solid; }
 
-.story-content-img {
-  height: 58%;
-  text-align: center;
-  border-bottom: black 1px solid;
-  background-color: black; }
-  .story-content-img > img {
+.story-content-img, .story-box-content-img {
+  height: 55%;
+  text-align: center; }
+  .story-content-img > img, .story-box-content-img > img {
     height: 100%; }
 
 .story-content-text {
-  height: 42%;
+  text-align: center;
+  height: 45%;
   overflow-y: scroll; }
+  .story-content-text > #story-self-title, .story-content-text #story-self-content {
+    text-align: center;
+    width: 90%;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: 3px 5px; }
 
-.story-footer {
+#story-self-title {
+  font-size: 18px;
+  height: 30px; }
+
+#story-self-content {
+  font-size: 14px; }
+
+#story-self-title::-webkit-input-placeholder, #story-self-content::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.8); }
+
+.story-footer, .story-box-footer {
   overflow-x: scroll;
-  display: inline-flex; }
-  .story-footer > div {
+  display: inline-flex;
+  height: 75px;
+  width: 100%; }
+  .story-footer > div, .story-box-footer > div {
     margin: 5px 5px;
     background-color: #c0d5c4;
+    width: 55px;
+    height: 55px;
     transition: border 0.1s linear; }
+  .story-footer img, .story-box-footer img {
+    width: 55px;
+    height: 55px; }
 
 .story-show {
   border: red 3px solid !important; }
+
+/* story-box */
+.story-box-content-text {
+  text-align: center;
+  height: 45%;
+  overflow-y: scroll; }
+  .story-box-content-text > #story-box-title, .story-box-content-text #story-box-content {
+    text-align: center;
+    width: 90%;
+    color: white;
+    margin: 10px auto auto auto; }
+
+#story-box-title {
+  font-size: 18px; }
 
 /* 拍照後的check */
 #snapShot {

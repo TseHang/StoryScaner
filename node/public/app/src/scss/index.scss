@@ -119,6 +119,7 @@ body {
 
 .input-group {
   margin-bottom: 10px;
+  position:relative;
 
   > input {
   	@extend %font;
@@ -135,11 +136,31 @@ body {
 			outline:none;
 		}
 	}
+
+	>li{
+		list-style:none;
+	}
+	img{
+		position:absolute;
+		left:10px;
+		top:5px;
+	}
 }
 
 #signin{
 	width:226px;
 	background-color:#E94F4F;
+}
+
+#fb-icon{
+	top:0px;
+	left:10px;
+	width:36px;
+}
+
+#fb-signin {
+	width:226px;
+	background-color:#3C579E;
 }
 
 #signup{

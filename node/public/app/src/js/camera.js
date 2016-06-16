@@ -3,10 +3,15 @@
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
 var imagesAll = [];
 var picNum =0 ;
+var storyPoints = [];
+var tempId = -1;
+
 // load 登入
+// 還有所有一開始必須做的事情！！
 $(window).load(function() {
   console.log("都載入完囉");
 
+  // gallery API
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
@@ -17,6 +22,25 @@ $(window).load(function() {
 
       imagesAll = response.content.images;
       leftnavLoadImages(imagesAll);
+     
+      if (response.status == 'FAIL')
+        alert(response.content);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR);
+    },
+    dataType: 'json'
+  });
+
+  // points API
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/points',
+    data: null,
+    success: function(response) {
+      storyPoints = response.content.points;
+      storyBoxLoad(storyPoints);
      
       if (response.status == 'FAIL')
         alert(response.content);
@@ -51,6 +75,37 @@ function appendImg (src , pic_id){
   $('.story-footer').prepend("<div class = \"story-img pic"+pic_id+"\" id = \"pic"+pic_id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>" );
 }
 
+// -------- 顯示 story-box 圖片 ------------
+function storyBoxLoad(points){
+  for (i = 0 ; i < points.length ; i++){
+    id = points[i].routeNum;
+    src = points[i].image ;
+    $('.story-box-footer').append("<div class = \"story-img picbox-"+id+"\" id = \"picbox-"+id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>")
+  }
+}
+
+$('.story-box-footer').on('click', '.story-img' , function() {
+
+  //先把剛剛選個那個 pic_id 紅色邊匡消掉～～
+  $('.'+tempId).removeClass("story-show");
+  
+  //選取 this_div.classList[1] --> pic_id
+  picbox_id = this.classList[1];
+  $('.'+picbox_id).addClass("story-show");
+
+  // 取得id
+  id = picbox_id.split("-")[1];
+
+  path = storyPoints[id].image;
+  title = storyPoints[id].title ;
+  story = storyPoints[id].story ;
+
+  $('.story-box-content-img img').attr("src" ,path);
+  $('#story-box-title').text(title);
+  $('#story-box-content').text(story);
+
+  tempId = picbox_id;
+});
 
 //開啟視訊串流------------------------------------------
 //看瀏覽器支不支援
@@ -209,10 +264,19 @@ touch.on('#picture-container-back' , 'tap' , function(ev){
 // ---------mapbtn -------------------
 // 
 touch.on('.sub-map' , 'tap' , function(ev){
-  //pictue-container 跑出來
+  //map 跑出來
   $('.camera').css("left","-100%") ;
   $('#map').css("left","0px") ;
 });
+
+// 
+// ---------storyBoxBtn -------------------
+// 
+touch.on('.sub-box' , 'tap' , function(ev){
+  //story-box 跑出來
+  $('.camera').css("left","-100%") ;
+  $('.story-box').css("left","0px") ;
+})
 
 //
 //------- map--back
@@ -223,19 +287,29 @@ touch.on('#map-back' , 'tap' , function(ev){
   $('#map').css("left","100%") ;
 });
 
+//
+//------- story-box--back
+//
+touch.on('#story-box-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('.story-box').css("left","100%") ;
+});
+
 // 
 // 
 //  /////////////
 
 var pic_class_id ;
 var images = [];
-
+var autoSave_timer ;
 $('.left-nav').on('click', '.story-img' , function() {
   //story 跑出來
   $('.camera').css("left","-100%") ;
   $('#story').css("left","0px") ;
 
   getStory(this);
+  
 });
 
 
@@ -249,23 +323,14 @@ $('.picture-container-body').on('click', '.story-img' , function() {
 });
 
 $('.story-footer').on('click', '.story-img' , function() {
+  
+  // 把剛剛那張照片儲存的timer 消掉
+  clearInterval(autoSave_timer);
 
   //先把剛剛選個那個 pic_id 紅色邊匡消掉～～
   $('.'+pic_class_id).removeClass("story-show");
   getStory(this);
 });
-
-//
-//------- story--back
-//
-touch.on('#story-back' , 'tap' , function(ev){
-  //pictue-container 跑出來
-  $('.camera').css("left","0px") ;
-  $('#story').css("left","100%") ;
-
-  $('.'+pic_class_id).removeClass("story-show");
-});
-
 
 function getStory(this_div){
 
@@ -275,13 +340,17 @@ function getStory(this_div){
 
   //清空images
   images = [];
-  images.push(this_div.children[0].src.split("/")[4].split(".")[0]);
+  imageName = this_div.children[0].src.split("/")[4].split(".")[0];
+  images.push(imageName);
 
   //存下path 
   path = this_div.children[0].src;
 
   //移動到圖片位置
   goFindPic('.story-footer' , pic_class_id , picNum);
+
+  // 自動儲存
+  autoSave_timer = setInterval(autoSave,500 , imageName);
 
   $.ajax({
     method: 'POST',
@@ -292,10 +361,41 @@ function getStory(this_div){
     }),
     success: function(response) {
       if (response.status == 'SUCCESS'){
-        $('.story-content-text').html("&nbsp;&nbsp;&nbsp;"+response.content.stories[images[0]]);
         $('.story-content-img img').attr("src" ,path);
-        
-        console.log("跑出： "+path+" 故事");
+
+        // 回傳上次儲存的內容
+        $('#story-self-title').val(response.content[images[0]].title);
+        $('#story-self-content').val(response.content[images[0]].story);
+        // console.log("跑出： "+path+" 故事");
+      }
+      else if (response.status == 'FAIL'){
+        alert(response);
+      }
+      else{
+        alert('出現這個代表你真的完蛋惹');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+    },
+    dataType: 'json',
+  });
+}
+
+function autoSave(imgPath){
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/edit',
+    data: JSON.stringify({
+      image:imgPath,
+      title:$('#story-self-title').val(),
+      story:$('#story-self-content').val()
+    }),
+    success: function(response) {
+      if (response.status == 'SUCCESS'){
+        console.log("successSaved");
       }
       else if (response.status == 'FAIL'){
         alert(response.content);
@@ -311,6 +411,21 @@ function getStory(this_div){
     dataType: 'json',
   });
 }
+
+//
+//------- story--back
+//
+touch.on('#story-back' , 'tap' , function(ev){
+  //pictue-container 跑出來
+  $('.camera').css("left","0px") ;
+  $('#story').css("left","100%") ;
+
+  $('.'+pic_class_id).removeClass("story-show");
+
+  // 清掉setTimeOut
+  clearInterval(autoSave_timer);
+});
+
 
 function goFindPic(goContainer , moveId , picNum){
 
