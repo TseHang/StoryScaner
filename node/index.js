@@ -9,30 +9,8 @@ var ObjectID = require("mongodb").ObjectID;
 var hash = require("password-hash");
 var cors = require("cors");
 
+var LOI = JSON.parse(fs.readFileSync("poi.json"));
 var DB_URL = "mongodb://localhost:27017/groupC";
-var POI = {
-    1: {
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: []
-    },
-    2: {
-        6: [],
-        7: [],
-        8: [],
-        9: [],
-        10: []
-    },
-    3: {
-        11: [],
-        12: [],
-        13: [],
-        14: [],
-        15: []
-    }
-};
 var SSL = {
     key: fs.readFileSync("auth/key.pem"),
     cert: fs.readFileSync("auth/certificate.pem")
@@ -46,6 +24,7 @@ var log = fs.createWriteStream("err.log");
 process.stdout.write = process.stderr.write = log.write.bind(log);
 
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
+app.use("/poi_images", express.static(path.join(__dirname, "public/poi_images")));
 app.use(cors());
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit"], bodyParser.json());
@@ -80,7 +59,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/position", position);
             app.post("/route", route);
             app.post("/edit", edit);
-            app.post("/unlocked", unlocked);
+            app.post("/points", points);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -368,7 +347,7 @@ function edit(req, res) {
         );
 }
 
-function unlocked(req, res) {
+function points(req, res) {
     dbGroupC.collection("USER")
         .find({ username: req.session.user }).limit(1)
         .next(function (err, item) {
@@ -378,10 +357,18 @@ function unlocked(req, res) {
                     content: err.message
                 });
             } else {
+                var points = [];
+
+                LOI[req.session.route].forEach(function (poi, index) {
+                    poi.routeNum = index;
+                    poi.unlocked = (item.unlocked[req.session.route].indexOf(index) !== -1);
+                    points.push(poi);
+                });
+
                 res.json({
                     status: "SUCCESS",
                     content: {
-                        point: item.unlocked[req.session.route]
+                        points: points
                     }
                 });
             }
@@ -421,13 +408,7 @@ function position(req, res) {
 
 function find_unlocked(route, lng, lat) {
     // demo
-    if (route === 1) {
-        return Math.floor(Math.random() * 5) + 1;
-    } else if (route === 2) {
-        return Math.floor(Math.random() * 5) + 6;
-    } else if (route === 3) {
-        return Math.floor(Math.random() * 5) + 11;
-    }
+    return Math.floor(Math.random() * 5);
 }
 
 var https_server = https.createServer(SSL, app);
