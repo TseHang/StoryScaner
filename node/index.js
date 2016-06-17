@@ -85,7 +85,7 @@ function forgetpwd(req, res) {
     var email = req.body.email;
 
     dbGroupC.collection("USER")
-        .find({ username: email }).limit(1)
+        .find({ email: email }).limit(1)
         .next(function (err, item) {
             if (err) {
                 handleError(res, err);
@@ -114,7 +114,7 @@ function forgetpwd(req, res) {
                 } else {
                     res.json({
                         status: "FAIL",
-                        content: "User not found"
+                        content: "Email not found"
                     });
                 }
             }
@@ -174,7 +174,7 @@ function route(req, res) {
 function signup(req, res) {
     var user = req.body;
 
-    if (user.username === "" || user.password === "") {
+    if (user.username === "" || user.password === "" || user.email === "") {
         res.json({
             status: "FAIL",
             content: "Please do not leave blank"
