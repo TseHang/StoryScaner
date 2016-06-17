@@ -3,8 +3,11 @@
 var deviceWidth = $(window).width(), deviceHeight = $(window).height();
 var imagesAll = [];
 var picNum =0 ;
+
 var storyPoints = [];
 var tempId = -1;
+
+var userName = "匿名者";
 
 // load 登入
 // 還有所有一開始必須做的事情！！
@@ -54,6 +57,37 @@ $(window).load(function() {
   //#intro-map
   touch.on('#intro-map-close' , 'tap' , function(ev){
     $('#intro-map').css("display" , "none");
+  });
+
+})
+
+// 
+// 
+// 登出！！
+// ***************************
+touch.on('#signout', 'tap', function() {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/signout',
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        console.log("登出成功");
+        alert('已登出');
+
+        //登出 
+        window.location.assign("index.html");
+
+      } else if (response.status == 'FAIL') {
+        alert('系統不讓你登出，我也不知道為啥');
+      } else {
+        alert('出現到這裡就代表你ＧＧ了');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
   });
 
 })
@@ -233,18 +267,30 @@ touch.on('#pic-btn-delete' , 'tap' , function(ev){
 //
 //---------- 相機照片 left-nav -----
 //
+var left_nav_open = false;
+
 leftNavWidth = deviceWidth*0.4;
+
 touch.on('#video', 'touchstart', function(ev){
   ev.preventDefault();
 });
 
 touch.on('#video', 'swiperight', function(ev){
-  $('.left-nav').css("left" , "0px") ;
-  $('.left-nav').css("boxShadow","7px 0px 5px rgba(0,0,0,0.4)");
+  $('.left-nav').css({
+    "left":"0px",
+    "boxShadow":"7px 0px 5px rgba(0,0,0,0.4)"
+  }) ;
+
+  $('#left-nav-cover').css("right","0%");
 });
-touch.on('#video', 'swipeleft', function(ev){
-  $('.left-nav').css("left" , "-40%") ;
-  $('.left-nav').css("boxShadow","0px 0px 0px rgba(0,0,0,0.7)");
+
+touch.on('#left-nav-cover', 'swipeleft', function(ev){
+  $('.left-nav').css({
+    "left" : "-40%",
+    "boxShadow":"0px 0px 0px rgba(0,0,0,0.7)"
+  }) ;
+
+  $('#left-nav-cover').css("right","100%");
 });
 
 //
@@ -310,7 +356,6 @@ touch.on('#story-box-back' , 'tap' , function(ev){
 // 
 // 
 //  /////////////
-
 var pic_class_id ;
 var images = [];
 var autoSave_timer ;
@@ -447,4 +492,48 @@ function goFindPic(goContainer , moveId , picNum){
     scrollLeft: 90*(picNum - 1 - pic_id),
   },400);
 }
+
+// 
+// 
+// 往左滑，personalBar!!!!!!
+// 
+touch.on('#camera' , 'swipeleft' , function(ev){
+  console.log(left_nav_open);
+  if (left_nav_open === true )
+    ;
+  else
+    $('#personalBar').css("left","0%");
+});
+
+touch.on('#personalBar' , 'swiperight' , function(ev){
+  $('#personalBar').css("left","100%");
+});
+
+touch.on('#signout', 'tap', function() {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/signout',
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        console.log("登出成功");
+        alert('已登出');
+
+        //登出 
+        window.location.assign("index.html");
+
+      } else if (response.status == 'FAIL') {
+        alert('系統不讓你登出，我也不知道為啥');
+      } else {
+        alert('出現到這裡就代表你ＧＧ了');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
+
+})
+
 

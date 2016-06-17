@@ -55,13 +55,40 @@ table {
 :focus {
   outline: 0; }
 
+#personalBar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  left: 100%;
+  background-color: rgba(0, 0, 0, 0.78);
+  transition: all 0.2s ease-in;
+  z-index: 10; }
+  #personalBar > img {
+    border-radius: 25px; }
+  #personalBar > button, #personalBar p {
+    font-size: 20px;
+    color: white;
+    margin-top: 20px; }
+  #personalBar > button {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 900;
+    border-radius: 25px;
+    width: 93px;
+    background-color: #009688; }
+
 #loading, #login-slide, .intro-box {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column; }
 
-#loading, #login-slide, .intro-container {
+#loading, #login-slide, .intro-container, .introduction, .route {
   height: 100%;
   width: 100%; }
 
@@ -158,6 +185,12 @@ body {
   text-align: center; }
 
 /************** intro1 *********************/
+.introduction, .route {
+  text-align: center;
+  position: absolute;
+  top: 0px;
+  transition: all 0.2s ease-in; }
+
 .head-big-bar {
   width: 100%;
   height: 120px;
@@ -184,6 +217,9 @@ body {
   right: 20px; }
 
 /************** intro2 *********************/
+.route {
+  left: 100%; }
+
 .intro2-body {
   width: 100%;
   height: -webkit-calc((100% - 120px)/1);

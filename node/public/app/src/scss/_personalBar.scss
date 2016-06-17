@@ -1,0 +1,39 @@
+#personalBar{
+	height:100%;
+	width:100%;
+
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:column ;
+
+	position:absolute;
+	top:0px;
+	left:100%;
+	background-color:rgba(0,0,0,0.78);
+
+	transition: all 0.2s ease-in;
+
+	z-index:10;
+
+	> img{
+		border-radius: 25px;
+	}
+
+	> button , p {
+		font-size: 20px;
+		color:white;
+		
+		margin-top: 20px;
+	}
+
+	> button{
+		text-align: center;
+		font-size: 24px;
+
+		font-weight: 900;
+		border-radius: 25px;
+		width:93px;
+		background-color: #009688;
+	}
+}

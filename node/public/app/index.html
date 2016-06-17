@@ -8,8 +8,6 @@
   <!-- normalize.css -->
   <link type="text/css" rel="stylesheet" href="src/normalize.css">
 
-  <!-- swiper -->
-  <link rel="stylesheet" href="./src/swiper-3.3.1.min.css">
   <link type="text/css" rel="stylesheet" href="./src/scss/css/index.css">
   <title> StoryScaner </title>
 </head>
@@ -26,7 +24,7 @@
     <form >    
       <div class="input-group">  
         <li ><img src = "src/newImg/user.png" height="22" width="22"></li>        
-        <input id = "usrname" type="text" placeholder = "帳號" required>
+        <input id = "usrname" type="text" placeholder = "輸入你的電子信箱" required>
         <span class="bar"></span>
       </div>
         
@@ -51,79 +49,81 @@
     </form>
   </div>
 
-  <!-- intro -->
-  <div class="intro-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <div class = "head-big-bar">
-          <img src ="src/newImg/logo1.png">
-          <p>ㄧ&nbsp;&nbsp;用&nbsp;&nbsp;相&nbsp;&nbsp;機&nbsp;&nbsp;挖&nbsp;&nbsp;掘&nbsp;&nbsp;故&nbsp;&nbsp;事&nbsp;&nbsp;ㄧ</p>
+  <!-- intro2-第二頁 -->
+  <div class="introduction" id = "slideleft">
+    <div class="head-big-bar">
+      <img src="src/newImg/logo1.png">
+      <p>ㄧ&nbsp;&nbsp;用&nbsp;&nbsp;相&nbsp;&nbsp;機&nbsp;&nbsp;挖&nbsp;&nbsp;掘&nbsp;&nbsp;故&nbsp;&nbsp;事&nbsp;&nbsp;ㄧ</p>
+    </div>
+    <div class="intro-box">
+      <img class="intro-step" src="src/newImg/step1.png">
+      <img class="intro-step" src="src/newImg/step2.png">
+      <img class="intro-step" src="src/newImg/step3.png">
+      <img class="intro-step" src="src/newImg/step4.png">
+    </div>
+    <img id="intro2-btn" src="src/newImg/start.png">
+  </div>
+
+  <!-- intro2-第二頁 -->
+  <div class="route" id = "slideleft">
+    <div class="head-big-bar">
+      <img src="src/newImg/logo1.png">
+      <p>ㄧ&nbsp;&nbsp;啟&nbsp;&nbsp;程&nbsp;&nbsp;ㄧ</p>
+    </div>
+    <div class="intro2-body">
+      <div class="intro2-content" id="content1">
+        <img src="src/newImg/r1.png">
+        <div class="intro2-middle-bar"></div>
+        <div class="intro2-text">
+          <p> 第一章</p>
+          <p>日本時代の記憶</p>
         </div>
-        <div class="intro-box">
-          <img class = "intro-step" src = "src/newImg/step1.png" >
-          <img class = "intro-step" src = "src/newImg/step2.png" >
-          <img class = "intro-step" src = "src/newImg/step3.png" >
-          <img class = "intro-step" src = "src/newImg/step4.png" >
-        </div>
-        <img id = "intro2-btn" src="src/newImg/start.png">
       </div>
-
-      <!-- intro2-第二頁 -->
-      <div class="swiper-slide">
-        <div class = "head-big-bar">
-          <img src ="src/newImg/logo1.png">
-          <p>ㄧ&nbsp;&nbsp;啟&nbsp;&nbsp;程&nbsp;&nbsp;ㄧ</p>
+      <div class="intro2-content-body" id="intro2-content1">
+        <p>走過必留下痕跡。日本人治臺50年，在臺興辦建設，為這美麗的福爾摩沙帶來不同的面貌。在這50年的歲月之中，臺灣從此和日本有了一道深層的情懷，那種情懷，是時代的雋永。臺灣．臺南．西市場，讓我們去尋找那段被遺忘的時光。</p>
+        <img id="intro2-start1" class="intro2-content-start" src="src/newImg/start1.png" height="60" width="93">
+      </div>
+      <div class="intro2-content" id="content2">
+        <img src="src/newImg/r2.png">
+        <div class="intro2-middle-bar"></div>
+        <div class="intro2-text">
+          <p> 第二章</p>
+          <p class="intro2-title">日本時代の記憶</p>
         </div>
-
-        <div class="intro2-body">
-          <div class="intro2-content" id="content1">
-            <img src = "src/newImg/r1.png" >
-            <div class = "intro2-middle-bar"></div>
-            <div class ="intro2-text">
-              <p> 第一章</p>
-              <p >日本時代の記憶</p>
-            </div>
-          </div>
-          <div class = "intro2-content-body" id = "intro2-content1">
-            <p>走過必留下痕跡。日本人治臺50年，在臺興辦建設，為這美麗的福爾摩沙帶來不同的面貌。在這50年的歲月之中，臺灣從此和日本有了一道深層的情懷，那種情懷，是時代的雋永。臺灣．臺南．西市場，讓我們去尋找那段被遺忘的時光。</p>
-            <img id ="intro2-start1" class = "intro2-content-start" src = "src/newImg/start1.png" height="60" width="93" >
-          </div>
-
-          <div class="intro2-content" id="content2">
-            <img src = "src/newImg/r2.png" >
-            <div class = "intro2-middle-bar"></div>
-            <div class ="intro2-text">
-              <p> 第二章</p>
-              <p class="intro2-title">日本時代の記憶</p>
-            </div>
-          </div>
-          <div class = "intro2-content-body" id = "intro2-content2">
-            <p>咱的阿公阿嬤，也曾經年輕過！可能是帥氣黑狗兄，或者是妖嬌美麗的氣質小姐。在他們的少男、少女時代，某一棵榕樹、某一家餐廳…說不定是他們年少時談情說愛的可愛記憶。讓我們循著時光的脈絡，回去那段風華，細細品嘗那令人醉心的青春歲月。</p>
-            <img id ="intro2-start2" class = "intro2-content-start" src = "src/newImg/start1.png" height="60" width="93" >
-          </div>
-
-          <div class="intro2-content" id="content3">
-            <img src = "src/newImg/r3.png" >
-            <div class = "intro2-middle-bar"></div>
-            <div class ="intro2-text">
-              <p> 第三章</p>
-              <p >蛻變．重生－<br>大菜市未來展望</p>
-            </div>
-          </div>
-          <div class = "intro2-content-body" id = "intro2-content3">
-            <p>人來人往，潮起潮落，歷史有一天將埋沒於時間巨流之中。但是，我們真的甘於縱容時光飛逝，將這些老記憶掃進歷史灰燼中嗎？西市場，曾經是流行、潮流的代名詞，然而，至今已成沒沒無聞的一座老建築。年輕的我們，擔起使命，一起將西市場這塊老招牌重新擦亮吧！</p>
-            <img id ="intro2-start3" class = "intro2-content-start" src = "src/newImg/start1.png" height="60" width="93" >
-          </div>
+      </div>
+      <div class="intro2-content-body" id="intro2-content2">
+        <p>咱的阿公阿嬤，也曾經年輕過！可能是帥氣黑狗兄，或者是妖嬌美麗的氣質小姐。在他們的少男、少女時代，某一棵榕樹、某一家餐廳…說不定是他們年少時談情說愛的可愛記憶。讓我們循著時光的脈絡，回去那段風華，細細品嘗那令人醉心的青春歲月。</p>
+        <img id="intro2-start2" class="intro2-content-start" src="src/newImg/start1.png" height="60" width="93">
+      </div>
+      <div class="intro2-content" id="content3">
+        <img src="src/newImg/r3.png">
+        <div class="intro2-middle-bar"></div>
+        <div class="intro2-text">
+          <p> 第三章</p>
+          <p>蛻變．重生－
+            <br>大菜市未來展望</p>
         </div>
+      </div>
+      <div class="intro2-content-body" id="intro2-content3">
+        <p>人來人往，潮起潮落，歷史有一天將埋沒於時間巨流之中。但是，我們真的甘於縱容時光飛逝，將這些老記憶掃進歷史灰燼中嗎？西市場，曾經是流行、潮流的代名詞，然而，至今已成沒沒無聞的一座老建築。年輕的我們，擔起使命，一起將西市場這塊老招牌重新擦亮吧！</p>
+        <img id="intro2-start3" class="intro2-content-start" src="src/newImg/start1.png" height="60" width="93">
       </div>
     </div>
+  </div>
+
+
+  <div id = "personalBar">
+    <img src = "src/newImg/userPhoto.png" height="146" width="149">
+    <p id = "personalName">匿名者</p>
+    <button id = "signout">登出</button>
   </div>
 </body>
 
 <!-- jquery -->
 <script src="./src/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-<!-- swiper -->
-<script src="./src/js/swiper-3.3.1.jquery.min.js"></script>
+
+<!-- touche -->
+<script type="text/javascript" src="src/js/touch-0.2.14.min.js"></script>
 
 <!-- facebook , index -->
 <script type="text/javascript" src="./src/js/facebookLogin.js"></script>
