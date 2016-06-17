@@ -35,7 +35,7 @@ app.use("/upload_images", express.static(path.join(__dirname, "public/upload_ima
 app.use("/poi_images", express.static(path.join(__dirname, "public/poi_images")));
 app.use(cors());
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit", "/forgetpwd"], bodyParser.json());
+app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit", "/forgetpwd", "/resetpwd"], bodyParser.json());
 app.use(session({
     secret: "story-scaner",
     resave: false,
@@ -71,6 +71,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/edit", edit);
             app.post("/points", points);
             app.post("/forgetpwd", forgetpwd);
+            app.post("/resetpwd", resetpwd);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -82,6 +83,25 @@ mongo.connect(DB_URL, function (err, db) {
             });
         });
 });
+
+function resetpwd(req, res) {
+    dbGroupC.collection("USER")
+        .findOneAndUpdate(
+            { _id: ObjectID.createFromHexString(req.session.id) },
+            { $set: { password: req.body.password } },
+            { returnOriginal: false },
+            function (err, result) {
+                if (err) {
+                    handleError(res, err);
+                } else {
+                    res.json({
+                        status: "SUCCESS",
+                        content: null
+                    });
+                }
+            }
+        );
+}
 
 function forgetpwd(req, res) {
     var email = req.body.email;
