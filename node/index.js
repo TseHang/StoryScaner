@@ -91,10 +91,7 @@ function checkLogin(req, res) {
 function signout(req, res) {
     req.session.destory(function (err) {
         if (err) {
-            res.json({
-                status: "FAIL",
-                content: err.message
-            });
+            handleError(res, err);
         } else {
             res.json({
                 status: "SUCCESS",
@@ -148,10 +145,7 @@ function signup(req, res) {
                         content: "Username duplicate"
                     });
                 } else {
-                    res.json({
-                        status: "FAIL",
-                        content: err.message
-                    });
+                    handleError(res, err);
                 }
             } else {
                 res.json({
@@ -181,10 +175,7 @@ function signin(req, res) {
             .find({ username: user.username }).limit(1)
             .next(function (err, item) {
                 if (err) {
-                    res.json({
-                        status: "FAIL",
-                        content: err.message
-                    });
+                    handleError(res, err);
                 } else {
                     if (item) {
                         if (hash.verify(user.password, item.password)) {
@@ -228,10 +219,7 @@ function upload(req, res) {
                     title: ""
                 }, { w: 1 }, function (err, result) {
                     if (err) {
-                        res.json({
-                            status: "FAIL",
-                            content: err.message
-                        });
+                        handleError(res, err);
                     } else {
                         var save_path = "/upload_images/";
                         save_path += result.insertedId.toHexString();
@@ -254,10 +242,7 @@ function upload(req, res) {
                                     .find({ username: req.session.user }).limit(1)
                                     .next(function (err, item) {
                                         if (err) {
-                                            res.json({
-                                                status: "FAIL",
-                                                content: err.message
-                                            });
+                                            handleError(res, err);
                                         } else {
                                             if (un_p === -1 || item.unlocked[req.session.route].indexOf(un_p) !== -1) {
                                                 res.json({
@@ -311,10 +296,7 @@ function gallery(req, res) {
             .find({ user: req.session.user })
             .toArray(function (err, docs) {
                 if (err) {
-                    res.json({
-                        status: "FAIL",
-                        content: err.message
-                    });
+                    handleError(res, err);
                 } else {
                     docs.forEach(function (doc) {
                         images.push("/upload_images/" + doc._id + "." + doc.type);
@@ -370,10 +352,7 @@ function edit(req, res) {
             { returnOriginal: false },
             function (err, result) {
                 if (err) {
-                    res.json({
-                        status: "FAIL",
-                        content: err.message
-                    });
+                    handleError(res, err);
                 } else {
                     res.json({
                         status: "SUCCESS",
@@ -396,10 +375,7 @@ function points(req, res) {
         .find({ username: req.session.user }).limit(1)
         .next(function (err, item) {
             if (err) {
-                res.json({
-                    status: "FAIL",
-                    content: err.message
-                });
+                handleError(res, err);
             } else {
                 var points = [];
 
@@ -453,6 +429,14 @@ function position(req, res) {
 function find_unlocked(route, lng, lat) {
     // demo
     return Math.floor(Math.random() * 5);
+}
+
+function handleError(res, err) {
+    console.error(err);
+    res.json({
+        status: "FAIL",
+        content: err.message
+    });
 }
 
 var https_server = https.createServer(SSL, app);
