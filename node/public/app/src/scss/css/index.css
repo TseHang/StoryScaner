@@ -120,6 +120,10 @@ body {
   #loading > img {
     margin: 20px 0px 0px 40px; }
 
+#checkText {
+  color: white;
+  font-size: 14px; }
+
 #login-slide {
   position: absolute;
   top: 0;
