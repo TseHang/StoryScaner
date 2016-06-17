@@ -27,7 +27,7 @@ $(window).load(function() {
         alert(response.content);
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      alert(jqXHR);
+      alert("我是galleryAPI\n"+jqXHR);
     },
     dataType: 'json'
   });
@@ -46,7 +46,7 @@ $(window).load(function() {
         alert(response.content);
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      alert(jqXHR);
+      alert("我是pointsAPI\n"+jqXHR);
     },
     dataType: 'json'
   });
