@@ -11,7 +11,6 @@ var cors = require("cors");
 var sendmail = require("sendmail")();
 
 var LOI = JSON.parse(fs.readFileSync("poi.json"));
-// 140.116.177.150;
 var DB_URL = "mongodb://140.116.177.150:27017/groupC";
 var SSL = {
     key: fs.readFileSync("auth/key.pem"),
@@ -98,7 +97,7 @@ function forgetpwd(req, res) {
                         content: ([
                             "Please click ",
                             "https://luffy.ee.ncku.edu.tw:16043/app/reset.html?u=",
-                            item.password,
+                            item._id,
                             " to reset your password."
                         ].join(""))
                     }, function (err, reply) {
