@@ -385,6 +385,13 @@ function edit(req, res) {
 }
 
 function points(req, res) {
+    if (typeof req.session.user === "undefined" || typeof req.session.route === "undefined") {
+        res.json({
+            status: "FAIL",
+            content: "Not sign in or choose a route yet"
+        });
+        return;
+    }
     dbGroupC.collection("USER")
         .find({ username: req.session.user }).limit(1)
         .next(function (err, item) {
