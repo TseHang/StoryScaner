@@ -24,6 +24,7 @@ var log = fs.createWriteStream("err.log");
 
 process.stderr.write = log.write.bind(log);
 process.on("uncaughtException", function (err) {
+    console.error("Error at: " + (new Date()).toLocaleString());
     console.error(err);
 });
 
@@ -137,7 +138,12 @@ function signup(req, res) {
 function signin(req, res) {
     var user = req.body;
 
-    if (user.facebook) {
+    if (req.session.user) {
+        res.json({
+            status: "FAIL",
+            content: "Already sign in!"
+        });
+    } else if (user.facebook) {
         req.session.user = user.username;
         res.json({
             status: "SUCCESS",
