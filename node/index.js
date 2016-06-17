@@ -80,12 +80,23 @@ mongo.connect(DB_URL, function (err, db) {
 });
 
 function checkLogin(req, res) {
-    res.json({
-        status: "SUCCESS",
-        content: {
-            signed: (typeof req.session.user !== "undifined")
-        }
-    });
+    if (req.session.user) {
+        res.json({
+            status: "SUCCESS",
+            content: {
+                signed: true,
+                username: req.session.user
+            }
+        });
+    } else {
+        res.json({
+            status: "SUCCESS",
+            content: {
+                signed: false,
+                username: ""
+            }
+        });
+    }
 }
 
 function signout(req, res) {
