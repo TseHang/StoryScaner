@@ -10,7 +10,8 @@ var hash = require("password-hash");
 var cors = require("cors");
 
 var LOI = JSON.parse(fs.readFileSync("poi.json"));
-var DB_URL = "mongodb://140.116.177.150:27017/groupC";
+// 140.116.177.150;
+var DB_URL = "mongodb://localhost:27017/groupC";
 var SSL = {
     key: fs.readFileSync("auth/key.pem"),
     cert: fs.readFileSync("auth/certificate.pem")

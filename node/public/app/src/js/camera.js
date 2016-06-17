@@ -80,7 +80,10 @@ function storyBoxLoad(points){
   for (i = 0 ; i < points.length ; i++){
     id = points[i].routeNum;
     src = points[i].image ;
+    unlocked = points[i].unlocked;
+
     $('.story-box-footer').append("<div class = \"story-img picbox-"+id+"\" id = \"picbox-"+id+"\"><img src = \""+ src +"\" alt = \"無法顯示\" ></div>")
+
   }
 }
 
@@ -88,7 +91,7 @@ $('.story-box-footer').on('click', '.story-img' , function() {
 
   //先把剛剛選個那個 pic_id 紅色邊匡消掉～～
   $('.'+tempId).removeClass("story-show");
-  
+
   //選取 this_div.classList[1] --> pic_id
   picbox_id = this.classList[1];
   $('.'+picbox_id).addClass("story-show");
@@ -96,11 +99,19 @@ $('.story-box-footer').on('click', '.story-img' , function() {
   // 取得id
   id = picbox_id.split("-")[1];
 
+  // 未解開 -> true ， 解開 -> false
+  if(storyPoints[id].unlocked == "true"){
+    $(".locked").css("display","flex");
+  }else{
+    $(".locked").css("display","true");
+  }
+
+  // 取得三個title 訊息
   path = storyPoints[id].image;
   title = storyPoints[id].title ;
   story = storyPoints[id].story ;
 
-  $('.story-box-content-img img').attr("src" ,path);
+  $('.story-box-content-img>img').attr("src" ,path);
   $('#story-box-title').text(title);
   $('#story-box-content').text(story);
 

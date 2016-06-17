@@ -24,8 +24,7 @@ $('#signin').click(function(){
       }),
       success: function(response) {
         if (response.status == 'SUCCESS'){
-          console.log("登入成功");
-
+          
           $('#sign-status').css('color','#BDD1C1');
           $('#sign-status').text("登入成功!!");
 
@@ -97,12 +96,26 @@ $('#signin').click(function(){
 })
 
 $('#signup').click(function(){
-  $('#usrname').val("");
-  $('#password').val("");
+  if ($('#signup').text() == "＋註冊新帳號"){
+    $('#usrname').val("");
+    $('#password').val("");
 
-  $('#usrname').attr("placeholder","輸入你的新帳號");
-  $('#password').attr("placeholder","輸入你的新密碼");
-  $('#signin').attr("value","註冊");
+    $('#usrname').attr("placeholder","輸入你的新帳號");
+    $('#password').attr("placeholder","輸入你的新密碼");
+    $('#signin').attr("value","註冊");
+
+    $('#signup').text("我要登入！！");
+  }
+  else{
+    $('#usrname').val("");
+    $('#password').val("");
+
+    $('#usrname').attr("placeholder","帳號");
+    $('#password').attr("placeholder","密碼");
+    $('#signin').attr("value","登入");
+
+    $('#signup').text("＋註冊新帳號");
+  }
 })
 
 // 進入相機

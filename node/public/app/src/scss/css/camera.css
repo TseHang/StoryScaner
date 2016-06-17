@@ -293,6 +293,15 @@ body {
   border: red 3px solid !important; }
 
 /* story-box */
+.locked {
+  height: 34%;
+  width: 92%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.35);
+  display: none;
+  justify-content: center;
+  align-items: center; }
+
 .story-box-content-text {
   text-align: center;
   height: 45%;
