@@ -58,6 +58,8 @@ mongo.connect(DB_URL, function (err, db) {
 
             app.post("/signup", signup);
             app.post("/signin", signin);
+            app.post("/signout", signout);
+            app.post("/checkLogin", checkLogin);
             app.post("/upload", upload);
             app.post("/gallery", gallery);
             app.post("/story", story);
@@ -76,6 +78,31 @@ mongo.connect(DB_URL, function (err, db) {
             });
         });
 });
+
+function checkLogin(req, res) {
+    res.json({
+        status: "SUCCESS",
+        content: {
+            signed: (typeof req.session.user !== "undifined")
+        }
+    });
+}
+
+function signout(req, res) {
+    req.session.destory(function (err) {
+        if (err) {
+            res.json({
+                status: "FAIL",
+                content: err.message
+            });
+        } else {
+            res.json({
+                status: "SUCCESS",
+                content: null
+            });
+        }
+    });
+}
 
 function route(req, res) {
     if (req.body.route) {
