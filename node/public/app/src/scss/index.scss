@@ -96,6 +96,11 @@ body {
 	z-index: $base-z-index+5;
 }
 
+#checkText{
+	color:white;
+	font-size:14px;
+}
+
 
 #login-slide {
 	@extend %inline-flex;

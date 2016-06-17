@@ -1,9 +1,46 @@
-$('#loading').delay(2000).animate({'opacity':0} , 300,function(){
-  $('#loading').css("display","none");
-})
-
 
 $(window).load(function() {
+  // check if signIn(seesion)
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/checkLogin',
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        if (response.content.signed == true) {
+          $('#checkText').text("歡迎你： " + response.content.username);
+
+          // 先消掉後面那頁
+          $('#login-slide').css("display", "none");
+
+          $('#loading').delay(1000).animate({ "opacity": 0 }, 300, function() {
+            $('#loading').css("display", "none");
+            console.log("登入成功!!");
+          });
+
+          $('#personalName').text(response.content.username);
+        }
+        else if(response.content.signed == false){
+
+          $('#checkText').text("");
+
+          // 等Loading 然後登入
+          console.log("還沒登入，等loading唷");
+          $('#loading').delay(2000).animate({ 'opacity': 0 }, 300, function() {
+            $('#loading').css("display", "none");
+          });
+        }
+
+      } else if (response.status == 'FAIL') {
+  
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
+
   console.log("都載入完囉");
 
   $('form').submit(function(eve){
@@ -28,6 +65,16 @@ $('#signin').click(function(){
           $('#sign-status').css('color','#BDD1C1');
           $('#sign-status').text("登入成功!!");
 
+          // 更改personalBar
+          if ($('#usrname').val() == "")
+            $('#personalName').text("????????");
+          else
+            $('#personalName').text($('#usrname').val());
+
+          $('#usrname').val("");
+          $('#password').val("");
+
+
           $('#login-slide').delay(700).animate({"opacity":0}, 500 , function(){
             $('#login-slide').css("display","none");
             console.log("登入成功!!");
@@ -49,13 +96,6 @@ $('#signin').click(function(){
       },
       dataType: 'json'
     });
-
-    // 更改username
-    $('#personalName').text($('#usrname').val());
-
-    $('#usrname').val("");
-    $('#password').val("");
-
   }
   else if ($('#signin').attr("value") == "註冊"){
     $.ajax({
