@@ -8,6 +8,7 @@ var mongo = require("mongodb").MongoClient;
 var ObjectID = require("mongodb").ObjectID;
 var hash = require("password-hash");
 var cors = require("cors");
+var sendmail = require("sendmail")();
 
 var LOI = JSON.parse(fs.readFileSync("poi.json"));
 // 140.116.177.150;
@@ -32,7 +33,7 @@ app.use("/upload_images", express.static(path.join(__dirname, "public/upload_ima
 app.use("/poi_images", express.static(path.join(__dirname, "public/poi_images")));
 app.use(cors());
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit"], bodyParser.json());
+app.use(["/signup", "/signin", "/story", "/position", "/route", "/edit", "/forgetpwd"], bodyParser.json());
 app.use(session({
     secret: "story-scaner",
     resave: false,
@@ -67,6 +68,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/route", route);
             app.post("/edit", edit);
             app.post("/points", points);
+            app.post("/forgetpwd", forgetpwd);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -78,6 +80,46 @@ mongo.connect(DB_URL, function (err, db) {
             });
         });
 });
+
+function forgetpwd(req, res) {
+    var email = req.body.email;
+
+    dbGroupC.collection("USER")
+        .find({ username: email }).limit(1)
+        .next(function (err, item) {
+            if (err) {
+                handleError(res, err);
+            } else {
+                if (item) {
+                    sendmail({
+                        from: "no-reply@storyscaner.org",
+                        to: email,
+                        subject: "Password reset for StoryScaner",
+                        content: ([
+                            "Please click ",
+                            "https://luffy.ee.ncku.edu.tw:16043/app/reset.html?u=",
+                            item.password,
+                            " to reset your password."
+                        ].join(""))
+                    }, function (err, reply) {
+                        if (err) {
+                            handleError(res, err);
+                        } else {
+                            res.json({
+                                status: "SUCCESS",
+                                content: null
+                            });
+                        }
+                    });
+                } else {
+                    res.json({
+                        status: "FAIL",
+                        content: "User not found"
+                    });
+                }
+            }
+        });
+}
 
 function checkLogin(req, res) {
     if (req.session.user) {
