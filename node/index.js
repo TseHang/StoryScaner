@@ -89,7 +89,7 @@ function checkLogin(req, res) {
 }
 
 function signout(req, res) {
-    req.session.destory(function (err) {
+    req.session.destroy(function (err) {
         if (err) {
             handleError(res, err);
         } else {
