@@ -20,13 +20,16 @@ $('#signin').click(function(){
       data: JSON.stringify({
         username: $('#usrname').val(),
         password: $('#password').val(),
-        facebook: "false"
+        facebook: false
       }),
       success: function(response) {
         if (response.status == 'SUCCESS'){
           
           $('#sign-status').css('color','#BDD1C1');
           $('#sign-status').text("登入成功!!");
+
+          $('#usrname').val("");
+          $('#password').val("");
 
           $('#login-slide').delay(700).animate({"opacity":0}, 500 , function(){
             $('#login-slide').css("display","none");
@@ -50,11 +53,10 @@ $('#signin').click(function(){
       dataType: 'json'
     });
 
-    // 更改username
-    $('#personalName').text($('#usrname').val());
-
-    $('#usrname').val("");
-    $('#password').val("");
+    if ($('#usrname').val() == "")
+      $('#personalName').text("????????");
+    else
+      $('#personalName').text();
 
   }
   else if ($('#signin').attr("value") == "註冊"){

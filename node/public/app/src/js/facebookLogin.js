@@ -43,8 +43,11 @@ window.fbAsyncInit = function() {
 // successful.  See statusChangeCallback() for when this call is made.
 function testAPI() {
   console.log('Welcome!  Fetching your information.... ');
+
   FB.api('/me', function(response) {
     console.log('Successful login for: ' + response.name);
+    
+    $('#personalName').text(response.name);
     document.getElementById('sign-status').innerHTML =
       '歡迎來到 StoryScaner , ' + response.name + ' !';
   });
@@ -59,7 +62,7 @@ function facebookLogin(userID) {
     data: JSON.stringify({
       username: userID,
       password: " ",
-      facebook: "true"
+      facebook: true
     }),
     success: function(response) {
       if (response.status == 'SUCCESS') {
