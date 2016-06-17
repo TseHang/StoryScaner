@@ -104,7 +104,8 @@ $('#signin').click(function(){
       url: '/signup',
       data: JSON.stringify({
         username: $('#usrname').val(),
-        password: $('#password').val()
+        password: $('#password').val(),
+        email: $('#email').val()
       }),
       success: function(response) {
         if (response.status == 'SUCCESS'){
@@ -133,7 +134,7 @@ $('#signin').click(function(){
     $('#usrname').val("");
     $('#password').val("");
 
-    $('#usrname').attr("placeholder","輸入你的電子信箱");
+    $('#usrname').attr("placeholder","帳號");
     $('#password').attr("placeholder","密碼");
     $('#signin').attr("value","登入");
   }
@@ -141,16 +142,20 @@ $('#signin').click(function(){
 
 $('#signup').click(function(){
   if ($('#signup').text() == "＋註冊新帳號"){
+    $('#emailGroup').css("display","block");
+
     $('#usrname').val("");
     $('#password').val("");
 
-    $('#usrname').attr("placeholder","輸入你的電子信箱");
+    $('#usrname').attr("placeholder","輸入你的新帳號");
     $('#password').attr("placeholder","輸入你的新密碼");
     $('#signin').attr("value","註冊");
 
     $('#signup').text("我要登入！！");
   }
-  else{
+  else {
+    $('#emailGroup').css("display","none");
+
     $('#usrname').val("");
     $('#password').val("");
 

@@ -14,6 +14,34 @@ var userName = "匿名者";
 $(window).load(function() {
   console.log("都載入完囉");
 
+  // check if signIn(seesion)
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/checkLogin',
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        if (response.content.signed == true) {
+
+          $('#personalName').text(response.content.username);
+        }
+        else if(response.content.signed == false){
+
+          $('#checkText').text("??????");
+
+          alert("妳怎麼進來的！！？");
+        }
+
+      } else if (response.status == 'FAIL') {
+  
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
+
   // gallery API
   $.ajax({
     method: 'POST',

@@ -7,7 +7,6 @@ function checkLoginState() {
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
-      facebookLogin(response.authResponse.userID);
     } else if (response.status === 'not_authorized') {
       // 自動幫你驗證
     } else {
@@ -42,12 +41,16 @@ window.fbAsyncInit = function() {
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
 function testAPI() {
-  console.log('Welcome!  Fetching your information.... ');
 
   FB.api('/me', function(response) {
     console.log('Successful login for: ' + response.name);
     
+    // 登入
+    facebookLogin(response.name);
+
+    // 人的名子
     $('#personalName').text(response.name);
+
     document.getElementById('sign-status').innerHTML =
       '歡迎來到 StoryScaner , ' + response.name + ' !';
   });
