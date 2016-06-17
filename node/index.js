@@ -175,7 +175,7 @@ function signin(req, res) {
             status: "FAIL",
             content: "Already sign in!"
         });
-    } else if (user.facebook) {
+    } else if (user.facebook === true) {
         req.session.user = user.username;
         res.json({
             status: "SUCCESS",

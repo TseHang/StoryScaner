@@ -59,7 +59,7 @@ function facebookLogin(userID) {
     data: JSON.stringify({
       username: userID,
       password: " ",
-      facebook: "true"
+      facebook: true
     }),
     success: function(response) {
       if (response.status == 'SUCCESS') {

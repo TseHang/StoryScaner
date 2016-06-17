@@ -20,7 +20,7 @@ $('#signin').click(function(){
       data: JSON.stringify({
         username: $('#usrname').val(),
         password: $('#password').val(),
-        facebook: "false"
+        facebook: false
       }),
       success: function(response) {
         if (response.status == 'SUCCESS'){
