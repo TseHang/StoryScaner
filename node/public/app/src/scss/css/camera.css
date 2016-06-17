@@ -55,11 +55,38 @@ table {
 :focus {
   outline: 0; }
 
+#personalBar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  left: 100%;
+  background-color: rgba(0, 0, 0, 0.78);
+  transition: all 0.2s ease-in;
+  z-index: 10; }
+  #personalBar > img {
+    border-radius: 25px; }
+  #personalBar > button, #personalBar p {
+    font-size: 20px;
+    color: white;
+    margin-top: 20px; }
+  #personalBar > button {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 900;
+    border-radius: 25px;
+    width: 93px;
+    background-color: #009688; }
+
 .camera, .picture-container, #map, #story, .story-box, #snapShot {
   height: 100%;
   width: 100%; }
 
-.left-nav, .picture-container, #map, #story, .story-box, #snapShot {
+.left-nav, #left-nav-cover, .picture-container, #map, #story, .story-box, #snapShot {
   position: absolute;
   top: 0px; }
 
@@ -183,6 +210,13 @@ body {
   font-size: 1.5em;
   height: 60px;
   color: white; }
+
+#left-nav-cover {
+  width: 60%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 11;
+  right: 100%; }
 
 /* picture-container */
 .picture-container, #map, #story, .story-box {

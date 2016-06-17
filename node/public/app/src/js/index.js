@@ -50,8 +50,12 @@ $('#signin').click(function(){
       dataType: 'json'
     });
 
+    // 更改username
+    $('#personalName').text($('#usrname').val());
+
     $('#usrname').val("");
     $('#password').val("");
+
   }
   else if ($('#signin').attr("value") == "註冊"){
     $.ajax({
@@ -89,7 +93,7 @@ $('#signin').click(function(){
     $('#usrname').val("");
     $('#password').val("");
 
-    $('#usrname').attr("placeholder","帳號");
+    $('#usrname').attr("placeholder","輸入你的電子信箱");
     $('#password').attr("placeholder","密碼");
     $('#signin').attr("value","登入");
   }
@@ -100,7 +104,7 @@ $('#signup').click(function(){
     $('#usrname').val("");
     $('#password').val("");
 
-    $('#usrname').attr("placeholder","輸入你的新帳號");
+    $('#usrname').attr("placeholder","輸入你的電子信箱");
     $('#password').attr("placeholder","輸入你的新密碼");
     $('#signin').attr("value","註冊");
 
@@ -150,17 +154,9 @@ $(document).ready(function (){
 
   console.log("Dom Tree 建好了");
   
-  var introSwiper = new Swiper ('.intro-container', {
-    direction: 'horizontal',
-    //loop: true,
-
-  }) ;
-  introSwiper.lockSwipes();
-
   $('#intro2-btn').click(function(){
-  	introSwiper.unlockSwipes();
-  	introSwiper.slideNext(300); 
-    introSwiper.lockSwipes();
+    $('.introduction').css("left","-100%");
+    $('.route').css("left","0%");
   })
 
   var intro2Height = $('#content1').height()+24;
@@ -208,6 +204,46 @@ function goToByScroll(id){
   	scrollTop: $("#"+id).offset().top -120
   },200);
 }
+
+// 
+// 
+// 往左滑，personalBar!!!!!!
+// 
+touch.on('#slideleft' , 'swipeleft' , function(ev){
+  $('#personalBar').css("left","0%");
+});
+
+touch.on('#personalBar' , 'swiperight' , function(ev){
+  $('#personalBar').css("left","100%");
+});
+
+touch.on('#signout', 'tap', function() {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/signout',
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        console.log("登出成功");
+        alert('已登出');
+
+        //登出 
+        window.location.assign("index.html");
+
+      } else if (response.status == 'FAIL') {
+        alert('系統不讓你登出，我也不知道為啥');
+      } else {
+        alert('出現到這裡就代表你ＧＧ了');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
+
+})
+
 
 
 

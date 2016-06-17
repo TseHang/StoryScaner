@@ -1,5 +1,6 @@
 @import './reset';
 @import './headBar';
+@import './personalBar';
 
 $background-color:#AACAC1;
 $camera-snap-width:65px;
@@ -198,15 +199,23 @@ body{
 	img{
 		@extend %left-nav-imgsize;
 	}
-
-
 }
 
 #more-photo{
-
 	font-size: 1.5em;
 	height:60px;
 	color:$font-color;
+}
+
+#left-nav-cover{
+	@extend %positionTop;
+
+	width:60%;
+	height:100%;
+
+	background-color:transparent;
+	z-index: $camera-z-index+1;
+	right:100%;
 }
 
 // 
@@ -425,3 +434,4 @@ body{
 		width:40%;
 	}
 }
+
