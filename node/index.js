@@ -31,6 +31,7 @@ process.on("uncaughtException", function (err) {
     console.error(err);
 });
 
+app.set("view engine", "pug");
 app.use("/upload_images", express.static(path.join(__dirname, "public/upload_images")));
 app.use("/poi_images", express.static(path.join(__dirname, "public/poi_images")));
 app.use(cors());
@@ -72,6 +73,7 @@ mongo.connect(DB_URL, function (err, db) {
             app.post("/points", points);
             app.post("/forgetpwd", forgetpwd);
             app.post("/resetpwd", resetpwd);
+            app.get("/app/resetpwd", renderResetpwd);
             app.post("/debug", function (req, res) {
                 req.setEncoding("utf8");
                 req.on("data", function (chunk) {
@@ -84,11 +86,43 @@ mongo.connect(DB_URL, function (err, db) {
         });
 });
 
+function renderResetpwd(req, res) {
+    var id;
+
+    req.session.u = req.query.u;
+
+    try {
+        id = ObjectID.createFromHexString(req.session.u);
+    } catch (err) {
+        res.end("");
+        return;
+    }
+
+    dbGroupC.collection("USER")
+        .find({ _id: id }).limit(1)
+        .next(function (err, item) {
+            if (err) {
+                handleError(res, err);
+            } else {
+                if (item) {
+                    res.render("resetpwd", {
+                        username: item.username
+                    });
+                } else {
+                    res.json({
+                        status: "FAIL",
+                        content: "User not found"
+                    });
+                }
+            }
+        });
+}
+
 function resetpwd(req, res) {
     dbGroupC.collection("USER")
         .findOneAndUpdate(
-            { _id: ObjectID.createFromHexString(req.session.id) },
-            { $set: { password: req.body.password } },
+            { _id: ObjectID.createFromHexString(req.session.u) },
+            { $set: { password: hash.generate(req.body.password) } },
             { returnOriginal: false },
             function (err, result) {
                 if (err) {
@@ -119,7 +153,9 @@ function forgetpwd(req, res) {
                         subject: "Password reset for StoryScaner",
                         content: ([
                             "Please click ",
-                            "https://luffy.ee.ncku.edu.tw:16043/app/reset.html?u=",
+                            "https://luffy.ee.ncku.edu.tw:",
+                            process.argv[2],
+                            "/app/resetpwd?u=",
                             item._id,
                             " to reset your password."
                         ].join(""))

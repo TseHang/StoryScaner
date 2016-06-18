@@ -101,6 +101,30 @@ $('#signin').click(function() {
 var signUp_toggle = 0 ;
 var forgetpwd_toggle = 0 ;
 
+$('#submitForgetPwd').click(function () {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/forgetpwd',
+    data: JSON.stringify({
+      email: $('#forgetEmail').val()
+    }),
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        $('#forgetEmail').next().html('密碼重設信件已寄出');
+      } else if (response.status == 'FAIL') {
+        $('#forgetEmail').next().html(response.content);
+      } else {
+        alert('出現到這裡就代表你ＧＧ了');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
+});
+
 $('#submitSignUp').click(function() {
   $.ajax({
     method: 'POST',
