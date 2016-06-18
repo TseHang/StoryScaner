@@ -111,7 +111,9 @@ $('#submitForgetPwd').click(function () {
     }),
     success: function(response) {
       if (response.status == 'SUCCESS') {
-        $('#forgetEmail').next().html('密碼重設信件已寄出');
+        $('#forgetEmail').next().html('密碼重設信件已寄出，請至信箱查看');
+        $('#forgetEmail').val("");
+        
       } else if (response.status == 'FAIL') {
         $('#forgetEmail').next().html(response.content);
       } else {
