@@ -234,7 +234,6 @@ body {
   transition: all 0.15s ease-in; }
   .modal input {
     text-align: center;
-    color: #10A687;
     margin-top: 20px;
     width: 80%;
     font-size: 14px;
