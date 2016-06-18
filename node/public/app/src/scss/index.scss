@@ -191,12 +191,6 @@ body {
 	margin-top:10px;
 }
 
-/*************** swier 屬性 *****************/
-.intro-container {
-	@extend %view100;
-  text-align: center;
-}  
-
 /************** intro1 *********************/
 
 .introduction{
@@ -236,6 +230,110 @@ body {
 	position:absolute;
 	bottom:60px;
 	right:20px;
+}
+
+.modal{
+	@extend %inline-flex;
+	width:70%;
+	height:50%;
+	transform:scale(0);
+
+	position:absolute;
+	top:77%;
+	left:47%;
+
+	border-radius:25px;
+	border:white 2px solid;
+	background-color:rgb(203,223,219);
+
+	text-align:center;
+	font-size:$font-size;
+
+	transition: all 0.15s ease-in;
+
+	input{
+		text-align: center;
+		color:#10A687;
+		margin-top: 20px;
+		width:80%;
+
+		font-size: 14px;
+		padding: 5px 7px;
+
+		border-radius: 25px;
+
+		background-color: rgba(130,202,197,0.9);
+		color:white;
+	}
+}
+
+.modal-group {
+	width:80%;
+
+  > input {
+  	display: block;
+  	color:#10A687;
+  	background-color: transparent;
+
+  	margin:10px auto auto auto;
+
+		&:focus{
+			outline:none;
+			~ .bar{
+			 	&:before , &:after{
+					width:50%;
+					background-color: #10A687;
+				}
+			}
+		}
+	}
+}
+
+#modal-signup{
+	left:-35%;
+}
+
+
+.modal-show{
+	top:25%;
+	left:15% !important;
+	transform:scale(1);
+}
+
+.modal-close{
+	position:absolute;
+	right:20px;
+	top:15px;
+	width:10px;
+}
+
+%bar-content{
+  content: '';
+  height: 2px;
+  width:0px;
+  bottom: 1px;
+  position: absolute;
+
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.bar {
+  position: relative;
+  width:84%;
+
+  margin:auto;
+  display: block;
+  &:before{
+  	@extend %bar-content;
+  	left:50%;
+  }
+
+  &:after{
+  	@extend %bar-content;
+  	right:50%;
+  }
 }
 
 /************** intro2 *********************/

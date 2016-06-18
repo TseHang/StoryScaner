@@ -22,22 +22,20 @@
   <!-- Login slide -->
   <div id="login-slide">
     <img src="src/newImg/logo.png">
+
     <form >    
       <div class="input-group">  
         <li ><img src = "src/newImg/user.png" height="22" width="22"></li>        
         <input id = "usrname" type="text" placeholder = "帳號" required>
-        <span class="bar"></span>
       </div>
         
       <div class="input-group"> 
         <li ><img src = "src/newImg/pw.png" height="25" width="19"></li>     
         <input id = "password" type="password" placeholder = "密碼" required>
-        <span class="bar"></span>
       </div>
 
       <div class="input-group" id = "emailGroup"> 
         <input id = "email" type="text" placeholder = "your@email.com" required>
-        <span class="bar"></span>
       </div>
 
       <div class = "input-group">
@@ -51,8 +49,41 @@
 
       <p id ="sign-status"></p>
       <a id = "signup" class = "optionText">＋註冊新帳號</a>
-      <a style = "display:none;"id = "forgetpwd" class = "optionText">忘記密碼？</a>
+      <a id = "forgetpwd" class = "optionText">忘記密碼？</a>
     </form>
+    
+    <div class = "modal" id = "modal-pwd">
+      <img class = "modal-close" id = "modal-pwd-close" src="src/newImg/close.png">
+      <p id = "modalText">輸入你的Email：</p>
+
+      <div class = "modal-group"> 
+        <input id = "forgetEmail" type = "text" placeholder="your@email.com">
+        <span class = "bar"></span>
+      </div>
+
+      <input id = "submitForgetPwd" type = "button" value = "送出">
+    </div>
+
+    <div class = "modal" id ="modal-signup">
+      <img class = "modal-close" id = "modal-signup-close" src="src/newImg/close.png">
+      <p id = "modalText">成為 StoryTeller 吧！</p>
+
+      <div class = "modal-group"> 
+        <input id = "signup-usrname" type = "text" placeholder="輸入你的新帳號">
+        <span class = "bar"></span>
+      </div>
+
+      <div class = "modal-group"> 
+        <input id = "signup-pwd" type = "password" placeholder="輸入你的新密碼">
+        <span class = "bar"></span>
+      </div>
+      <div class = "modal-group"> 
+        <input id = "signup-email" type = "text" placeholder="your@email.com">
+        <span class = "bar"></span>
+      </div>
+
+      <input id = "submitSignUp" type = "button" value = "註冊">
+    </div>
 
 
   </div>

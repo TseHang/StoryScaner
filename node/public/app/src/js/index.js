@@ -48,124 +48,112 @@ $(window).load(function() {
   })
 })
 
-$('#signin').click(function(){
-  if ($('#signin').attr("value") == "登入"){
-    $.ajax({
-      method: 'POST',
-      contentType: 'application/json',
-      url: '/signin',
-      data: JSON.stringify({
-        username: $('#usrname').val(),
-        password: $('#password').val(),
-        facebook: false
-      }),
-      success: function(response) {
-        if (response.status == 'SUCCESS'){
-          
-          $('#sign-status').css('color','#BDD1C1');
-          $('#sign-status').text("登入成功!!");
+$('#signin').click(function() {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/signin',
+    data: JSON.stringify({
+      username: $('#usrname').val(),
+      password: $('#password').val(),
+      facebook: false
+    }),
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
 
-          // 更改personalBar
-          if ($('#usrname').val() == "")
-            $('#personalName').text("????????");
-          else
-            $('#personalName').text($('#usrname').val());
+        $('#sign-status').css('color', '#BDD1C1');
+        $('#sign-status').text("登入成功!!");
 
-          $('#usrname').val("");
-          $('#password').val("");
+        // 更改personalBar
+        if ($('#usrname').val() == "")
+          $('#personalName').text("????????");
+        else
+          $('#personalName').text($('#usrname').val());
+
+        $('#usrname').val("");
+        $('#password').val("");
 
 
-          $('#login-slide').delay(700).animate({"opacity":0}, 500 , function(){
-            $('#login-slide').css("display","none");
-            console.log("登入成功!!");
-          });
-        }
-        else if(response.status == 'FAIL'){
+        $('#login-slide').delay(700).animate({ "opacity": 0 }, 500, function() {
+          $('#login-slide').css("display", "none");
+          console.log("登入成功!!");
+        });
+      } else if (response.status == 'FAIL') {
 
-          $('#sign-status').css('color','red');
-          $('#sign-status').text(response.content);
-          
-          $('#password').val("");
-        }
-        else {
-          alert('出現到這裡就代表你ＧＧ了');
-        }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert(jqXHR + "\n" + errorThrown);
-      },
-      dataType: 'json'
-    });
-  }
-  else if ($('#signin').attr("value") == "註冊"){
-    $.ajax({
-      method: 'POST',
-      contentType: 'application/json',
-      url: '/signup',
-      data: JSON.stringify({
-        username: $('#usrname').val(),
-        password: $('#password').val(),
-        email: $('#email').val()
-      }),
-      success: function(response) {
-        if (response.status == 'SUCCESS'){
-          console.log("註冊成功");
+        $('#sign-status').css('color', 'red');
+        $('#sign-status').text(response.content);
 
-          $('#sign-status').css('color','#BDD1C1');
-          $('#sign-status').text("Hi，來登入吧！！");
-
-          alert('恭喜：註冊成功');
-        }
-        else if(response.status == 'FAIL'){
-          $('#sign-status').css('color','red');
-          $('#sign-status').text(response.content);
-          alert('帳號可能有人使用，或是密碼太過相似');
-        }
-        else {
-          alert('出現到這裡就代表你ＧＧ了');
-        }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert(jqXHR + "\n" + errorThrown);
-      },
-      dataType: 'json'
-    });
-
-    $('#usrname').val("");
-    $('#password').val("");
-
-    $('#usrname').attr("placeholder","帳號");
-    $('#password').attr("placeholder","密碼");
-    $('#signin').attr("value","登入");
-  }
+        $('#password').val("");
+      } else {
+        alert('出現到這裡就代表你ＧＧ了');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
 })
 
-$('#signup').click(function(){
-  if ($('#signup').text() == "＋註冊新帳號"){
-    $('#emailGroup').css("display","block");
 
-    $('#usrname').val("");
-    $('#password').val("");
+$('#submitSignUp').click(function() {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: '/signup',
+    data: JSON.stringify({
+      username: $('#signup-usrname').val(),
+      email: $('#signup-email').val(),
+      password: $('#signup-pwd').val()
+    }),
+    success: function(response) {
+      if (response.status == 'SUCCESS') {
+        console.log("註冊成功");
 
-    $('#usrname').attr("placeholder","輸入你的新帳號");
-    $('#password').attr("placeholder","輸入你的新密碼");
-    $('#signin').attr("value","註冊");
+        $('#sign-status').css('color', '#BDD1C1');
+        $('#sign-status').text("Hi，來登入吧！！");
 
-    $('#signup').text("我要登入！！");
-  }
-  else {
-    $('#emailGroup').css("display","none");
+        alert('恭喜：註冊成功');
+        $('#modal-signup').toggleClass("modal-show");
+      } else if (response.status == 'FAIL') {
+        $('#sign-status').css('color', 'red');
+        $('#sign-status').text(response.content);
+        alert('帳號可能有人使用，或是密碼太過相似');
+      } else {
+        alert('出現到這裡就代表你ＧＧ了');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(jqXHR + "\n" + errorThrown);
+    },
+    dataType: 'json'
+  });
 
-    $('#usrname').val("");
-    $('#password').val("");
-
-    $('#usrname').attr("placeholder","帳號");
-    $('#password').attr("placeholder","密碼");
-    $('#signin').attr("value","登入");
-
-    $('#signup').text("＋註冊新帳號");
-  }
+  $('#signup-usrname').val("");
+  $('#signup-pwd').val("");
+  $('#signup-email').val("");
 })
+
+
+// 
+// 
+// 點開小視窗
+touch.on('#signup', 'tap', function() {
+  $('#modal-signup').toggleClass("modal-show");
+})
+
+touch.on('#modal-signup-close','tap',function(){
+  $('#modal-signup').toggleClass("modal-show");
+})
+
+touch.on('#forgetpwd', 'tap', function() {
+  $('#modal-pwd').toggleClass("modal-show");
+})
+
+touch.on('#modal-pwd-close','tap',function(){
+  $('#modal-pwd').toggleClass("modal-show");
+})
+
 
 // 進入相機
 $('.intro2-content-start').click(function() {

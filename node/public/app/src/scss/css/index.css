@@ -82,13 +82,13 @@ table {
     width: 93px;
     background-color: #009688; }
 
-#loading, #login-slide, .intro-box {
+#loading, #login-slide, .intro-box, .modal {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column; }
 
-#loading, #login-slide, .intro-container, .introduction, .route {
+#loading, #login-slide, .introduction, .route {
   height: 100%;
   width: 100%; }
 
@@ -187,10 +187,6 @@ body {
   color: white;
   margin-top: 10px; }
 
-/*************** swier 屬性 *****************/
-.intro-container {
-  text-align: center; }
-
 /************** intro1 *********************/
 .introduction, .route {
   text-align: center;
@@ -222,6 +218,77 @@ body {
   position: absolute;
   bottom: 60px;
   right: 20px; }
+
+.modal {
+  width: 70%;
+  height: 50%;
+  transform: scale(0);
+  position: absolute;
+  top: 77%;
+  left: 47%;
+  border-radius: 25px;
+  border: white 2px solid;
+  background-color: #cbdfdb;
+  text-align: center;
+  font-size: 16px;
+  transition: all 0.15s ease-in; }
+  .modal input {
+    text-align: center;
+    color: #10A687;
+    margin-top: 20px;
+    width: 80%;
+    font-size: 14px;
+    padding: 5px 7px;
+    border-radius: 25px;
+    background-color: rgba(130, 202, 197, 0.9);
+    color: white; }
+
+.modal-group {
+  width: 80%; }
+  .modal-group > input {
+    display: block;
+    color: #10A687;
+    background-color: transparent;
+    margin: 10px auto auto auto; }
+    .modal-group > input:focus {
+      outline: none; }
+      .modal-group > input:focus ~ .bar:before, .modal-group > input:focus ~ .bar:after {
+        width: 50%;
+        background-color: #10A687; }
+
+#modal-signup {
+  left: -35%; }
+
+.modal-show {
+  top: 25%;
+  left: 15% !important;
+  transform: scale(1); }
+
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  width: 10px; }
+
+.bar:before, .bar:after {
+  content: '';
+  height: 2px;
+  width: 0px;
+  bottom: 1px;
+  position: absolute;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all; }
+
+.bar {
+  position: relative;
+  width: 84%;
+  margin: auto;
+  display: block; }
+  .bar:before {
+    left: 50%; }
+  .bar:after {
+    right: 50%; }
 
 /************** intro2 *********************/
 .route {
