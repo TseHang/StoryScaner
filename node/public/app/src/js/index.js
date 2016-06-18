@@ -96,6 +96,11 @@ $('#signin').click(function() {
 })
 
 
+// 0 => 是關
+// 1 => 是開
+var signUp_toggle = 0 ;
+var forgetpwd_toggle = 0 ;
+
 $('#submitSignUp').click(function() {
   $.ajax({
     method: 'POST',
@@ -114,7 +119,10 @@ $('#submitSignUp').click(function() {
         $('#sign-status').text("Hi，來登入吧！！");
 
         alert('恭喜：註冊成功');
+
         $('#modal-signup').toggleClass("modal-show");
+        signUp_toggle++;
+
       } else if (response.status == 'FAIL') {
         $('#sign-status').css('color', 'red');
         $('#sign-status').text(response.content);
@@ -134,24 +142,37 @@ $('#submitSignUp').click(function() {
   $('#signup-email').val("");
 })
 
-
 // 
 // 
 // 點開小視窗
 touch.on('#signup', 'tap', function() {
+  if (forgetpwd_toggle % 2 == 1){
+    $('#modal-pwd').toggleClass("modal-show");
+    forgetpwd_toggle++;
+  }
+  
   $('#modal-signup').toggleClass("modal-show");
+  signUp_toggle++;
 })
 
 touch.on('#modal-signup-close','tap',function(){
   $('#modal-signup').toggleClass("modal-show");
+  signUp_toggle++;
 })
 
 touch.on('#forgetpwd', 'tap', function() {
+  if (signUp_toggle % 2 == 1){
+    $('#modal-signup').toggleClass("modal-show");
+    signUp_toggle++;
+  }
+
   $('#modal-pwd').toggleClass("modal-show");
+  forgetpwd_toggle++;
 })
 
 touch.on('#modal-pwd-close','tap',function(){
   $('#modal-pwd').toggleClass("modal-show");
+  forgetpwd_toggle++;
 })
 
 
