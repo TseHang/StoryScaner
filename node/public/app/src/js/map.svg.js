@@ -172,7 +172,8 @@ function applyPosition(pos) {
         contentType: "application/json",
         data: JSON.stringify({
             lat: pos.coords.latitude,
-            lon: pos.coords.longitude
+            lng: pos.coords.longitude,
+            heading: heading
         }),
         success: function (obj) {
             if (!positionWatchId) {

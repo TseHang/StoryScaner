@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Fetch geolocation</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .row > .col-md-12 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="latitude">Latitude</span>
+                    <input type="text" class="form-control" aria-describedby="latitude" disabled>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="longitude">Longitude</span>
+                    <input type="text" class="form-control" aria-describedby="longitude" disabled>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="accuracy">Accuracy</span>
+                    <input type="text" class="form-control" aria-describedby="accuracy" disabled>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-default btn-block" onclick="fetchLocation()">
+                    Fetch
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+        function fetchLocation() {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                $("#longitude").next().eq(0).val(position.coords.longitude);
+                $("#latitude").next().eq(0).val(position.coords.latitude);
+                $("#accuracy").next().eq(0).val(position.coords.accuracy);
+            }, null, {
+                enableHighAccuracy: true
+            });
+        }
+    </script>
+</body>
+
+</html>

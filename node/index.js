@@ -1,4 +1,5 @@
 var fs = require("fs");
+var d3 = require("d3");
 var path = require("path");
 var express = require("express");
 var https = require("https");
@@ -344,7 +345,7 @@ function upload(req, res) {
                                 });
                             } else {
                                 var un_p = find_unlocked(
-                                    Number(req.session.route),
+                                    req.session.route,
                                     Number(req.session.lng),
                                     Number(req.session.lat)
                                 );
@@ -507,39 +508,73 @@ function points(req, res) {
 }
 
 function position(req, res) {
-    var position = req.body;
-    var des = [
-        [1200, 10000, 90, false],
-        [1700, 10030, 90, false],
-        [2200, 10040, 90, false],
-        [2700, 10060, 90, true],
-        [3200, 10060, 90, false],
-        [3600, 10240, 0, false]
-    ];
+    var position = req.body,
+        projection = project(position),
+        content = {
+            vibrate: false,
+            desx: projection[0],
+            desy: projection[1],
+            r: position.heading
+        };
 
     req.session.lat = position.lat;
     req.session.lng = position.lng;
 
-    if (isNaN(req.session.seq)) {
-        req.session.seq = 0;
-    } else {
-        req.session.seq = (Number(req.session.seq) + 1) % des.length;
-    }
+    LOI[route].forEach(function (poi, index) {
+        if (!content.vibrate && d3.geo.distance([poi.lng, poi.lat], [position.lng, position.lat]) * 6378137 < 5) {
+            content.vibrate = true;
+        }
+    });
 
     res.json({
         status: "SUCCESS",
-        content: {
-            desx: des[req.session.seq][0],
-            desy: des[req.session.seq][1],
-            r: des[req.session.seq][2],
-            vibrate: des[req.session.seq][3]
-        }
+        content: content
     });
 }
 
+function project(position) {
+    var x1 = 1350, y1 = 5500,
+        x2 = 7800, y2 = 5700,
+        x3 = 1350, y3 = 12000,
+        x_pos, y_pos, x_neg, y_neg;
+    var zoom = Math.sqrt(Math.pow(x2 - x3, 2) + Math.pow(y2 - y3, 2)) / 180.19;
+    var r1 = d3.geo.distance([120.197682, 22.994236], [position.lng, position.lat]) * zoom,
+        r2 = d3.geo.distance([120.198916, 22.993973], [position.lng, position.lat]) * zoom,
+        r3 = d3.geo.distance([120.197439, 22.993040], [position.lng, position.lat]) * zoom;
+    var m = (x1 - x2) / (y2 - y1),
+        k = (r1 * r1 - r2 * r2 + x2 * x2 - x1 * x1 + y2 * y2 - y1 * y1) / (2 * (y2 - y1));
+    var a = 1 + m * m,
+        b = 2 * (m * k - m * y2 - x2),
+        c = x2 * x2 + y2 * y2 + k * k - 2 * k * y2 - r2 * r2;
+
+    if (b * b - 4 * a * c < 0) {
+        return [-1, -1];
+    } else {
+        var result_pos, result_neg;
+        x_pos = (Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
+        y_pos = m * x_pos / k;
+        result_pos = Math.pow(x_pos - x3, 2) + Math.pow(y_pos - y3, 2) - r3 * r3;
+        x_neg = (-Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
+        y_neg = m * x_neg / k;
+        result_neg = Math.pow(x_neg - x3, 2) + Math.pow(y_neg - y3, 2) - r3 * r3;
+        if (Math.abs(result_pos) > Math.abs(result_neg)) {
+            return [x_neg, y_neg];
+        } else {
+            return [x_pos, y_pos];
+        }
+    }
+}
+
 function find_unlocked(route, lng, lat) {
-    // demo
-    return Math.floor(Math.random() * 5);
+    var found = -1;
+
+    LOI[route].forEach(function (poi, index) {
+        if (found === -1 && d3.geo.distance([poi.lng, poi.lat], [lng, lat]) * 6378137 < 5) {
+            found = index;
+        }
+    });
+
+    return found;
 }
 
 function handleError(res, err) {
